@@ -4,6 +4,8 @@
   "fsot_lean_full": "I:\\FSOT-Physical-Archive\\02_FSOT-2.1-Lean-Full",
   "fsot_srite": "I:\\FSOT-Physical-Archive\\01_SR-ITE-USB-Original",
   "public_data": "I:\\FSOT-Physical-Archive\\03_FSOT-PublicData",
+  "training_data": "D:\\training data",
+  "curriculum_roots": "config/curriculum_roots.json",
   "portable_toolchain": "I:\\FSOT-Physical-Archive\\07_Portable-Toolchain",
   "fstar_bin": "I:\\FSOT-Physical-Archive\\07_Portable-Toolchain\\fstar\\bin\\fstar.exe",
   "coqc_bin": "I:\\FSOT-Physical-Archive\\07_Portable-Toolchain\\rocq\\bin\\coqc.exe",

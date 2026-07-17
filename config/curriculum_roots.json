@@ -1,0 +1,17 @@
+{
+  "project": "FSOT-GPU",
+  "authority": "FSOT-2.1-Lean + physical archive",
+  "training_data": "D:/training data",
+  "training_data_catalog": "D:/training data/DATA_CATALOG.md",
+  "lean_hub": "I:/FSOT-Physical-Archive/02_FSOT-2.1-Lean-Full",
+  "public_data": "I:/FSOT-Physical-Archive/03_FSOT-PublicData",
+  "archive_root": "I:/FSOT-Physical-Archive",
+  "archive_manifest": "I:/FSOT-Physical-Archive/ARCHIVE_MANIFEST.json",
+  "github_theory": "https://github.com/dappalumbo91/FSOT-2.1-Lean",
+  "env_setup": "I:/FSOT-Physical-Archive/set_fsot_archive_env.ps1",
+  "notes": [
+    "Do not start full curriculum train until pure-FSOT host gates are called open",
+    "Public data = same API-sourced cross-verified solidification stacks as 2.1 verification",
+    "FSOT-2.1-Instruct remains separate unless deliberately linked"
+  ]
+}

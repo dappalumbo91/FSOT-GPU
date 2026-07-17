@@ -29,7 +29,7 @@ AGI-as-media-hype is **not** the goal. **Correct structure → correct computati
 | **FlashAttention / SDPA** | Pure FSOT CUDA consensus faster under FSOT-correct loads | **Long-context won** (S≥4096); mid-S still industry fused sweet spot |
 | **LLM host** | Pure FSOT all-layer: ≥90% next-token; e2e speed; gen quality | **94%** next-token; prefill/decode **win**; gen partial |
 | **SOTA scoreboard** | Across-the-board on same GPU with tiny model | **Hit** (`results/sota/SCOREBOARD.md`) |
-| **Foundation path** | Scale FSOT-host training with seed-derived optimizers | Next |
+| **Foundation path** | Scale pure-FSOT host, then curriculum on FSOT 2.1 math/architecture + solidification data (`D:\training data` + archive public data) | Scaffolded — `docs/FSOT_CURRICULUM_TRAINING.md` |
 | **Formal** | Keep Lean/Coq/Isabelle/F\* parity on every kernel contract | Green |
 
 ## Non-negotiables

@@ -1,0 +1,897 @@
+{
+  "timestamp": "2026-07-17T23:10:50.500266+00:00",
+  "config": {
+    "project": "FSOT-GPU",
+    "authority": "FSOT-2.1-Lean + physical archive",
+    "training_data": "D:/training data",
+    "training_data_catalog": "D:/training data/DATA_CATALOG.md",
+    "lean_hub": "I:/FSOT-Physical-Archive/02_FSOT-2.1-Lean-Full",
+    "public_data": "I:/FSOT-Physical-Archive/03_FSOT-PublicData",
+    "archive_root": "I:/FSOT-Physical-Archive",
+    "archive_manifest": "I:/FSOT-Physical-Archive/ARCHIVE_MANIFEST.json",
+    "github_theory": "https://github.com/dappalumbo91/FSOT-2.1-Lean",
+    "env_setup": "I:/FSOT-Physical-Archive/set_fsot_archive_env.ps1",
+    "notes": [
+      "Do not start full curriculum train until pure-FSOT host gates are called open",
+      "Public data = same API-sourced cross-verified solidification stacks as 2.1 verification",
+      "FSOT-2.1-Instruct remains separate unless deliberately linked"
+    ]
+  },
+  "roots": {
+    "training_data": {
+      "path": "D:\\training data",
+      "exists": true,
+      "top_level_count": 55,
+      "top_level": [
+        {
+          "name": "ARC-Challenge_test.csv",
+          "is_dir": false
+        },
+        {
+          "name": "ARC-Challenge_train.csv",
+          "is_dir": false
+        },
+        {
+          "name": "ARC-Challenge_validation.csv",
+          "is_dir": false
+        },
+        {
+          "name": "ARC-Easy_test.csv",
+          "is_dir": false
+        },
+        {
+          "name": "ARC-Easy_train.csv",
+          "is_dir": false
+        },
+        {
+          "name": "ARC-Easy_validation.csv",
+          "is_dir": false
+        },
+        {
+          "name": "archive.zip",
+          "is_dir": false
+        },
+        {
+          "name": "arXiv Dataset",
+          "is_dir": true
+        },
+        {
+          "name": "arXiv Dataset.zip",
+          "is_dir": false
+        },
+        {
+          "name": "arxiv_dataset",
+          "is_dir": true
+        },
+        {
+          "name": "arxiv_fsot_core.txt",
+          "is_dir": false
+        },
+        {
+          "name": "bbh",
+          "is_dir": true
+        },
+        {
+          "name": "claude-code-main.zip",
+          "is_dir": false
+        },
+        {
+          "name": "cnc_data",
+          "is_dir": true
+        },
+        {
+          "name": "coqa",
+          "is_dir": true
+        },
+        {
+          "name": "DATA_CATALOG.md",
+          "is_dir": false
+        },
+        {
+          "name": "fsot-2.0-fluid-os-shell (1).zip",
+          "is_dir": false
+        },
+        {
+          "name": "fsot-2.0-fluid-os-shell.zip",
+          "is_dir": false
+        },
+        {
+          "name": "fsot_genome_results.csv",
+          "is_dir": false
+        },
+        {
+          "name": "FSOT_Machine_And_Molecule",
+          "is_dir": true
+        },
+        {
+          "name": "gene_emergence_risk.csv",
+          "is_dir": false
+        },
+        {
+          "name": "genetics_deep_dive_20260512_172422",
+          "is_dir": true
+        },
+        {
+          "name": "GIAB_NA12878_Exome_FASTQ",
+          "is_dir": true
+        },
+        {
+          "name": "GRCh38 Human Genome",
+          "is_dir": true
+        },
+        {
+          "name": "GRCh38 Human Genome.zip",
+          "is_dir": false
+        },
+        {
+          "name": "gsm8k",
+          "is_dir": true
+        },
+        {
+          "name": "hellaswag",
+          "is_dir": true
+        },
+        {
+          "name": "Homo_sapiens.GRCh38.110 (1).gtf",
+          "is_dir": false
+        },
+        {
+          "name": "Homo_sapiens.GRCh38.110 (1).gtf.gz",
+          "is_dir": false
+        },
+        {
+          "name": "Homo_sapiens.GRCh38.110.gtf.gz",
+          "is_dir": false
+        },
+        {
+          "name": "humaneval",
+          "is_dir": true
+        },
+        {
+          "name": "ifeval",
+          "is_dir": true
+        },
+        {
+          "name": "kaggle",
+          "is_dir": true
+        },
+        {
+          "name": "kaggle_downloads",
+          "is_dir": true
+        },
+        {
+          "name": "kaggle_staging",
+          "is_dir": true
+        },
+        {
+          "name": "math",
+          "is_dir": true
+        },
+        {
+          "name": "mathematics_dataset-master",
+          "is_dir": true
+        },
+        {
+          "name": "mmlu",
+          "is_dir": true
+        },
+        {
+          "name": "mmlu_pro",
+          "is_dir": true
+        },
+        {
+          "name": "nlp",
+          "is_dir": true
+        },
+        {
+          "name": "olympiad_metadata.csv",
+          "is_dir": false
+        },
+        {
+          "name": "open_data",
+          "is_dir": true
+        },
+        {
+          "name": "problems",
+          "is_dir": true
+        },
+        {
+          "name": "qa-dataset",
+          "is_dir": true
+        },
+        {
+          "name": "Quantum Gravity Dataset.zip",
+          "is_dir": false
+        },
+        {
+          "name": "questions_answers.csv",
+          "is_dir": false
+        },
+        {
+          "name": "reference_apps",
+          "is_dir": true
+        },
+        {
+          "name": "solutions",
+          "is_dir": true
+        },
+        {
+          "name": "SOTA_PACKS.md",
+          "is_dir": false
+        },
+        {
+          "name": "squad",
+          "is_dir": true
+        },
+        {
+          "name": "test.csv",
+          "is_dir": false
+        },
+        {
+          "name": "train.csv",
+          "is_dir": false
+        },
+        {
+          "name": "truthfulqa",
+          "is_dir": true
+        },
+        {
+          "name": "validation.csv",
+          "is_dir": false
+        },
+        {
+          "name": "winogrande",
+          "is_dir": true
+        }
+      ]
+    },
+    "lean_hub": {
+      "path": "I:\\FSOT-Physical-Archive\\02_FSOT-2.1-Lean-Full",
+      "exists": true,
+      "n_files_walked": 50017,
+      "n_dirs_walked": 2405,
+      "bytes_walked": 4862796412,
+      "gb_walked": 4.529,
+      "children_sample": [
+        {
+          "name": ".fsot-canonical-hub",
+          "is_dir": false,
+          "bytes": 340
+        },
+        {
+          "name": ".git",
+          "is_dir": true
+        },
+        {
+          "name": ".gitignore",
+          "is_dir": false,
+          "bytes": 538
+        },
+        {
+          "name": ".lake",
+          "is_dir": true
+        },
+        {
+          "name": "build_out.txt",
+          "is_dir": false,
+          "bytes": 95730
+        },
+        {
+          "name": "CONTRIBUTING.md",
+          "is_dir": false,
+          "bytes": 4997
+        },
+        {
+          "name": "data",
+          "is_dir": true
+        },
+        {
+          "name": "dist",
+          "is_dir": true
+        },
+        {
+          "name": "docs",
+          "is_dir": true
+        },
+        {
+          "name": "explorations",
+          "is_dir": true
+        },
+        {
+          "name": "FSOT",
+          "is_dir": true
+        },
+        {
+          "name": "FSOT.lean",
+          "is_dir": false,
+          "bytes": 1596
+        },
+        {
+          "name": "FSOT2_0_Compute.lean",
+          "is_dir": false,
+          "bytes": 1001
+        },
+        {
+          "name": "lake-manifest.json",
+          "is_dir": false,
+          "bytes": 3131
+        },
+        {
+          "name": "lakefile.lean",
+          "is_dir": false,
+          "bytes": 341
+        },
+        {
+          "name": "lean-toolchain",
+          "is_dir": false,
+          "bytes": 24
+        },
+        {
+          "name": "LICENSE",
+          "is_dir": false,
+          "bytes": 10342
+        },
+        {
+          "name": "README.md",
+          "is_dir": false,
+          "bytes": 55214
+        },
+        {
+          "name": "REPRODUCE.md",
+          "is_dir": false,
+          "bytes": 12855
+        },
+        {
+          "name": "requirements.txt",
+          "is_dir": false,
+          "bytes": 75
+        },
+        {
+          "name": "scripts",
+          "is_dir": true
+        },
+        {
+          "name": "START_FSOT_SIMULATION.bat",
+          "is_dir": false,
+          "bytes": 329
+        },
+        {
+          "name": "START_FSOT_UNIVERSE_HOUR.bat",
+          "is_dir": false,
+          "bytes": 517
+        },
+        {
+          "name": "START_FSOT_UNIVERSE_HOUR.vbs",
+          "is_dir": false,
+          "bytes": 836
+        },
+        {
+          "name": "test_norm.lean",
+          "is_dir": false,
+          "bytes": 460
+        },
+        {
+          "name": "vendor",
+          "is_dir": true
+        },
+        {
+          "name": "verification",
+          "is_dir": true
+        }
+      ]
+    },
+    "public_data": {
+      "path": "I:\\FSOT-Physical-Archive\\03_FSOT-PublicData",
+      "exists": true,
+      "top_level_count": 28,
+      "top_level": [
+        {
+          "name": "anomaly_observables",
+          "is_dir": true
+        },
+        {
+          "name": "cern_opendata",
+          "is_dir": true
+        },
+        {
+          "name": "compactification_ladder",
+          "is_dir": true
+        },
+        {
+          "name": "consciousness",
+          "is_dir": true
+        },
+        {
+          "name": "consciousness_genetics",
+          "is_dir": true
+        },
+        {
+          "name": "cross_scale_bridges",
+          "is_dir": true
+        },
+        {
+          "name": "cybersecurity",
+          "is_dir": true
+        },
+        {
+          "name": "fringe_desktop",
+          "is_dir": true
+        },
+        {
+          "name": "gbif",
+          "is_dir": true
+        },
+        {
+          "name": "github_oss",
+          "is_dir": true
+        },
+        {
+          "name": "nasa_exoplanet",
+          "is_dir": true
+        },
+        {
+          "name": "nist_codata",
+          "is_dir": true
+        },
+        {
+          "name": "noaa_tides",
+          "is_dir": true
+        },
+        {
+          "name": "obis",
+          "is_dir": true
+        },
+        {
+          "name": "openalex",
+          "is_dir": true
+        },
+        {
+          "name": "pbdb",
+          "is_dir": true
+        },
+        {
+          "name": "pubchem",
+          "is_dir": true
+        },
+        {
+          "name": "rcsb_pdb",
+          "is_dir": true
+        },
+        {
+          "name": "space_weather",
+          "is_dir": true
+        },
+        {
+          "name": "the_well",
+          "is_dir": true
+        },
+        {
+          "name": "tier39_propulsion_electrical",
+          "is_dir": true
+        },
+        {
+          "name": "tier87_scientific_expansion",
+          "is_dir": true
+        },
+        {
+          "name": "tier88_application_wiring",
+          "is_dir": true
+        },
+        {
+          "name": "tier_d_extension",
+          "is_dir": true
+        },
+        {
+          "name": "tier_f_gaps",
+          "is_dir": true
+        },
+        {
+          "name": "trinary_os",
+          "is_dir": true
+        },
+        {
+          "name": "uniprot",
+          "is_dir": true
+        },
+        {
+          "name": "world_bank",
+          "is_dir": true
+        }
+      ]
+    },
+    "archive_root": {
+      "path": "I:\\FSOT-Physical-Archive",
+      "exists": true,
+      "n_files_walked": 50008,
+      "n_dirs_walked": 782,
+      "bytes_walked": 10993477216,
+      "gb_walked": 10.238,
+      "children_sample": [
+        {
+          "name": "01_SR-ITE-USB-Original",
+          "is_dir": true
+        },
+        {
+          "name": "02_FSOT-2.1-Lean-Full",
+          "is_dir": true
+        },
+        {
+          "name": "03_FSOT-PublicData",
+          "is_dir": true
+        },
+        {
+          "name": "04_Genetics-Longevity",
+          "is_dir": true
+        },
+        {
+          "name": "05_Zebrahub-Development",
+          "is_dir": true
+        },
+        {
+          "name": "06_Founding-Archives",
+          "is_dir": true
+        },
+        {
+          "name": "06_Kronos-FluidLink",
+          "is_dir": true
+        },
+        {
+          "name": "07_Portable-Toolchain",
+          "is_dir": true
+        },
+        {
+          "name": "08_Verified-Desktop-Projects",
+          "is_dir": true
+        },
+        {
+          "name": "09_Local-Verification-Stack",
+          "is_dir": true
+        },
+        {
+          "name": "10_Realities-OS",
+          "is_dir": true
+        },
+        {
+          "name": "ARCHIVE_MANIFEST.json",
+          "is_dir": false,
+          "bytes": 5579
+        },
+        {
+          "name": "bootstrap_rust_offline.ps1",
+          "is_dir": false,
+          "bytes": 533
+        },
+        {
+          "name": "bootstrap_toolchain.ps1",
+          "is_dir": false,
+          "bytes": 2867
+        },
+        {
+          "name": "bundle_toolchain.ps1",
+          "is_dir": false,
+          "bytes": 1923
+        },
+        {
+          "name": "logs",
+          "is_dir": true
+        },
+        {
+          "name": "PLAY.ps1",
+          "is_dir": false,
+          "bytes": 4244
+        },
+        {
+          "name": "READ_ME_FIRST.md",
+          "is_dir": false,
+          "bytes": 1545
+        },
+        {
+          "name": "set_fsot_archive_env.ps1",
+          "is_dir": false,
+          "bytes": 1200
+        },
+        {
+          "name": "VERIFICATION_REPORT.json",
+          "is_dir": false,
+          "bytes": 1683
+        },
+        {
+          "name": "verification_run_20260712_205034.log",
+          "is_dir": false,
+          "bytes": 246608
+        }
+      ]
+    }
+  },
+  "lean_docs_sample": [
+    "CIRCUITRY_COMPONENT_EMERGENCE_SPINE.md",
+    "CONSCIOUSNESS_OBSERVER_ARCHITECTURE.md",
+    "FOUNDING_35_LAWS_AUDIT.md",
+    "FSOT_EXPLAINED_LAYMAN.md",
+    "FSOT_FOUNDING_LINEAGE_AND_RECONCILIATION.md",
+    "FSOT_PHILOSOPHY_AND_CONSCIOUSNESS_SPINE.md",
+    "PRACTICAL_PIPELINE.md",
+    "REPOSITORY_TECHNICAL_GUIDE.md",
+    "SKEPTIC_REPLICATION_KIT.md",
+    "THESIS_APPENDIX_DERIVATIONS.md",
+    "THESIS_APPENDIX_XI.md",
+    "THESIS_APPENDIX_XII.md",
+    "VERIFIED_DESKTOP_TRANSPORTER.md",
+    "WETLAB_LONGEVITY_DEPTH.md",
+    "arxiv_outline.md",
+    "fsot_domain_navigator.html",
+    "genomic_brain_priors_verification.md",
+    "thesis_chapters_5_6.md"
+  ],
+  "public_domains_sample": [
+    "anomaly_observables",
+    "cern_opendata",
+    "compactification_ladder",
+    "consciousness",
+    "consciousness_genetics",
+    "cross_scale_bridges",
+    "cybersecurity",
+    "fringe_desktop",
+    "gbif",
+    "github_oss",
+    "nasa_exoplanet",
+    "nist_codata",
+    "noaa_tides",
+    "obis",
+    "openalex",
+    "pbdb",
+    "pubchem",
+    "rcsb_pdb",
+    "space_weather",
+    "the_well",
+    "tier39_propulsion_electrical",
+    "tier87_scientific_expansion",
+    "tier88_application_wiring",
+    "tier_d_extension",
+    "tier_f_gaps",
+    "trinary_os",
+    "uniprot",
+    "world_bank"
+  ],
+  "training_top_level": [
+    {
+      "name": "ARC-Challenge_test.csv",
+      "is_dir": false
+    },
+    {
+      "name": "ARC-Challenge_train.csv",
+      "is_dir": false
+    },
+    {
+      "name": "ARC-Challenge_validation.csv",
+      "is_dir": false
+    },
+    {
+      "name": "ARC-Easy_test.csv",
+      "is_dir": false
+    },
+    {
+      "name": "ARC-Easy_train.csv",
+      "is_dir": false
+    },
+    {
+      "name": "ARC-Easy_validation.csv",
+      "is_dir": false
+    },
+    {
+      "name": "archive.zip",
+      "is_dir": false
+    },
+    {
+      "name": "arXiv Dataset",
+      "is_dir": true
+    },
+    {
+      "name": "arXiv Dataset.zip",
+      "is_dir": false
+    },
+    {
+      "name": "arxiv_dataset",
+      "is_dir": true
+    },
+    {
+      "name": "arxiv_fsot_core.txt",
+      "is_dir": false
+    },
+    {
+      "name": "bbh",
+      "is_dir": true
+    },
+    {
+      "name": "claude-code-main.zip",
+      "is_dir": false
+    },
+    {
+      "name": "cnc_data",
+      "is_dir": true
+    },
+    {
+      "name": "coqa",
+      "is_dir": true
+    },
+    {
+      "name": "DATA_CATALOG.md",
+      "is_dir": false
+    },
+    {
+      "name": "fsot-2.0-fluid-os-shell (1).zip",
+      "is_dir": false
+    },
+    {
+      "name": "fsot-2.0-fluid-os-shell.zip",
+      "is_dir": false
+    },
+    {
+      "name": "fsot_genome_results.csv",
+      "is_dir": false
+    },
+    {
+      "name": "FSOT_Machine_And_Molecule",
+      "is_dir": true
+    },
+    {
+      "name": "gene_emergence_risk.csv",
+      "is_dir": false
+    },
+    {
+      "name": "genetics_deep_dive_20260512_172422",
+      "is_dir": true
+    },
+    {
+      "name": "GIAB_NA12878_Exome_FASTQ",
+      "is_dir": true
+    },
+    {
+      "name": "GRCh38 Human Genome",
+      "is_dir": true
+    },
+    {
+      "name": "GRCh38 Human Genome.zip",
+      "is_dir": false
+    },
+    {
+      "name": "gsm8k",
+      "is_dir": true
+    },
+    {
+      "name": "hellaswag",
+      "is_dir": true
+    },
+    {
+      "name": "Homo_sapiens.GRCh38.110 (1).gtf",
+      "is_dir": false
+    },
+    {
+      "name": "Homo_sapiens.GRCh38.110 (1).gtf.gz",
+      "is_dir": false
+    },
+    {
+      "name": "Homo_sapiens.GRCh38.110.gtf.gz",
+      "is_dir": false
+    },
+    {
+      "name": "humaneval",
+      "is_dir": true
+    },
+    {
+      "name": "ifeval",
+      "is_dir": true
+    },
+    {
+      "name": "kaggle",
+      "is_dir": true
+    },
+    {
+      "name": "kaggle_downloads",
+      "is_dir": true
+    },
+    {
+      "name": "kaggle_staging",
+      "is_dir": true
+    },
+    {
+      "name": "math",
+      "is_dir": true
+    },
+    {
+      "name": "mathematics_dataset-master",
+      "is_dir": true
+    },
+    {
+      "name": "mmlu",
+      "is_dir": true
+    },
+    {
+      "name": "mmlu_pro",
+      "is_dir": true
+    },
+    {
+      "name": "nlp",
+      "is_dir": true
+    },
+    {
+      "name": "olympiad_metadata.csv",
+      "is_dir": false
+    },
+    {
+      "name": "open_data",
+      "is_dir": true
+    },
+    {
+      "name": "problems",
+      "is_dir": true
+    },
+    {
+      "name": "qa-dataset",
+      "is_dir": true
+    },
+    {
+      "name": "Quantum Gravity Dataset.zip",
+      "is_dir": false
+    },
+    {
+      "name": "questions_answers.csv",
+      "is_dir": false
+    },
+    {
+      "name": "reference_apps",
+      "is_dir": true
+    },
+    {
+      "name": "solutions",
+      "is_dir": true
+    },
+    {
+      "name": "SOTA_PACKS.md",
+      "is_dir": false
+    },
+    {
+      "name": "squad",
+      "is_dir": true
+    },
+    {
+      "name": "test.csv",
+      "is_dir": false
+    },
+    {
+      "name": "train.csv",
+      "is_dir": false
+    },
+    {
+      "name": "truthfulqa",
+      "is_dir": true
+    },
+    {
+      "name": "validation.csv",
+      "is_dir": false
+    },
+    {
+      "name": "winogrande",
+      "is_dir": true
+    }
+  ],
+  "ok": true,
+  "key_files": {
+    "arxiv_fsot_core.txt": {
+      "exists": true,
+      "bytes": 446525134
+    },
+    "DATA_CATALOG.md": {
+      "exists": true,
+      "bytes": 7929
+    },
+    "SOTA_PACKS.md": {
+      "exists": true,
+      "bytes": 801
+    },
+    "questions_answers.csv": {
+      "exists": true,
+      "bytes": 1017
+    }
+  }
+}
