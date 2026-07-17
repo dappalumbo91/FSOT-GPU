@@ -1,13 +1,11 @@
-// FSOT consensus CUDA library — callable from Python (ctypes)
-// Layout: q,k,v,out continguous [B,H,S,D] float32 row-major
-// Math: collapse θ = C_eff*P_var, coh>0.5, no exp
-//
-// Build DLL:
-//   nvcc -O3 -arch=sm_120 -shared -o fsot_attn_lib.dll fsot_attn_lib.cu
+// FSOT consensus CUDA library — persistent workspace (no malloc per call)
+// Layout: q,k,v,out [B,H,S,D] float32 device pointers
+// Build: nvcc -O3 -arch=sm_120 -shared -o fsot_attn_lib.dll fsot_attn_lib.cu
 
 #include <cuda_runtime.h>
 #include <math.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 #define COLLAPSE_THRESHOLD 0.9174663774653723f
 #define COH_GATE 0.5f
@@ -34,13 +32,13 @@ __global__ void k_coh_kernel(const float *k, float *coh, int B, int H, int S,
     return;
   const float *row = k + (size_t)t * D;
   int sharp = 0;
+#pragma unroll 4
   for (int d = 0; d < D; ++d)
     if (fabsf(row[d]) > COLLAPSE_THRESHOLD)
       sharp++;
   coh[t] = (float)sharp / (float)D;
 }
 
-// Compact active per (b,h) — one block per (b,h)
 __global__ void compact_kernel(const float *coh, int *act_idx, int *act_n,
                                int B, int H, int S) {
   int bh = blockIdx.x;
@@ -83,6 +81,7 @@ __global__ void consensus_kernel(const float *q, const float *k, const float *v,
     const float *kh = kbase + (size_t)kj * D;
     const float *vh = vbase + (size_t)kj * D;
     float acc = 0.f;
+#pragma unroll 4
     for (int d = 0; d < D; ++d) {
       int tq = collapse_code(qh[d]);
       int tk = collapse_code(kh[d]);
@@ -94,6 +93,7 @@ __global__ void consensus_kernel(const float *q, const float *k, const float *v,
     if (w == 0.f)
       continue;
     active += 1.f;
+#pragma unroll 4
     for (int d = 0; d < D; ++d)
       oh[d] += w * vh[d];
   }
@@ -104,15 +104,62 @@ __global__ void consensus_kernel(const float *q, const float *k, const float *v,
   }
 }
 
-static int last_err = 0;
+// Persistent workspace
+static float *g_coh = nullptr;
+static int *g_act = nullptr;
+static int *g_an = nullptr;
+static size_t g_ns_cap = 0;
+static size_t g_bh_cap = 0;
 
+static int ensure_workspace(int B, int H, int S) {
+  size_t ns = (size_t)B * H * S;
+  size_t bh = (size_t)B * H;
+  if (ns <= g_ns_cap && bh <= g_bh_cap)
+    return 0;
+  if (g_coh)
+    cudaFree(g_coh);
+  if (g_act)
+    cudaFree(g_act);
+  if (g_an)
+    cudaFree(g_an);
+  g_coh = nullptr;
+  g_act = nullptr;
+  g_an = nullptr;
+  // grow with headroom
+  size_t ns2 = ns * 2 + 4096;
+  size_t bh2 = bh * 2 + 64;
+  if (cudaMalloc(&g_coh, ns2 * sizeof(float)) != cudaSuccess)
+    return -1;
+  if (cudaMalloc(&g_act, ns2 * sizeof(int)) != cudaSuccess)
+    return -2;
+  if (cudaMalloc(&g_an, bh2 * sizeof(int)) != cudaSuccess)
+    return -3;
+  g_ns_cap = ns2;
+  g_bh_cap = bh2;
+  return 0;
+}
+
+EXPORT int fsot_consensus_cuda_device(float *q, float *k, float *v, float *out,
+                                      int B, int H, int S, int D) {
+  if (ensure_workspace(B, H, S) != 0)
+    return -1;
+  size_t ns = (size_t)B * H * S;
+  int thr = 256;
+  int blk = (int)((ns + thr - 1) / thr);
+  k_coh_kernel<<<blk, thr>>>(k, g_coh, B, H, S, D);
+  compact_kernel<<<B * H, 32>>>(g_coh, g_act, g_an, B, H, S);
+  consensus_kernel<<<blk, thr>>>(q, k, v, g_act, g_an, out, B, H, S, D);
+  // No device-wide sync here — host syncs once per forward/bench for throughput.
+  cudaError_t e = cudaGetLastError();
+  return e == cudaSuccess ? 0 : -10;
+}
+
+// Host API (alloc once per call — slower; for tests)
 EXPORT int fsot_consensus_cuda(const float *q_h, const float *k_h,
                                const float *v_h, float *out_h, int B, int H,
                                int S, int D) {
   size_t n = (size_t)B * H * S * D;
-  size_t ns = (size_t)B * H * S;
-  float *q, *k, *v, *out, *coh;
-  int *act, *an;
+  float *q, *k, *v, *out;
   if (cudaMalloc(&q, n * sizeof(float)) != cudaSuccess)
     return -1;
   if (cudaMalloc(&k, n * sizeof(float)) != cudaSuccess)
@@ -121,59 +168,27 @@ EXPORT int fsot_consensus_cuda(const float *q_h, const float *k_h,
     return -3;
   if (cudaMalloc(&out, n * sizeof(float)) != cudaSuccess)
     return -4;
-  if (cudaMalloc(&coh, ns * sizeof(float)) != cudaSuccess)
-    return -5;
-  if (cudaMalloc(&act, ns * sizeof(int)) != cudaSuccess)
-    return -6;
-  if (cudaMalloc(&an, (size_t)B * H * sizeof(int)) != cudaSuccess)
-    return -7;
-
   cudaMemcpy(q, q_h, n * sizeof(float), cudaMemcpyHostToDevice);
   cudaMemcpy(k, k_h, n * sizeof(float), cudaMemcpyHostToDevice);
   cudaMemcpy(v, v_h, n * sizeof(float), cudaMemcpyHostToDevice);
-
-  int thr = 256;
-  int blk = (int)((ns + thr - 1) / thr);
-  k_coh_kernel<<<blk, thr>>>(k, coh, B, H, S, D);
-  compact_kernel<<<B * H, 32>>>(coh, act, an, B, H, S);
-  consensus_kernel<<<blk, thr>>>(q, k, v, act, an, out, B, H, S, D);
-  cudaError_t e = cudaDeviceSynchronize();
-  if (e != cudaSuccess) {
-    last_err = (int)e;
-    return -10;
-  }
+  int rc = fsot_consensus_cuda_device(q, k, v, out, B, H, S, D);
   cudaMemcpy(out_h, out, n * sizeof(float), cudaMemcpyDeviceToHost);
-
   cudaFree(q);
   cudaFree(k);
   cudaFree(v);
   cudaFree(out);
-  cudaFree(coh);
-  cudaFree(act);
-  cudaFree(an);
-  return 0;
+  return rc;
 }
 
-// Device-pointer API (zero-copy when tensors already on GPU) — float* device
-EXPORT int fsot_consensus_cuda_device(float *q, float *k, float *v, float *out,
-                                      int B, int H, int S, int D) {
-  size_t ns = (size_t)B * H * S;
-  float *coh;
-  int *act, *an;
-  if (cudaMalloc(&coh, ns * sizeof(float)) != cudaSuccess)
-    return -1;
-  if (cudaMalloc(&act, ns * sizeof(int)) != cudaSuccess)
-    return -2;
-  if (cudaMalloc(&an, (size_t)B * H * sizeof(int)) != cudaSuccess)
-    return -3;
-  int thr = 256;
-  int blk = (int)((ns + thr - 1) / thr);
-  k_coh_kernel<<<blk, thr>>>(k, coh, B, H, S, D);
-  compact_kernel<<<B * H, 32>>>(coh, act, an, B, H, S);
-  consensus_kernel<<<blk, thr>>>(q, k, v, act, an, out, B, H, S, D);
-  cudaError_t e = cudaDeviceSynchronize();
-  cudaFree(coh);
-  cudaFree(act);
-  cudaFree(an);
-  return e == cudaSuccess ? 0 : -10;
+EXPORT void fsot_workspace_reset(void) {
+  if (g_coh)
+    cudaFree(g_coh);
+  if (g_act)
+    cudaFree(g_act);
+  if (g_an)
+    cudaFree(g_an);
+  g_coh = nullptr;
+  g_act = nullptr;
+  g_an = nullptr;
+  g_ns_cap = g_bh_cap = 0;
 }

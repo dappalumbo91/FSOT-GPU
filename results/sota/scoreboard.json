@@ -1,0 +1,202 @@
+{
+  "timestamp": "2026-07-17T22:12:41.707086+00:00",
+  "project": "FSOT-GPU",
+  "goal": "Beat industry capability on this GPU with FSOT using a tiny model",
+  "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 5070",
+  "ckpt": {
+    "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_agree_best.pt",
+    "meta_agree": 0.9375,
+    "meta_step": 1800,
+    "missing": 92,
+    "unexpected": 0
+  },
+  "quality": {
+    "agree": 0.9375,
+    "kl": 2.0763480700552464,
+    "top5": 0.38750000000000007,
+    "n": 16,
+    "details": [
+      {
+        "prompt": "The capital of France is",
+        "base": " Paris",
+        "fsot": " Paris",
+        "match": true,
+        "kl": 3.116537094116211
+      },
+      {
+        "prompt": "def fibonacci(n):",
+        "base": "\n   ",
+        "fsot": "\n   ",
+        "match": true,
+        "kl": 0.20615385472774506
+      },
+      {
+        "prompt": "In mathematics, the derivative of x^2 is",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 3.551501989364624
+      },
+      {
+        "prompt": "Once upon a time",
+        "base": ",",
+        "fsot": ",",
+        "match": true,
+        "kl": 0.9212652444839478
+      },
+      {
+        "prompt": "2 + 2 =",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 0.5365259051322937
+      },
+      {
+        "prompt": "The largest planet in our solar system is",
+        "base": " Jupiter",
+        "fsot": " Jupiter",
+        "match": true,
+        "kl": 2.7561540603637695
+      },
+      {
+        "prompt": "print('hello",
+        "base": " world",
+        "fsot": " world",
+        "match": true,
+        "kl": 3.5553669929504395
+      },
+      {
+        "prompt": "Water freezes at",
+        "base": " night",
+        "fsot": " the",
+        "match": false,
+        "kl": 4.97711181640625
+      },
+      {
+        "prompt": "Python is a programming language that",
+        "base": " allows",
+        "fsot": " allows",
+        "match": true,
+        "kl": 2.0335853099823
+      },
+      {
+        "prompt": "The speed of light is approximately",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 0.1571471095085144
+      },
+      {
+        "prompt": "1 + 1 =",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 0.7946252822875977
+      },
+      {
+        "prompt": "The capital of Japan is",
+        "base": " Tokyo",
+        "fsot": " Tokyo",
+        "match": true,
+        "kl": 2.217156410217285
+      },
+      {
+        "prompt": "def main():",
+        "base": "\n   ",
+        "fsot": "\n   ",
+        "match": true,
+        "kl": 0.21057994663715363
+      },
+      {
+        "prompt": "The square root of 9 is",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 2.1327662467956543
+      },
+      {
+        "prompt": "Gravity on Earth is",
+        "base": " a",
+        "fsot": " a",
+        "match": true,
+        "kl": 3.567554235458374
+      },
+      {
+        "prompt": "The chemical formula for water is",
+        "base": " H",
+        "fsot": " H",
+        "match": true,
+        "kl": 2.4875376224517822
+      }
+    ]
+  },
+  "prefill": {
+    "baseline_ms": 30.67948999996588,
+    "fsot_ms": 28.052664999995613,
+    "speedup": 1.093639053543422,
+    "baseline_vram_mib": 1052.26513671875,
+    "fsot_vram_mib": 1052.26513671875
+  },
+  "decode": {
+    "baseline": {
+      "tps_mean": 35.536998348430686,
+      "tps_min": 34.79818844989098,
+      "tps_max": 36.26946352594168,
+      "max_new": 32,
+      "vram_peak_mib": 1053.46826171875,
+      "samples": [
+        "The capital of France is Paris. Paris is the largest city in France and the capital of the French department of the Espace de Paris.\n\nThe Eiffel Tower, also kno",
+        "def fibonacci(n):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if n < 0:\n        return -",
+        "In mathematics, the derivative of x^2 is 2x.\n\nNow, consider the function f(x) = x^2. To find the derivative of f(x), we can use",
+        "Once upon a time, I was a young man, a young woman, and a young man again. I was a young man, a young woman, and a young man again",
+        "2 + 2 = 3.\n\nNow, let's consider the equation 2x + 3 = 3. We can solve this equation by isolating the variable x"
+      ]
+    },
+    "fsot": {
+      "tps_mean": 37.636864408621236,
+      "tps_min": 37.32830147831977,
+      "tps_max": 38.11576161794026,
+      "max_new": 32,
+      "vram_peak_mib": 1053.46826171875,
+      "samples": [
+        "The capital of France is Paris a Ny, the is the \"1, the is the is the \"1 the is the is the \"1, the is the is the is the",
+        "def fibonacci(n):\n    the \"\u00e2r significant, the \"1 the cell, the \"1 the line the \"1 the \"\u00e2r this is the \"1 the \"",
+        "In mathematics, the derivative of x^2 is                                ",
+        "Once upon a time,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+        "2 + 2 =                                "
+      ]
+    },
+    "speedup": 1.0590895730585326
+  },
+  "attention_op": {
+    "H": 9,
+    "S": 256,
+    "D": 64,
+    "sdpa_ms": 0.039982000016607344,
+    "fsot_ms": 0.16086499999801163,
+    "fsot_speedup": 0.2485438101333512,
+    "fsot_wins": false,
+    "collapse_threshold": 0.9174663774653723,
+    "cuda_dll": true
+  },
+  "verdict": {
+    "wins": [
+      "quality_next_token_ge_90",
+      "quality_top5_overlap",
+      "prefill_latency",
+      "decode_tps"
+    ],
+    "ties": [
+      "vram"
+    ],
+    "loses": [
+      "attention_op"
+    ],
+    "across_the_board": false,
+    "n_wins": 4,
+    "n_loses": 1
+  },
+  "ok": true
+}

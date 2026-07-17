@@ -68,9 +68,13 @@ def fsot_consensus(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor) -> torch.T
     lib = _load()
 
     if q.is_cuda and k.is_cuda and v.is_cuda:
-        qf = q.detach().float().contiguous()
-        kf = k.detach().float().contiguous()
-        vf = v.detach().float().contiguous()
+        # Prefer already-float32 to avoid alloc/convert every layer
+        if q.dtype == torch.float32 and q.is_contiguous():
+            qf, kf, vf = q, k.contiguous(), v.contiguous()
+        else:
+            qf = q.detach().float().contiguous()
+            kf = k.detach().float().contiguous()
+            vf = v.detach().float().contiguous()
         out = torch.empty_like(qf)
         rc = lib.fsot_consensus_cuda_device(
             ctypes.c_void_p(qf.data_ptr()),
@@ -84,7 +88,7 @@ def fsot_consensus(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor) -> torch.T
         )
         if rc != 0:
             raise RuntimeError(f"fsot_consensus_cuda_device failed rc={rc}")
-        t = out.to(dtype=q.dtype)
+        t = out if q.dtype == torch.float32 else out.to(dtype=q.dtype)
         return t.squeeze(0) if squeeze else t
 
     # CPU host fallback
