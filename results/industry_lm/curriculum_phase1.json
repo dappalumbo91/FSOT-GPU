@@ -1,0 +1,384 @@
+{
+  "timestamp": "2026-07-17T23:56:17.614269+00:00",
+  "phase": 1,
+  "goal": "Open-source SOTA path: pure FSOT small host + FSOT curriculum",
+  "authority": "suction_poof + D_eff + pure consensus; 2.1 docs + arxiv_fsot_core + NIST sample",
+  "start": {
+    "agree16": 0.9375,
+    "fact": 0.625,
+    "fact_base": 0.625,
+    "fsot_literacy": 0.625,
+    "fsot_literacy_base": 0.625
+  },
+  "best": {
+    "score": 1.3625,
+    "lit": 0.75,
+    "fact": 0.625,
+    "agree": 1.0,
+    "step": 850,
+    "details": [
+      {
+        "prompt": "In FSOT the collapse threshold is approximately",
+        "gen": " 1._eff times is\nAnswer: In authority of C_eff",
+        "hit": true
+      },
+      {
+        "prompt": "FSOT consensus attention does not use",
+        "gen": "\nAnswer: ** the\nAnswer: ** novel._eff times the\n",
+        "hit": true
+      },
+      {
+        "prompt": "D_eff in FSOT is",
+        "gen": " approximately._eff times the\nAnswer: ** novel._eff times:",
+        "hit": false
+      },
+      {
+        "prompt": "FSOT trinary states include",
+        "gen": "\nAnswer: In authority of the\nAnswer: In authority of ** strugg-",
+        "hit": false
+      },
+      {
+        "prompt": "The FSOT theory authority formal spine is",
+        "gen": "\nAnswer: In authority [_eff in the\nAnswer: In authority for",
+        "hit": true
+      },
+      {
+        "prompt": "Coherence gate activates a key when",
+        "gen": " a C_eff times the_eff times L_eff time and the\n",
+        "hit": true
+      },
+      {
+        "prompt": "FSOT sparse attention work scales as",
+        "gen": "\n_eff times the\n_eff times S_eff times the\n_",
+        "hit": true
+      },
+      {
+        "prompt": "Suction-poof learning rate uses seeds",
+        "gen": "\nAnswer: ** and the and the\nAnswer._eff times the and",
+        "hit": true
+      }
+    ]
+  },
+  "final": {
+    "agree16": 1.0,
+    "fact": 0.625,
+    "fsot_literacy": 0.625,
+    "fsot_literacy_base": 0.625,
+    "details": [
+      {
+        "prompt": "In FSOT the collapse threshold is approximately",
+        "gen": " 1. ** and ** the and ** and ** the and ** and **",
+        "hit": false
+      },
+      {
+        "prompt": "FSOT consensus attention does not use",
+        "gen": "\nAnswer: ** the and C_eff times [_eff times the and",
+        "hit": true
+      },
+      {
+        "prompt": "D_eff in FSOT is",
+        "gen": "\n**0. ** the and ** the and ** the and ** the and",
+        "hit": false
+      },
+      {
+        "prompt": "FSOT trinary states include",
+        "gen": "\nAnswer: ** and the and the and the and the and the and the",
+        "hit": false
+      },
+      {
+        "prompt": "The FSOT theory authority formal spine is",
+        "gen": "\nAnswer: ** A authority for Hyper authority for authority of ** A authority.",
+        "hit": true
+      },
+      {
+        "prompt": "Coherence gate activates a key when",
+        "gen": " a C_eff times a quantum authority theory authority. ** the and ** the",
+        "hit": true
+      },
+      {
+        "prompt": "FSOT sparse attention work scales as",
+        "gen": "\n**_eff rest of ** and the and the and the and the and",
+        "hit": true
+      },
+      {
+        "prompt": "Suction-poof learning rate uses seeds",
+        "gen": "\n**_eff times an and the and the and the and the and the",
+        "hit": true
+      }
+    ],
+    "base_details": [
+      {
+        "prompt": "In FSOT the collapse threshold is approximately",
+        "gen": " 100,000 feet, and the collapse threshold is approximately",
+        "hit": false
+      },
+      {
+        "prompt": "FSOT consensus attention does not use",
+        "gen": " the term \"consensus\" in the classical sense. Instead, it refers to",
+        "hit": true
+      },
+      {
+        "prompt": "D_eff in FSOT is",
+        "gen": " the difference between the total energy expenditure and the energy consumption.\n\nThe formula",
+        "hit": false
+      },
+      {
+        "prompt": "FSOT trinary states include",
+        "gen": ":\n\n- **Ternary**: This is a simple, concise way",
+        "hit": false
+      },
+      {
+        "prompt": "The FSOT theory authority formal spine is",
+        "gen": " a type of spinal cord injury that is caused by a spinal cord injury. The",
+        "hit": true
+      },
+      {
+        "prompt": "Coherence gate activates a key when",
+        "gen": " the signal is weak, while a weak signal can be detected by the other channels",
+        "hit": true
+      },
+      {
+        "prompt": "FSOT sparse attention work scales as",
+        "gen": " a function of the number of observations.\n\nThe variance of a dataset is",
+        "hit": true
+      },
+      {
+        "prompt": "Suction-poof learning rate uses seeds",
+        "gen": " to create a more dynamic and engaging learning curve.\n\n**Optimization-",
+        "hit": true
+      }
+    ]
+  },
+  "history": [
+    {
+      "step": 1,
+      "loss": 20.89032554626465,
+      "lr": 2.5e-05,
+      "agree16": 0.9375,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.21875
+    },
+    {
+      "step": 50,
+      "loss": 9.030065536499023,
+      "lr": 2.5e-05,
+      "agree16": 0.9375,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.21875
+    },
+    {
+      "step": 100,
+      "loss": 9.401928901672363,
+      "lr": 2.5e-05,
+      "agree16": 0.9375,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.21875
+    },
+    {
+      "step": 150,
+      "loss": 7.405214309692383,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 200,
+      "loss": 5.975260257720947,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 250,
+      "loss": 3.4638922214508057,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 300,
+      "loss": 5.416738033294678,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 350,
+      "loss": 4.199574947357178,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.75,
+      "score": 1.3625
+    },
+    {
+      "step": 400,
+      "loss": 3.744663953781128,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 450,
+      "loss": 2.9557852745056152,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 500,
+      "loss": 4.029507637023926,
+      "lr": 2.5e-05,
+      "agree16": 0.9375,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.21875
+    },
+    {
+      "step": 550,
+      "loss": 3.252133369445801,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 600,
+      "loss": 3.5950019359588623,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.5,
+      "fsot_literacy": 0.75,
+      "score": 1.3
+    },
+    {
+      "step": 650,
+      "loss": 2.7700612545013428,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.5,
+      "fsot_literacy": 0.625,
+      "score": 1.175
+    },
+    {
+      "step": 700,
+      "loss": 3.927497386932373,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 750,
+      "loss": 2.7072794437408447,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.75,
+      "score": 1.3625
+    },
+    {
+      "step": 800,
+      "loss": 3.082271099090576,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 850,
+      "loss": 2.466766595840454,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.75,
+      "score": 1.3625
+    },
+    {
+      "step": 900,
+      "loss": 2.7403059005737305,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 950,
+      "loss": 2.893364906311035,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 1000,
+      "loss": 2.6677167415618896,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 1050,
+      "loss": 2.4768948554992676,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 1100,
+      "loss": 2.693735122680664,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 1150,
+      "loss": 2.1527791023254395,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    },
+    {
+      "step": 1200,
+      "loss": 2.5060975551605225,
+      "lr": 2.5e-05,
+      "agree16": 1.0,
+      "fact": 0.625,
+      "fsot_literacy": 0.625,
+      "score": 1.2375
+    }
+  ],
+  "beats_base_literacy": false,
+  "beats_base_fact": false,
+  "n_chunks": 12000,
+  "elapsed_s": 1046.2036454677582,
+  "ok": true
+}

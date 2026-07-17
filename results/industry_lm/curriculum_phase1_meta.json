@@ -1,0 +1,11 @@
+{
+  "n_chunks": 12000,
+  "by_kind": {
+    "fsot_operator_primer": 2,
+    "fsot_2_1_doc": 1165,
+    "arxiv_fsot_core": 10833
+  },
+  "out": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\curriculum_phase1_chunks.jsonl",
+  "chunk_chars": 900,
+  "max_arxiv_bytes": 26214400
+}

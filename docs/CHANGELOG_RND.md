@@ -1,5 +1,13 @@
 # R&D changelog (lab)
 
+## 2026-07-17 (cont.) — Phase 1 FSOT curriculum OPEN (open-source SOTA path)
+
+- **Decision:** host gates G1–G5 sufficient to open curriculum; mid-S does not block.
+- Corpus: 12k chunks — 2.1 Lean docs + arxiv_fsot_core slice + operator primer (+ NIST sample).
+- Train: pure FSOT + full DoF + suction_poof/D_eff + supervised FSOT Q&A.
+- Best so far: agree **100%**, fact **62%** (tie base), FSOT literacy peak **75%** vs base **62%**.
+- Docs: `OPEN_SOURCE_SOTA_GATES.md`, `FSOT_CURRICULUM_TRAINING.md`; ckpt `pure_fsot_curriculum_best.pt`.
+
 ## 2026-07-17 (cont.) — Exceed knowledge + mid-S (FSOT law)
 
 - **Exceed knowledge:** pure FSOT + full DoF + `suction_poof_lr` + `D_eff` scalar. Factual hit rate **50% > baseline 43%** on 14-prompt set; agree retained **94%**. Ckpt `pure_fsot_exceed_best.pt`. Ledger `exceed_knowledge.json`.
