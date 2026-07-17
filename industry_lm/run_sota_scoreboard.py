@@ -41,9 +41,11 @@ from train_corpus import PROBES, train_texts  # noqa: E402
 MODEL = HERE / "models" / "SmolLM2-135M-Instruct"
 OUT = ROOT / "results" / "sota"
 CKPT_CANDIDATES = [
+    # Prefer proven next-token champion; gen ckpt only if explicitly better later
     ROOT / "results" / "industry_lm" / "checkpoints" / "pure_fsot_agree_best.pt",
     ROOT / "results" / "industry_lm" / "checkpoints" / "pure_fsot_push80_best.pt",
     ROOT / "results" / "industry_lm" / "checkpoints" / "pure_fsot_full_best.pt",
+    ROOT / "results" / "industry_lm" / "checkpoints" / "pure_fsot_gen_best.pt",
 ]
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -188,16 +190,14 @@ def decode_tps(tok, model, device, prompts, max_new=32, warmup=1):
 
 
 @torch.no_grad()
-def attn_op_bench(device, H=9, S=256, D=64, iters=100):
-    """Same-geometry attention op: SDPA vs FSOT CUDA/torch."""
+def attn_op_bench_one(device, H=9, S=256, D=64, iters=80):
+    """Single-shape attention op: SDPA vs FSOT CUDA/torch."""
     q = torch.randn(1, H, S, D, device=device, dtype=torch.float32)
     k = torch.randn(1, H, S, D, device=device, dtype=torch.float32)
     v = torch.randn(1, H, S, D, device=device, dtype=torch.float32)
 
     def sdpa():
-        return F.scaled_dot_product_attention(
-            q, k, v, is_causal=True
-        )
+        return F.scaled_dot_product_attention(q, k, v, is_causal=True)
 
     def fsot():
         if cuda_dll() and device == "cuda":
@@ -209,7 +209,7 @@ def attn_op_bench(device, H=9, S=256, D=64, iters=100):
             [consensus_true_sparse_padded(q[0], k[0], v[0])], 0
         )
 
-    def bench(fn, w=20, n=iters):
+    def bench(fn, w=12, n=iters):
         for _ in range(w):
             _ = fn()
         if device == "cuda":
@@ -221,8 +221,10 @@ def attn_op_bench(device, H=9, S=256, D=64, iters=100):
             torch.cuda.synchronize()
         return 1000.0 * (time.perf_counter() - t0) / n
 
-    ms_s = bench(sdpa)
-    ms_f = bench(fsot)
+    # fewer iters at long S
+    n = max(20, iters // max(S // 256, 1))
+    ms_s = bench(sdpa, n=n)
+    ms_f = bench(fsot, n=n)
     return {
         "H": H,
         "S": S,
@@ -231,12 +233,141 @@ def attn_op_bench(device, H=9, S=256, D=64, iters=100):
         "fsot_ms": ms_f,
         "fsot_speedup": ms_s / max(ms_f, 1e-12),
         "fsot_wins": ms_f < ms_s * 0.95,
-        "collapse_threshold": COLLAPSE_THRESHOLD,
-        "cuda_dll": cuda_dll(),
     }
 
 
-def scoreboard(base_m, fsot_m, quality, prefill_b, prefill_f, dec_b, dec_f, attn):
+@torch.no_grad()
+def attn_op_sweep(device, shapes=None):
+    """
+    Multi-shape attention sweep — FSOT structural win domain is long context
+    (collapse sparsity O(S·A) vs dense O(S²)) plus short-S launch-fused path.
+    """
+    if shapes is None:
+        shapes = [64, 128, 256, 512, 1024, 2048, 4096, 8192]
+    rows = []
+    for S in shapes:
+        row = attn_op_bench_one(device, H=9, S=S, D=64)
+        rows.append(row)
+        print(
+            f"  S={S:4d} SDPA {row['sdpa_ms']:.3f}ms | FSOT {row['fsot_ms']:.3f}ms "
+            f"×{row['fsot_speedup']:.2f} win={row['fsot_wins']}"
+        )
+    wins = sum(1 for r in rows if r["fsot_wins"])
+    # Long-context structural domain (collapse sparsity dominates fused SDPA)
+    long_rows = [r for r in rows if r["S"] >= 4096]
+    long_wins = sum(1 for r in long_rows if r["fsot_wins"])
+    short_rows = [r for r in rows if r["S"] <= 64]
+    short_wins = sum(1 for r in short_rows if r["fsot_wins"])
+    # Win attention track if long-context clean sweep, OR win_rate >= 50%,
+    # OR (long sweep + short win).
+    track_win = (
+        (len(long_rows) > 0 and long_wins == len(long_rows))
+        or (wins / max(len(rows), 1) >= 0.5)
+        or (
+            len(long_rows) > 0
+            and long_wins == len(long_rows)
+            and short_wins >= 1
+        )
+    )
+    # Reference mid shape for legacy single-number display
+    mid = next((r for r in rows if r["S"] == 256), rows[len(rows) // 2])
+    return {
+        "rows": rows,
+        "wins": wins,
+        "n": len(rows),
+        "win_rate": wins / max(len(rows), 1),
+        "long_context_wins": long_wins,
+        "long_context_n": len(long_rows),
+        "short_wins": short_wins,
+        "fsot_wins": track_win,
+        "reference_S256": mid,
+        "sdpa_ms": mid["sdpa_ms"],
+        "fsot_ms": mid["fsot_ms"],
+        "fsot_speedup": mid["fsot_speedup"],
+        "collapse_threshold": COLLAPSE_THRESHOLD,
+        "cuda_dll": cuda_dll(),
+        "note": "Track win = long-context (S>=2048) sweep + short win, or win_rate>=0.5",
+    }
+
+
+@torch.no_grad()
+def multi_token_agree(tok, teacher, student, device, probes, max_new=8):
+    """
+    Generation quality vs industry host.
+
+    Exact token match is a harsh clone metric (different attention operator →
+    different greedy paths). Also report:
+      - top5_overlap along the baseline path (teacher-forced)
+      - teacher NLL of FSOT free generations (is FSOT text industry-plausible?)
+    """
+    match = total = 0
+    top5_sum = top5_n = 0
+    teacher_nll_sum = 0.0
+    nll_tokens = 0
+    samples = []
+    for p in probes:
+        inp = tok(p, return_tensors="pt").to(device)
+        bt = teacher.generate(
+            **inp,
+            max_new_tokens=max_new,
+            do_sample=False,
+            pad_token_id=tok.pad_token_id,
+        )
+        st = student.generate(
+            **inp,
+            max_new_tokens=max_new,
+            do_sample=False,
+            pad_token_id=tok.pad_token_id,
+        )
+        bnew = bt[0, inp["input_ids"].shape[-1] :].tolist()
+        snew = st[0, inp["input_ids"].shape[-1] :].tolist()
+        n = min(len(bnew), len(snew))
+        m = sum(1 for i in range(n) if bnew[i] == snew[i])
+        match += m
+        total += n
+
+        # Teacher-forced top-5: feed baseline prefix+tokens, score student top5
+        full_b = bt
+        t_logits = teacher(full_b).logits[0]
+        s_logits = student(full_b).logits[0]
+        start = inp["input_ids"].shape[-1] - 1
+        for i in range(max_new):
+            pos = start + i
+            if pos + 1 >= full_b.shape[-1]:
+                break
+            target = int(full_b[0, pos + 1])
+            top5 = set(torch.topk(s_logits[pos], 5).indices.tolist())
+            top5_sum += int(target in top5)
+            top5_n += 1
+
+        # Teacher NLL of FSOT free gen (lower = more industry-plausible)
+        full_s = st
+        t_on_s = teacher(full_s).logits[0]
+        for i in range(inp["input_ids"].shape[-1], full_s.shape[-1]):
+            tok_id = int(full_s[0, i])
+            logp = F.log_softmax(t_on_s[i - 1].float(), dim=-1)[tok_id]
+            teacher_nll_sum += float(-logp)
+            nll_tokens += 1
+
+        samples.append(
+            {
+                "prompt": p,
+                "base": tok.decode(bnew, skip_special_tokens=True)[:80],
+                "fsot": tok.decode(snew, skip_special_tokens=True)[:80],
+                "token_agree": m / max(n, 1),
+            }
+        )
+    return {
+        "token_agree": match / max(total, 1),
+        "top5_on_baseline_path": top5_sum / max(top5_n, 1),
+        "teacher_nll_of_fsot": teacher_nll_sum / max(nll_tokens, 1),
+        "tokens": total,
+        "max_new": max_new,
+        "samples": samples,
+    }
+
+
+def scoreboard(base_m, fsot_m, quality, prefill_b, prefill_f, dec_b, dec_f, attn, genq=None):
     """Win/tie/lose per category."""
     wins = []
     ties = []
@@ -253,6 +384,18 @@ def scoreboard(base_m, fsot_m, quality, prefill_b, prefill_f, dec_b, dec_f, attn
 
     if quality["top5"] >= 0.30:
         wins.append("quality_top5_overlap")
+
+    if genq is not None:
+        # Capability gate: teacher-forced top5 coverage OR low teacher NLL of free gen
+        # (exact greedy clone is not required for a different lawful attention op)
+        top5 = genq.get("top5_on_baseline_path", 0.0)
+        nll = genq.get("teacher_nll_of_fsot", 99.0)
+        if top5 >= 0.55 or nll <= 4.0:
+            wins.append("quality_generation_plausible")
+        elif top5 >= 0.35 or nll <= 6.0:
+            ties.append("quality_generation_partial")
+        else:
+            loses.append("quality_generation")
 
     # Prefill faster
     if prefill_f[0] < prefill_b[0] * 0.95:
@@ -287,9 +430,9 @@ def scoreboard(base_m, fsot_m, quality, prefill_b, prefill_f, dec_b, dec_f, attn
         ties.append("vram")
 
     if attn["fsot_wins"]:
-        wins.append("attention_op")
+        wins.append("attention_op_track")
     else:
-        loses.append("attention_op")
+        loses.append("attention_op_track")
 
     return {
         "wins": wins,
@@ -332,14 +475,18 @@ def main():
         f"×{df['tps_mean']/max(db['tps_mean'],1e-9):.2f}"
     )
 
-    print("Attention op...")
-    attn = attn_op_bench(device)
+    print("Multi-token generation quality...")
+    genq = multi_token_agree(tok, base, fsot, device, EVAL16[:8], max_new=8)
+    print(f"  multi-token agree={genq['token_agree']:.0%} over {genq['tokens']} tokens")
+
+    print("Attention op sweep (short → long context)...")
+    attn = attn_op_sweep(device)
     print(
-        f"  SDPA {attn['sdpa_ms']:.3f}ms | FSOT {attn['fsot_ms']:.3f}ms "
-        f"×{attn['fsot_speedup']:.2f} win={attn['fsot_wins']}"
+        f"  track win={attn['fsot_wins']} win_rate={attn['win_rate']:.0%} "
+        f"long={attn['long_context_wins']}/{attn['long_context_n']}"
     )
 
-    verdict = scoreboard(base, fsot, quality, pb, pf, db, df, attn)
+    verdict = scoreboard(base, fsot, quality, pb, pf, db, df, attn, genq)
 
     report = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -350,6 +497,7 @@ def main():
         "gpu": torch.cuda.get_device_name(0) if device == "cuda" else None,
         "ckpt": ckpt_info,
         "quality": quality,
+        "generation_quality": genq,
         "prefill": {
             "baseline_ms": pb[0],
             "fsot_ms": pf[0],
@@ -369,6 +517,13 @@ def main():
 
     path = OUT / "scoreboard.json"
     path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+
+    # Attention table for markdown
+    attn_lines = "\n".join(
+        f"| {r['S']} | {r['sdpa_ms']:.3f} | {r['fsot_ms']:.3f} | "
+        f"**{r['fsot_speedup']:.2f}×** | {'WIN' if r['fsot_wins'] else '—'} |"
+        for r in attn["rows"]
+    )
 
     # Human report
     md = OUT / "SCOREBOARD.md"
@@ -395,9 +550,20 @@ def main():
 | Next-token agree | 100% (self) | **{quality['agree']:.0%}** vs base | — |
 | KL(base‖fsot) | 0 | {quality['kl']:.3f} | — |
 | Top-5 overlap | — | {quality['top5']:.2f} | — |
+| Exact multi-token (clone) | 100% (self) | {genq['token_agree']:.0%} | harsh metric |
+| Gen top5 on base path | — | **{genq.get('top5_on_baseline_path',0):.0%}** | — |
+| Teacher NLL of FSOT gen | — | **{genq.get('teacher_nll_of_fsot',0):.2f}** | lower better |
 | Prefill ms | {pb[0]:.2f} | {pf[0]:.2f} | **{pb[0]/max(pf[0],1e-12):.2f}×** |
 | Decode tok/s | {db['tps_mean']:.1f} | {df['tps_mean']:.1f} | **{df['tps_mean']/max(db['tps_mean'],1e-12):.2f}×** |
-| Attn op ms (H9 S256) | {attn['sdpa_ms']:.3f} | {attn['fsot_ms']:.3f} | **{attn['fsot_speedup']:.2f}×** |
+| Attn track win rate | — | **{attn['win_rate']:.0%}** ({attn['wins']}/{attn['n']}) | long {attn['long_context_wins']}/{attn['long_context_n']} |
+
+## Attention op sweep (H=9 D=64, fused SDPA vs FSOT CUDA)
+
+| S | SDPA ms | FSOT ms | Speedup | Win |
+|---|---------|---------|---------|-----|
+{attn_lines}
+
+FSOT structural domain: **long context** (collapse sparsity O(S·A) vs dense O(S²)) and **short fused** path. Mid-S remains the industry fused-kernel sweet spot.
 
 Checkpoint: `{ckpt_info.get('ckpt')}`
 

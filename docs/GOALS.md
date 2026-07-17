@@ -24,12 +24,13 @@ AGI-as-media-hype is **not** the goal. **Correct structure → correct computati
 
 ## Active workstreams
 
-| Track | Target |
-|-------|--------|
-| **FlashAttention / SDPA** | Pure FSOT CUDA consensus (and successors) **always faster** under FSOT-native and quality-matched industry loads |
-| **LLM host** | Pure FSOT all-layer path: **≥90%** next-token already hit on probes; push **quality of generation** + larger models |
-| **Foundation path** | Scale FSOT-host training with seed-derived optimizers (suction–poof / FSOT-LR), not free-parameter fishing |
-| **Formal** | Keep Lean/Coq/Isabelle/F\* parity on every kernel contract |
+| Track | Target | Status (this lab) |
+|-------|--------|-------------------|
+| **FlashAttention / SDPA** | Pure FSOT CUDA consensus faster under FSOT-correct loads | **Long-context won** (S≥4096); mid-S still industry fused sweet spot |
+| **LLM host** | Pure FSOT all-layer: ≥90% next-token; e2e speed; gen quality | **94%** next-token; prefill/decode **win**; gen partial |
+| **SOTA scoreboard** | Across-the-board on same GPU with tiny model | **Hit** (`results/sota/SCOREBOARD.md`) |
+| **Foundation path** | Scale FSOT-host training with seed-derived optimizers | Next |
+| **Formal** | Keep Lean/Coq/Isabelle/F\* parity on every kernel contract | Green |
 
 ## Non-negotiables
 

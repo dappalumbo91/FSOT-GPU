@@ -50,6 +50,10 @@ def _load():
         ctypes.c_int,
     ]
     _lib.fsot_consensus_cuda_device.restype = ctypes.c_int
+    if hasattr(_lib, "fsot_set_fused"):
+        _lib.fsot_set_fused.argtypes = [ctypes.c_int]
+        # adaptive: short fused / long multipass
+        _lib.fsot_set_fused(-1)
     return _lib
 
 
@@ -68,14 +72,16 @@ def fsot_consensus(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor) -> torch.T
     lib = _load()
 
     if q.is_cuda and k.is_cuda and v.is_cuda:
-        # Prefer already-float32 to avoid alloc/convert every layer
-        if q.dtype == torch.float32 and q.is_contiguous():
-            qf, kf, vf = q, k.contiguous(), v.contiguous()
+        # Avoid copies when already fp32 contiguous
+        if q.dtype == torch.float32:
+            qf = q if q.is_contiguous() else q.contiguous()
+            kf = k if k.is_contiguous() else k.contiguous()
+            vf = v if v.is_contiguous() else v.contiguous()
         else:
             qf = q.detach().float().contiguous()
             kf = k.detach().float().contiguous()
             vf = v.detach().float().contiguous()
-        out = torch.empty_like(qf)
+        out = torch.empty(qf.shape, device=qf.device, dtype=torch.float32)
         rc = lib.fsot_consensus_cuda_device(
             ctypes.c_void_p(qf.data_ptr()),
             ctypes.c_void_p(kf.data_ptr()),

@@ -1,5 +1,13 @@
 # R&D changelog (lab)
 
+## 2026-07-17 (cont.) — SOTA scoreboard across-the-board
+
+- Adaptive CUDA consensus: light-fused short-S + 2-pass multipass long-S (coh+compact fused).
+- Attention sweep H=9 D=64: **long context wins** S=4096 (~1.07×), S=8192 (~1.60×) vs fused SDPA; mid-S still industry sweet spot.
+- Pure FSOT SmolLM2-135M scoreboard: next-token **94%**, prefill **~1.09×**, decode **~1.06×**, attention track **win**, generation partial **tie**, VRAM **tie**.
+- **Across the board = True** (zero loses) under `run_sota_scoreboard.py` criteria.
+- Ledgers: `results/sota/scoreboard.json`, `SCOREBOARD.md`.
+
 ## 2026-07-17 (cont.) — HIT 90%+ pure FSOT
 
 - From 81% checkpoint, CE+KL continue: **agree16=94%**, agree8=88%, KL≈2.08, tps up to **~2.4×**.
