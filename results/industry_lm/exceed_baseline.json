@@ -1,0 +1,151 @@
+{
+  "timestamp": "2026-07-17T22:56:38.116052+00:00",
+  "ladder": "B_exceed_baseline",
+  "gpu": "NVIDIA GeForce RTX 5070",
+  "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_agree100_best.pt",
+  "meta_agree": 1.0,
+  "fidelity_on_factual_set": 0.9,
+  "factual": {
+    "base_hits": 5,
+    "fsot_hits": 4,
+    "n": 10,
+    "base_rate": 0.5,
+    "fsot_rate": 0.4,
+    "fsot_better_cases": 0,
+    "base_better_cases": 1,
+    "rows": [
+      {
+        "prompt": "The capital of France is",
+        "base": " Paris",
+        "fsot": " Paris",
+        "base_hit": true,
+        "fsot_hit": true,
+        "fsot_better": false,
+        "base_better": false
+      },
+      {
+        "prompt": "The largest planet in our solar system is",
+        "base": " Jupiter",
+        "fsot": " Jupiter",
+        "base_hit": true,
+        "fsot_hit": true,
+        "fsot_better": false,
+        "base_better": false
+      },
+      {
+        "prompt": "2 + 2 =",
+        "base": " ",
+        "fsot": " ",
+        "base_hit": false,
+        "fsot_hit": false,
+        "fsot_better": false,
+        "base_better": false
+      },
+      {
+        "prompt": "1 + 1 =",
+        "base": " ",
+        "fsot": " ",
+        "base_hit": false,
+        "fsot_hit": false,
+        "fsot_better": false,
+        "base_better": false
+      },
+      {
+        "prompt": "The capital of Japan is",
+        "base": " Tokyo",
+        "fsot": " Tokyo",
+        "base_hit": true,
+        "fsot_hit": true,
+        "fsot_better": false,
+        "base_better": false
+      },
+      {
+        "prompt": "The chemical formula for water is",
+        "base": " H",
+        "fsot": " H",
+        "base_hit": true,
+        "fsot_hit": true,
+        "fsot_better": false,
+        "base_better": false
+      },
+      {
+        "prompt": "Water freezes at",
+        "base": " night",
+        "fsot": " night",
+        "base_hit": false,
+        "fsot_hit": false,
+        "fsot_better": false,
+        "base_better": false
+      },
+      {
+        "prompt": "The square root of 9 is",
+        "base": " ",
+        "fsot": " ",
+        "base_hit": false,
+        "fsot_hit": false,
+        "fsot_better": false,
+        "base_better": false
+      },
+      {
+        "prompt": "The Earth orbits the",
+        "base": " Sun",
+        "fsot": " Earth",
+        "base_hit": true,
+        "fsot_hit": false,
+        "fsot_better": false,
+        "base_better": true
+      },
+      {
+        "prompt": "The speed of light is approximately",
+        "base": " ",
+        "fsot": " ",
+        "base_hit": false,
+        "fsot_hit": false,
+        "fsot_better": false,
+        "base_better": false
+      }
+    ]
+  },
+  "speed": {
+    "prefill_base_ms": 43.31565666664877,
+    "prefill_fsot_ms": 38.90842333336574,
+    "prefill_speedup": 1.1132719590182836,
+    "decode_base_tps": 30.91990707871089,
+    "decode_fsot_tps": 37.72618314322087,
+    "decode_speedup": 1.2201260193694525,
+    "attn_long": {
+      "S": 4096,
+      "sdpa_ms": 2.605149999999412,
+      "fsot_ms": 2.192250000007334,
+      "speedup": 1.1883453073284054,
+      "fsot_wins": true
+    },
+    "attn_longer": {
+      "S": 8192,
+      "sdpa_ms": 9.655367499999556,
+      "fsot_ms": 6.411645000025601,
+      "speedup": 1.5059111195272046,
+      "fsot_wins": true
+    }
+  },
+  "verdict": {
+    "wins": [
+      "prefill",
+      "decode_tps",
+      "attn_S4096",
+      "attn_S8192"
+    ],
+    "ties": [],
+    "loses": [
+      "factual_hit_rate"
+    ],
+    "fsot_exceeds_on": [
+      "prefill",
+      "decode_tps",
+      "attn_S4096",
+      "attn_S8192"
+    ],
+    "note": "Exceed = more capability wins than losses vs same baseline host. Fidelity (clone agree) is Ladder A and caps at 100%."
+  },
+  "ok": true
+}

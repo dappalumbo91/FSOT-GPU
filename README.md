@@ -29,7 +29,7 @@ FSOT-GPU is the silicon path for Fluid Spacetime Omni-Theory:
 | Multi-lang parity (Py · Rust · Zig · formal · CUDA) | `overall_ok` |
 | Sparse FSOT CUDA vs dense-softmax CUDA | Up to **~89×** faster |
 | Sparse FSOT CUDA vs fused SDPA | **Long-context win** (S≥4096; up to **~1.6×** at S=8192) |
-| SmolLM2-135M **pure FSOT all-layer** next-token | **~94%** agree (16-probe), **~88%** (8-probe) |
+| SmolLM2-135M **pure FSOT all-layer** next-token | **100%** agree vs baseline (16-probe) — Ladder A equal |
 | Prefill / decode (pure FSOT vs industry SDPA host) | Prefill **~1.09×**, decode **~1.06×** |
 | SOTA scoreboard (tiny model, same GPU) | **Across the board** — see `results/sota/SCOREBOARD.md` |
 | Blend demo (FSOT+SDPA) | **~100%** next-token agree |

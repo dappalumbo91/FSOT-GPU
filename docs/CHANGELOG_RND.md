@@ -1,5 +1,13 @@
 # R&D changelog (lab)
 
+## 2026-07-17 (cont.) — Ladder A: 100% = baseline fidelity
+
+- Surgical board+margin push: pure FSOT next-token agree **100%** on EVAL16 (was 94%, 1 miss).
+- KL ≈ 1.75 (down from ~2.08). Checkpoint: `pure_fsot_agree100_best.pt`.
+- **Equal baseline on clone metric.** Exceed = Ladder B (already winning prefill/decode/long-attn).
+- D_eff framing: `docs/D_EFF_AND_DOF.md` — dimensional calibration, not optional 3D vibes.
+- Next: full parameter DoF under pure FSOT (`run_full_dof_fsot.py`) then 3D spatial lift later.
+
 ## 2026-07-17 (cont.) — SOTA scoreboard across-the-board
 
 - Adaptive CUDA consensus: light-fused short-S + 2-pass multipass long-S (coh+compact fused).

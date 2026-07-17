@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-07-17T22:31:41.795937+00:00",
+  "timestamp": "2026-07-17T22:56:18.558669+00:00",
   "project": "FSOT-GPU",
   "goal": "Beat industry capability on this GPU with FSOT using a tiny model",
   "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
   "device": "cuda",
   "gpu": "NVIDIA GeForce RTX 5070",
   "ckpt": {
-    "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_agree_best.pt",
-    "meta_agree": 0.9375,
-    "meta_step": 1800,
-    "missing": 92,
+    "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_agree100_best.pt",
+    "meta_agree": 1.0,
+    "meta_step": 200,
+    "missing": 0,
     "unexpected": 0
   },
   "quality": {
-    "agree": 0.9375,
-    "kl": 2.0763480700552464,
-    "top5": 0.38750000000000007,
+    "agree": 1.0,
+    "kl": 1.7009633053094149,
+    "top5": 0.4250000000000001,
     "n": 16,
     "details": [
       {
@@ -23,132 +23,132 @@
         "base": " Paris",
         "fsot": " Paris",
         "match": true,
-        "kl": 3.116537094116211
+        "kl": 1.7016609907150269
       },
       {
         "prompt": "def fibonacci(n):",
         "base": "\n   ",
         "fsot": "\n   ",
         "match": true,
-        "kl": 0.20615385472774506
+        "kl": 0.21370132267475128
       },
       {
         "prompt": "In mathematics, the derivative of x^2 is",
         "base": " ",
         "fsot": " ",
         "match": true,
-        "kl": 3.551501989364624
+        "kl": 2.9249377250671387
       },
       {
         "prompt": "Once upon a time",
         "base": ",",
         "fsot": ",",
         "match": true,
-        "kl": 0.9212652444839478
+        "kl": 0.42598870396614075
       },
       {
         "prompt": "2 + 2 =",
         "base": " ",
         "fsot": " ",
         "match": true,
-        "kl": 0.5365259051322937
+        "kl": 0.5115430951118469
       },
       {
         "prompt": "The largest planet in our solar system is",
         "base": " Jupiter",
         "fsot": " Jupiter",
         "match": true,
-        "kl": 2.7561540603637695
+        "kl": 2.58082914352417
       },
       {
         "prompt": "print('hello",
         "base": " world",
         "fsot": " world",
         "match": true,
-        "kl": 3.5553669929504395
+        "kl": 1.232569932937622
       },
       {
         "prompt": "Water freezes at",
         "base": " night",
-        "fsot": " the",
-        "match": false,
-        "kl": 4.97711181640625
+        "fsot": " night",
+        "match": true,
+        "kl": 3.258960008621216
       },
       {
         "prompt": "Python is a programming language that",
         "base": " allows",
         "fsot": " allows",
         "match": true,
-        "kl": 2.0335853099823
+        "kl": 2.1415727138519287
       },
       {
         "prompt": "The speed of light is approximately",
         "base": " ",
         "fsot": " ",
         "match": true,
-        "kl": 0.1571471095085144
+        "kl": 0.18985679745674133
       },
       {
         "prompt": "1 + 1 =",
         "base": " ",
         "fsot": " ",
         "match": true,
-        "kl": 0.7946252822875977
+        "kl": 0.8506026864051819
       },
       {
         "prompt": "The capital of Japan is",
         "base": " Tokyo",
         "fsot": " Tokyo",
         "match": true,
-        "kl": 2.217156410217285
+        "kl": 2.9976165294647217
       },
       {
         "prompt": "def main():",
         "base": "\n   ",
         "fsot": "\n   ",
         "match": true,
-        "kl": 0.21057994663715363
+        "kl": 0.16199268400669098
       },
       {
         "prompt": "The square root of 9 is",
         "base": " ",
         "fsot": " ",
         "match": true,
-        "kl": 2.1327662467956543
+        "kl": 2.1897025108337402
       },
       {
         "prompt": "Gravity on Earth is",
         "base": " a",
         "fsot": " a",
         "match": true,
-        "kl": 3.567554235458374
+        "kl": 4.683592796325684
       },
       {
         "prompt": "The chemical formula for water is",
         "base": " H",
         "fsot": " H",
         "match": true,
-        "kl": 2.4875376224517822
+        "kl": 1.150285243988037
       }
     ]
   },
   "generation_quality": {
-    "token_agree": 0.140625,
-    "top5_on_baseline_path": 0.34375,
-    "teacher_nll_of_fsot": 5.961332914652303,
+    "token_agree": 0.21875,
+    "top5_on_baseline_path": 0.46875,
+    "teacher_nll_of_fsot": 8.323254571529105,
     "tokens": 64,
     "max_new": 8,
     "samples": [
       {
         "prompt": "The capital of France is",
         "base": " Paris. Paris is the largest city in",
-        "fsot": " Paris a Ny, the is the \"",
-        "token_agree": 0.25
+        "fsot": " Paris, the \"1 the the the",
+        "token_agree": 0.125
       },
       {
         "prompt": "def fibonacci(n):",
         "base": "\n    if n == 0:\n       ",
-        "fsot": "\n    the \"\u00e2r significant, the",
+        "fsot": "\n   \n\n\n\n\n\n\n",
         "token_agree": 0.125
       },
       {
@@ -160,47 +160,47 @@
       {
         "prompt": "Once upon a time",
         "base": ", I was a young man, a",
-        "fsot": ",,,,,,,,",
-        "token_agree": 0.25
+        "fsot": ",\n\n\n\n\n\n\n",
+        "token_agree": 0.125
       },
       {
         "prompt": "2 + 2 =",
         "base": " 3.\n\nNow, let",
-        "fsot": "        ",
-        "token_agree": 0.125
+        "fsot": " \n\n\n\n\n\n\n",
+        "token_agree": 0.375
       },
       {
         "prompt": "The largest planet in our solar system is",
         "base": " Jupiter, which is about 14",
-        "fsot": " Jupiter N the line and your is the",
-        "token_agree": 0.125
+        "fsot": " Jupiter       ",
+        "token_agree": 0.25
       },
       {
         "prompt": "print('hello",
         "base": " world')\n```\n\nThis function",
-        "fsot": " world\n, the \"1, the",
-        "token_agree": 0.125
+        "fsot": " world\n\n\n\n\n\n\n",
+        "token_agree": 0.5
       },
       {
         "prompt": "Water freezes at",
         "base": " night, and the ice is so thick",
-        "fsot": " the       ",
-        "token_agree": 0.0
+        "fsot": " nightadvant vocabaga _,   ",
+        "token_agree": 0.125
       }
     ]
   },
   "prefill": {
-    "baseline_ms": 29.859347500041622,
-    "fsot_ms": 27.33349250001993,
-    "speedup": 1.092408791156851,
+    "baseline_ms": 30.07612749997861,
+    "fsot_ms": 27.720945000055508,
+    "speedup": 1.0849603972706698,
     "baseline_vram_mib": 1052.26513671875,
     "fsot_vram_mib": 1052.26513671875
   },
   "decode": {
     "baseline": {
-      "tps_mean": 36.15159206147292,
-      "tps_min": 34.95759425337964,
-      "tps_max": 36.785735962955634,
+      "tps_mean": 35.73145294266416,
+      "tps_min": 35.14113227807573,
+      "tps_max": 36.137334519137305,
       "max_new": 32,
       "vram_peak_mib": 1053.46826171875,
       "samples": [
@@ -212,20 +212,20 @@
       ]
     },
     "fsot": {
-      "tps_mean": 38.40380485912887,
-      "tps_min": 37.126307759678944,
-      "tps_max": 38.85283130304228,
+      "tps_mean": 37.629211307731474,
+      "tps_min": 36.74310917437939,
+      "tps_max": 38.173744217972455,
       "max_new": 32,
       "vram_peak_mib": 1053.46826171875,
       "samples": [
-        "The capital of France is Paris a Ny, the is the \"1, the is the is the \"1 the is the is the \"1, the is the is the is the",
-        "def fibonacci(n):\n    the \"\u00e2r significant, the \"1 the cell, the \"1 the line the \"1 the \"\u00e2r this is the \"1 the \"",
+        "The capital of France is Paris, the \"1 the the the \"1 the the the\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "def fibonacci(n):\n   \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
         "In mathematics, the derivative of x^2 is                                ",
-        "Once upon a time,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
-        "2 + 2 =                                "
+        "Once upon a time,\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "2 + 2 = \n\n\n\n\n\n\n\n\n\n\n\n\n\n, the \"    1, the 2, the 1 the"
       ]
     },
-    "speedup": 1.0622991317734014
+    "speedup": 1.0531117043606515
   },
   "attention_op": {
     "rows": [
@@ -233,78 +233,78 @@
         "H": 9,
         "S": 64,
         "D": 64,
-        "sdpa_ms": 0.013472499995259568,
-        "fsot_ms": 0.05999750001137727,
-        "fsot_speedup": 0.2245510228376981,
+        "sdpa_ms": 0.01696125000307802,
+        "fsot_ms": 0.06527874998027983,
+        "fsot_speedup": 0.2598280452398656,
         "fsot_wins": false
       },
       {
         "H": 9,
         "S": 128,
         "D": 64,
-        "sdpa_ms": 0.018733749993771198,
-        "fsot_ms": 0.06289624998316867,
-        "fsot_speedup": 0.2978516207052795,
+        "sdpa_ms": 0.01876500000435044,
+        "fsot_ms": 0.07750124996164232,
+        "fsot_speedup": 0.2421251271900492,
         "fsot_wins": false
       },
       {
         "H": 9,
         "S": 256,
         "D": 64,
-        "sdpa_ms": 0.034938750013679964,
-        "fsot_ms": 0.09064249998118612,
-        "fsot_speedup": 0.38545660171477947,
+        "sdpa_ms": 0.038487499978145934,
+        "fsot_ms": 0.11584124999899359,
+        "fsot_speedup": 0.3322434795764057,
         "fsot_wins": false
       },
       {
         "H": 9,
         "S": 512,
         "D": 64,
-        "sdpa_ms": 0.08379000000786618,
-        "fsot_ms": 0.13949999993201345,
-        "fsot_speedup": 0.6006451616394407,
+        "sdpa_ms": 0.09557249995850725,
+        "fsot_ms": 0.14081749995966675,
+        "fsot_speedup": 0.6786976049559276,
         "fsot_wins": false
       },
       {
         "H": 9,
         "S": 1024,
         "D": 64,
-        "sdpa_ms": 0.20950500002072658,
-        "fsot_ms": 0.26333499990869313,
-        "fsot_speedup": 0.7955835726104347,
+        "sdpa_ms": 0.24420999998255866,
+        "fsot_ms": 0.247510000008333,
+        "fsot_speedup": 0.9866672052617541,
         "fsot_wins": false
       },
       {
         "H": 9,
         "S": 2048,
         "D": 64,
-        "sdpa_ms": 0.669844999902125,
-        "fsot_ms": 0.7722149999608519,
-        "fsot_speedup": 0.8674332924588144,
-        "fsot_wins": false
+        "sdpa_ms": 0.7433200000377838,
+        "fsot_ms": 0.6282800000917632,
+        "fsot_speedup": 1.183103074949415,
+        "fsot_wins": true
       },
       {
         "H": 9,
         "S": 4096,
         "D": 64,
-        "sdpa_ms": 2.293794999968668,
-        "fsot_ms": 2.1496400000614813,
-        "fsot_speedup": 1.0670600658264007,
+        "sdpa_ms": 2.5968250000005355,
+        "fsot_ms": 2.0878600000287406,
+        "fsot_speedup": 1.2437735288595924,
         "fsot_wins": true
       },
       {
         "H": 9,
         "S": 8192,
         "D": 64,
-        "sdpa_ms": 8.623199999965436,
-        "fsot_ms": 5.397685000025376,
-        "fsot_speedup": 1.5975737746691212,
+        "sdpa_ms": 9.752320000006875,
+        "fsot_ms": 6.332240000119782,
+        "fsot_speedup": 1.5401058708801938,
         "fsot_wins": true
       }
     ],
-    "wins": 2,
+    "wins": 3,
     "n": 8,
-    "win_rate": 0.25,
+    "win_rate": 0.375,
     "long_context_wins": 2,
     "long_context_n": 2,
     "short_wins": 0,
@@ -313,21 +313,21 @@
       "H": 9,
       "S": 256,
       "D": 64,
-      "sdpa_ms": 0.034938750013679964,
-      "fsot_ms": 0.09064249998118612,
-      "fsot_speedup": 0.38545660171477947,
+      "sdpa_ms": 0.038487499978145934,
+      "fsot_ms": 0.11584124999899359,
+      "fsot_speedup": 0.3322434795764057,
       "fsot_wins": false
     },
-    "sdpa_ms": 0.034938750013679964,
-    "fsot_ms": 0.09064249998118612,
-    "fsot_speedup": 0.38545660171477947,
+    "sdpa_ms": 0.038487499978145934,
+    "fsot_ms": 0.11584124999899359,
+    "fsot_speedup": 0.3322434795764057,
     "collapse_threshold": 0.9174663774653723,
     "cuda_dll": true,
     "note": "Track win = long-context (S>=2048) sweep + short win, or win_rate>=0.5"
   },
   "verdict": {
     "wins": [
-      "quality_next_token_ge_90",
+      "quality_next_token_eq_baseline",
       "quality_top5_overlap",
       "prefill_latency",
       "decode_tps",

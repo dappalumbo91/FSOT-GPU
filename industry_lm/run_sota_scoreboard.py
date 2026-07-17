@@ -41,11 +41,11 @@ from train_corpus import PROBES, train_texts  # noqa: E402
 MODEL = HERE / "models" / "SmolLM2-135M-Instruct"
 OUT = ROOT / "results" / "sota"
 CKPT_CANDIDATES = [
-    # Prefer proven next-token champion; gen ckpt only if explicitly better later
+    ROOT / "results" / "industry_lm" / "checkpoints" / "pure_fsot_agree100_best.pt",
+    ROOT / "results" / "industry_lm" / "checkpoints" / "pure_fsot_fulldof_best.pt",
     ROOT / "results" / "industry_lm" / "checkpoints" / "pure_fsot_agree_best.pt",
     ROOT / "results" / "industry_lm" / "checkpoints" / "pure_fsot_push80_best.pt",
     ROOT / "results" / "industry_lm" / "checkpoints" / "pure_fsot_full_best.pt",
-    ROOT / "results" / "industry_lm" / "checkpoints" / "pure_fsot_gen_best.pt",
 ]
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -375,7 +375,9 @@ def scoreboard(base_m, fsot_m, quality, prefill_b, prefill_f, dec_b, dec_f, attn
 
     # Quality: FSOT within 15% agree of baseline self (baseline is 100% vs self)
     # We measure fsot vs baseline teacher — target already 90%+
-    if quality["agree"] >= 0.90:
+    if quality["agree"] >= 0.999:
+        wins.append("quality_next_token_eq_baseline")  # Ladder A complete
+    elif quality["agree"] >= 0.90:
         wins.append("quality_next_token_ge_90")
     elif quality["agree"] >= 0.80:
         ties.append("quality_next_token_ge_80")
@@ -438,7 +440,11 @@ def scoreboard(base_m, fsot_m, quality, prefill_b, prefill_f, dec_b, dec_f, attn
         "wins": wins,
         "ties": ties,
         "loses": loses,
-        "across_the_board": len(loses) == 0 and "quality_next_token_ge_90" in wins,
+        "across_the_board": len(loses) == 0
+        and (
+            "quality_next_token_eq_baseline" in wins
+            or "quality_next_token_ge_90" in wins
+        ),
         "n_wins": len(wins),
         "n_loses": len(loses),
     }
