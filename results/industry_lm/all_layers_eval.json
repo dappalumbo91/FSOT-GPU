@@ -1,0 +1,147 @@
+{
+  "timestamp": "2026-07-17T16:26:00.032856+00:00",
+  "model": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\industry_lm\\models\\SmolLM2-135M-Instruct",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 5070",
+  "fsot_cuda_dll": true,
+  "layers_total": 30,
+  "layers_swapped": 30,
+  "mode": "all_layers",
+  "quality": {
+    "n_prompts": 8,
+    "argmax_agreement": 0.0,
+    "mean_kl": 8.049854278564453,
+    "mean_top5_overlap": 0.05,
+    "details": [
+      {
+        "prompt": "The capital of France is",
+        "base": " Paris",
+        "fsot": "\n",
+        "match": false,
+        "kl": 9.183928489685059,
+        "top5_overlap": 0.0
+      },
+      {
+        "prompt": "def fibonacci(n):",
+        "base": "\n   ",
+        "fsot": ":\")",
+        "match": false,
+        "kl": 10.197043418884277,
+        "top5_overlap": 0.0
+      },
+      {
+        "prompt": "In mathematics, the derivative of x^2 is",
+        "base": " ",
+        "fsot": "\n",
+        "match": false,
+        "kl": 5.554774761199951,
+        "top5_overlap": 0.0
+      },
+      {
+        "prompt": "Once upon a time",
+        "base": ",",
+        "fsot": "\n",
+        "match": false,
+        "kl": 4.807130336761475,
+        "top5_overlap": 0.0
+      },
+      {
+        "prompt": "2 + 2 =",
+        "base": " ",
+        "fsot": ":\")",
+        "match": false,
+        "kl": 8.96674919128418,
+        "top5_overlap": 0.0
+      },
+      {
+        "prompt": "The largest planet in our solar system is",
+        "base": " Jupiter",
+        "fsot": " the",
+        "match": false,
+        "kl": 10.097009658813477,
+        "top5_overlap": 0.2
+      },
+      {
+        "prompt": "print('hello",
+        "base": " world",
+        "fsot": "ongh",
+        "match": false,
+        "kl": 9.240601539611816,
+        "top5_overlap": 0.0
+      },
+      {
+        "prompt": "Water freezes at",
+        "base": " night",
+        "fsot": "\n",
+        "match": false,
+        "kl": 6.351596832275391,
+        "top5_overlap": 0.2
+      }
+    ]
+  },
+  "throughput": {
+    "baseline_tps": 13.019137210315947,
+    "fsot_all_tps": 11.947588596071839,
+    "speedup": 0.9176943451064448,
+    "baseline_gens": [
+      {
+        "ms": 1877.679100000023,
+        "new": 24,
+        "tps": 12.78173677280623,
+        "text": "The capital of France is Paris. Paris is the largest city in France and the capital of the French department of the Espa"
+      },
+      {
+        "ms": 1825.2637999994477,
+        "new": 24,
+        "tps": 13.14878430175806,
+        "text": "def fibonacci(n):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if"
+      },
+      {
+        "ms": 1835.2705999996033,
+        "new": 24,
+        "tps": 13.077090648106708,
+        "text": "In mathematics, the derivative of x^2 is 2x.\n\nNow, consider the function f(x) = x^2. To find the derivative"
+      },
+      {
+        "ms": 1836.415599999782,
+        "new": 24,
+        "tps": 13.068937118592789,
+        "text": "Once upon a time, I was a young man, a young woman, and a young man again. I was a young man, a"
+      }
+    ],
+    "fsot_gens": [
+      {
+        "ms": 1986.8643999998312,
+        "new": 24,
+        "tps": 12.079334654142496,
+        "text": "The capital of France is\n,,,,,,,,,,,,,,,,,,,,,,,"
+      },
+      {
+        "ms": 2037.2101000002658,
+        "new": 24,
+        "tps": 11.780817304998079,
+        "text": "def fibonacci(n)::\")aughedodiumatin,,,,,,,,,,,,,,,,,,,,"
+      },
+      {
+        "ms": 1997.1101000001,
+        "new": 24,
+        "tps": 12.01736449082041,
+        "text": "In mathematics, the derivative of x^2 is\n,,,,,,,,,,,,,,,,,,,,,,,"
+      },
+      {
+        "ms": 2014.6333000002414,
+        "new": 24,
+        "tps": 11.912837934326372,
+        "text": "Once upon a time\n,,,,,,,,,,,,,,,,,,,,,,,"
+      }
+    ]
+  },
+  "prefill_ms": {
+    "baseline": 85.73967500001345,
+    "fsot_all": 88.55511499996283,
+    "speedup": 0.9682069183699828
+  },
+  "ok": true,
+  "notes": "All attention layers use FSOT consensus; weights not retrained. Quality shift is expected until FSOT-LR/LoRA adaptation.",
+  "vram_mib": 522.51
+}

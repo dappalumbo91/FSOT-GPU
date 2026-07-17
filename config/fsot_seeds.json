@@ -1,0 +1,46 @@
+{
+  "description": "Canonical FSOT seeds and boot scalar (must match archive F*/Rust/Python triangulation)",
+  "seeds": {
+    "pi": 3.141592653589793,
+    "e": 2.718281828459045,
+    "phi": 1.618033988749895,
+    "gamma_euler": 0.5772156649015329,
+    "catalan_G": 0.915965594177219
+  },
+  "kernel_constants": {
+    "k_fsot": 0.4202216641606967,
+    "alpha_fsot": 0.0008082937414140405,
+    "psi_con": 0.6321205588285577,
+    "eta_eff": 0.46694220692425986,
+    "beta_fsot": 2.620866911333223e-17,
+    "c_eff": 0.9577022026205613,
+    "a_bleed": 1.046973630587551,
+    "b_in": 0.7879407922764435,
+    "a_in": 1.6668538450045731,
+    "chaos_fsot": -0.33102418261048183,
+    "p_new": 0.30030227667037146,
+    "c_factor": 0.28760015181918397,
+    "poof": 0.1534822148944508,
+    "theta_s": 0.29089654054517305,
+    "suction": 0.14703398542810284,
+    "p_var": 0.9579871226722757
+  },
+  "boot": {
+    "d_eff": 8.0,
+    "delta_psi": 0.7,
+    "recent_hits": 0.0,
+    "boot_scalar_canonical": 0.09928895626861721
+  },
+  "trinary": {
+    "spin_up": 1,
+    "superposed": 0,
+    "spin_down": -1,
+    "bits_per_state": 2,
+    "states_per_u64": 32
+  },
+  "gpu_target": {
+    "name": "NVIDIA GeForce RTX 5070",
+    "vram_mb_target": 12800,
+    "compute_capability": [12, 0]
+  }
+}

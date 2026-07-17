@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-07-17T16:15:58.806469+00:00",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 5070",
+  "collapse_threshold": 0.9174663774653723,
+  "long_seq": [
+    {
+      "S": 256,
+      "H": 8,
+      "D": 64,
+      "active_frac": 0.00390625,
+      "sdpa_ms": 0.2173700000033326,
+      "fsot_torch_sparse_ms": 2.600396666669743,
+      "speedup_torch": 0.08359109315491949
+    },
+    {
+      "S": 512,
+      "H": 8,
+      "D": 64,
+      "active_frac": 0.007568359375,
+      "sdpa_ms": 0.2071966666941686,
+      "fsot_torch_sparse_ms": 2.634923333334882,
+      "speedup_torch": 0.07863479899885012
+    },
+    {
+      "S": 1024,
+      "H": 8,
+      "D": 64,
+      "active_frac": 0.0059814453125,
+      "sdpa_ms": 0.5221366666773974,
+      "fsot_torch_sparse_ms": 4.308013333350876,
+      "speedup_torch": 0.12120126524104026
+    }
+  ],
+  "norm": {
+    "shape": [
+      2048,
+      576
+    ],
+    "rms_norm_ms": 0.05987200000163284,
+    "fsot_coherence_norm_ms": 0.17417349999959697,
+    "speedup_coh_vs_rms": 0.34374919262557957,
+    "rms_out_std": 0.9999953508377075,
+    "coh_out_std": 0.9470868110656738,
+    "winner_speed": "rms"
+  },
+  "ok": true,
+  "cuda_s_le_128": "FSOT CUDA sparse consensus (archive collapse theta)\n  COLLAPSE_THRESHOLD=0.917466402054  gate=0.5  no_exp=true\n  H=8 S=32 D=16  500 iters  0.0175 ms/iter\n  H=8 S=64 D=32  400 iters  0.0205 ms/iter\n  H=8 S=128 D=64  200 iters  0.0289 ms/iter\n  ok=true\n"
+}

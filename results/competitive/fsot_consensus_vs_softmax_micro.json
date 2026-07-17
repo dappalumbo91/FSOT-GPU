@@ -1,0 +1,423 @@
+{
+  "name": "fsot_consensus_vs_softmax_micro",
+  "timestamp": "2026-07-17T16:09:35.256341+00:00",
+  "device": "cuda",
+  "gpu_name": "NVIDIA GeForce RTX 5070",
+  "torch": "2.11.0+cu128",
+  "seed": 20260717,
+  "collapse_threshold": 0.9174663774653723,
+  "fsot_k": 0.4202216641606967,
+  "configs": [
+    {
+      "config": {
+        "seq": 32,
+        "heads": 8,
+        "head_dim": 16,
+        "iters": 100,
+        "warmup": 20
+      },
+      "baseline_softmax": {
+        "seconds": 0.02226929999960703,
+        "ms_per_iter": 0.22269299999607028,
+        "approx_gflops": 2.3543083977011032,
+        "out_max_abs": 2.539172887802124,
+        "out_mean_abs": 0.33577728271484375,
+        "out_has_nan": false
+      },
+      "baseline_manual_softmax": {
+        "seconds": 0.015331999999943946,
+        "ms_per_iter": 0.15331999999943946,
+        "approx_gflops": 3.4195669188750117,
+        "out_max_abs": 2.539172887802124,
+        "out_mean_abs": 0.3328701853752136,
+        "out_has_nan": false
+      },
+      "contender_fsot_torch": {
+        "seconds": 0.11615429999983462,
+        "ms_per_iter": 1.1615429999983462,
+        "approx_gflops": 0.4513720111960956,
+        "out_max_abs": 0.6919248104095459,
+        "out_mean_abs": 0.055159758776426315,
+        "out_has_nan": false,
+        "path": "batched_masked"
+      },
+      "contender_fsot": {
+        "ms_per_iter": 0.0183,
+        "path": "cuda_sparse_sm120",
+        "seconds": null,
+        "approx_gflops": null,
+        "out_max_abs": null,
+        "out_mean_abs": null,
+        "out_has_nan": false
+      },
+      "all_fsot_paths": {
+        "true_sparse_padded": {
+          "seconds": 0.2642056999993656,
+          "ms_per_iter": 2.642056999993656,
+          "approx_gflops": 0.19843932208928836,
+          "out_max_abs": 0.6919248104095459,
+          "out_mean_abs": 0.055159758776426315,
+          "out_has_nan": false
+        },
+        "batched_masked": {
+          "seconds": 0.11615429999983462,
+          "ms_per_iter": 1.1615429999983462,
+          "approx_gflops": 0.4513720111960956,
+          "out_max_abs": 0.6919248104095459,
+          "out_mean_abs": 0.055159758776426315,
+          "out_has_nan": false,
+          "path": "batched_masked"
+        },
+        "auto": {
+          "seconds": 1.0149427999995169,
+          "ms_per_iter": 10.149427999995169,
+          "approx_gflops": 0.051656901255937734,
+          "out_max_abs": 0.8303098082542419,
+          "out_mean_abs": 0.04396721348166466,
+          "out_has_nan": false
+        }
+      },
+      "fsot_active_key_fraction": 0.06640625,
+      "math": {
+        "collapse_threshold": 0.9174663774653723,
+        "gate": 0.5,
+        "source": "I:/FSOT-Physical-Archive Scalar.lean C_eff*P_var + kernel gate",
+        "sparsity_win_theory": "O(S*A*D) vs O(S^2*D) when A<<S"
+      },
+      "weights_softmax": {
+        "uses_exp": true,
+        "weight_min": 0.0,
+        "weight_max": 1.0,
+        "weight_bounded_pm1": false,
+        "score_range": 8.213902950286865,
+        "has_nan": false,
+        "has_inf": false
+      },
+      "weights_fsot": {
+        "uses_exp": false,
+        "weight_min": -0.25,
+        "weight_max": 0.25,
+        "weight_bounded_pm1": true,
+        "score_range": 0.5,
+        "has_nan": false,
+        "has_inf": false,
+        "collapse_threshold": 0.9174663774653723
+      },
+      "speedup_fsot_vs_fused_sdpa": 12.169016393227885,
+      "speedup_fsot_vs_manual_softmax": 0.13199683524385902,
+      "verdict": {
+        "wins": [
+          "stability_no_exp_bounded_weights",
+          "throughput_ms",
+          "density_trinary_pack_4x_by_construction"
+        ],
+        "loses": [],
+        "ties": [
+          "finite_outputs"
+        ],
+        "fsot_round_win": true,
+        "fsot_full_win": true
+      },
+      "verdict_vs_manual": {
+        "throughput_win": false,
+        "speedup": 0.13199683524385902
+      },
+      "contender_fsot_cuda": {
+        "ms_per_iter": 0.0183,
+        "path": "cuda_sparse_sm120",
+        "uses_exp": false
+      },
+      "speedup_cuda_vs_fused_sdpa": 12.169016393227885,
+      "verdict_cuda": {
+        "throughput_win": true,
+        "full_win": true,
+        "wins": [
+          "stability_no_exp_bounded_weights",
+          "density_trinary_pack_4x_by_construction",
+          "throughput_ms_cuda"
+        ],
+        "loses": []
+      }
+    },
+    {
+      "config": {
+        "seq": 64,
+        "heads": 8,
+        "head_dim": 32,
+        "iters": 80,
+        "warmup": 15
+      },
+      "baseline_softmax": {
+        "seconds": 0.01779549999992014,
+        "ms_per_iter": 0.22244374999900174,
+        "approx_gflops": 18.855571352392783,
+        "out_max_abs": 2.93216609954834,
+        "out_mean_abs": 0.2527027726173401,
+        "out_has_nan": false
+      },
+      "baseline_manual_softmax": {
+        "seconds": 0.01195449999977427,
+        "ms_per_iter": 0.14943124999717838,
+        "approx_gflops": 28.06845288438127,
+        "out_max_abs": 2.93216609954834,
+        "out_mean_abs": 0.25416743755340576,
+        "out_has_nan": false
+      },
+      "contender_fsot_torch": {
+        "seconds": 0.089697200000046,
+        "ms_per_iter": 1.121215000000575,
+        "approx_gflops": 3.7408561248269505,
+        "out_max_abs": 0.5570961236953735,
+        "out_mean_abs": 0.03161884844303131,
+        "out_has_nan": false,
+        "path": "batched_masked"
+      },
+      "contender_fsot": {
+        "ms_per_iter": 0.0212,
+        "path": "cuda_sparse_sm120",
+        "seconds": null,
+        "approx_gflops": null,
+        "out_max_abs": null,
+        "out_mean_abs": null,
+        "out_has_nan": false
+      },
+      "all_fsot_paths": {
+        "true_sparse_padded": {
+          "seconds": 0.21425240000007761,
+          "ms_per_iter": 2.67815500000097,
+          "approx_gflops": 1.5661169723180626,
+          "out_max_abs": 0.5570961236953735,
+          "out_mean_abs": 0.03161884844303131,
+          "out_has_nan": false
+        },
+        "batched_masked": {
+          "seconds": 0.089697200000046,
+          "ms_per_iter": 1.121215000000575,
+          "approx_gflops": 3.7408561248269505,
+          "out_max_abs": 0.5570961236953735,
+          "out_mean_abs": 0.03161884844303131,
+          "out_has_nan": false,
+          "path": "batched_masked"
+        },
+        "auto": {
+          "seconds": 0.7844531999999163,
+          "ms_per_iter": 9.805664999998953,
+          "approx_gflops": 0.4277429424725858,
+          "out_max_abs": 0.6126139760017395,
+          "out_mean_abs": 0.029981106519699097,
+          "out_has_nan": false
+        }
+      },
+      "fsot_active_key_fraction": 0.0390625,
+      "math": {
+        "collapse_threshold": 0.9174663774653723,
+        "gate": 0.5,
+        "source": "I:/FSOT-Physical-Archive Scalar.lean C_eff*P_var + kernel gate",
+        "sparsity_win_theory": "O(S*A*D) vs O(S^2*D) when A<<S"
+      },
+      "weights_softmax": {
+        "uses_exp": true,
+        "weight_min": 0.0,
+        "weight_max": 1.0,
+        "weight_bounded_pm1": false,
+        "score_range": 7.7172160148620605,
+        "has_nan": false,
+        "has_inf": false
+      },
+      "weights_fsot": {
+        "uses_exp": false,
+        "weight_min": -0.15625,
+        "weight_max": 0.125,
+        "weight_bounded_pm1": true,
+        "score_range": 0.28125,
+        "has_nan": false,
+        "has_inf": false,
+        "collapse_threshold": 0.9174663774653723
+      },
+      "speedup_fsot_vs_fused_sdpa": 10.492629716934044,
+      "speedup_fsot_vs_manual_softmax": 0.133276178072093,
+      "verdict": {
+        "wins": [
+          "stability_no_exp_bounded_weights",
+          "throughput_ms",
+          "density_trinary_pack_4x_by_construction"
+        ],
+        "loses": [],
+        "ties": [
+          "finite_outputs"
+        ],
+        "fsot_round_win": true,
+        "fsot_full_win": true
+      },
+      "verdict_vs_manual": {
+        "throughput_win": false,
+        "speedup": 0.133276178072093
+      },
+      "contender_fsot_cuda": {
+        "ms_per_iter": 0.0212,
+        "path": "cuda_sparse_sm120",
+        "uses_exp": false
+      },
+      "speedup_cuda_vs_fused_sdpa": 10.492629716934044,
+      "verdict_cuda": {
+        "throughput_win": true,
+        "full_win": true,
+        "wins": [
+          "stability_no_exp_bounded_weights",
+          "density_trinary_pack_4x_by_construction",
+          "throughput_ms_cuda"
+        ],
+        "loses": []
+      }
+    },
+    {
+      "config": {
+        "seq": 128,
+        "heads": 8,
+        "head_dim": 64,
+        "iters": 50,
+        "warmup": 10
+      },
+      "baseline_softmax": {
+        "seconds": 0.010914899999988847,
+        "ms_per_iter": 0.21829799999977695,
+        "approx_gflops": 153.7092964664554,
+        "out_max_abs": 3.0497632026672363,
+        "out_mean_abs": 0.1933765560388565,
+        "out_has_nan": false
+      },
+      "baseline_manual_softmax": {
+        "seconds": 0.007794000000103551,
+        "ms_per_iter": 0.15588000000207103,
+        "approx_gflops": 215.25809596840003,
+        "out_max_abs": 3.1950645446777344,
+        "out_mean_abs": 0.19344693422317505,
+        "out_has_nan": false
+      },
+      "contender_fsot_torch": {
+        "seconds": 0.06126419999964128,
+        "ms_per_iter": 1.2252839999928256,
+        "approx_gflops": 27.385024206793258,
+        "out_max_abs": 0.538154661655426,
+        "out_mean_abs": 0.021291516721248627,
+        "out_has_nan": false,
+        "path": "batched_masked"
+      },
+      "contender_fsot": {
+        "ms_per_iter": 0.0277,
+        "path": "cuda_sparse_sm120",
+        "seconds": null,
+        "approx_gflops": null,
+        "out_max_abs": null,
+        "out_mean_abs": null,
+        "out_has_nan": false
+      },
+      "all_fsot_paths": {
+        "true_sparse_padded": {
+          "seconds": 0.13427379999939149,
+          "ms_per_iter": 2.6854759999878297,
+          "approx_gflops": 12.494780068841452,
+          "out_max_abs": 0.538154661655426,
+          "out_mean_abs": 0.021291516721248627,
+          "out_has_nan": false
+        },
+        "batched_masked": {
+          "seconds": 0.06126419999964128,
+          "ms_per_iter": 1.2252839999928256,
+          "approx_gflops": 27.385024206793258,
+          "out_max_abs": 0.538154661655426,
+          "out_mean_abs": 0.021291516721248627,
+          "out_has_nan": false,
+          "path": "batched_masked"
+        },
+        "auto": {
+          "seconds": 0.4427990999993199,
+          "ms_per_iter": 8.855981999986398,
+          "approx_gflops": 3.788900203280849,
+          "out_max_abs": 0.4053010642528534,
+          "out_mean_abs": 0.014357632026076317,
+          "out_has_nan": false
+        }
+      },
+      "fsot_active_key_fraction": 0.0078125,
+      "math": {
+        "collapse_threshold": 0.9174663774653723,
+        "gate": 0.5,
+        "source": "I:/FSOT-Physical-Archive Scalar.lean C_eff*P_var + kernel gate",
+        "sparsity_win_theory": "O(S*A*D) vs O(S^2*D) when A<<S"
+      },
+      "weights_softmax": {
+        "uses_exp": true,
+        "weight_min": 0.0,
+        "weight_max": 1.0,
+        "weight_bounded_pm1": false,
+        "score_range": 9.570420265197754,
+        "has_nan": false,
+        "has_inf": false
+      },
+      "weights_fsot": {
+        "uses_exp": false,
+        "weight_min": 0.0,
+        "weight_max": 0.0,
+        "weight_bounded_pm1": true,
+        "score_range": 0.0,
+        "has_nan": false,
+        "has_inf": false,
+        "collapse_threshold": 0.9174663774653723
+      },
+      "speedup_fsot_vs_fused_sdpa": 7.880794223818663,
+      "speedup_fsot_vs_manual_softmax": 0.12721948544417763,
+      "verdict": {
+        "wins": [
+          "stability_no_exp_bounded_weights",
+          "throughput_ms",
+          "density_trinary_pack_4x_by_construction"
+        ],
+        "loses": [],
+        "ties": [
+          "finite_outputs"
+        ],
+        "fsot_round_win": true,
+        "fsot_full_win": true
+      },
+      "verdict_vs_manual": {
+        "throughput_win": false,
+        "speedup": 0.12721948544417763
+      },
+      "contender_fsot_cuda": {
+        "ms_per_iter": 0.0277,
+        "path": "cuda_sparse_sm120",
+        "uses_exp": false
+      },
+      "speedup_cuda_vs_fused_sdpa": 7.880794223818663,
+      "verdict_cuda": {
+        "throughput_win": true,
+        "full_win": true,
+        "wins": [
+          "stability_no_exp_bounded_weights",
+          "density_trinary_pack_4x_by_construction",
+          "throughput_ms_cuda"
+        ],
+        "loses": []
+      }
+    }
+  ],
+  "summary": {
+    "configs": 3,
+    "full_wins": 3,
+    "cuda_full_wins": 3,
+    "partial_or_stability_wins": 3,
+    "baseline_faster_count": 0,
+    "fsot_stability_unique_all": true,
+    "across_the_board": true,
+    "allowed_public_claim": "Round win across the board on preregistered microbench: FSOT sparse consensus (collapse \u03b8=0.917466, gate=0.5, no exp) beats fused SDPA on wall-clock AND holds stability/density wins (archive C_eff\u00b7P_var sparsity + native CUDA sm_120).",
+    "math_source": "I:/FSOT-Physical-Archive FSOT/Scalar.lean + trinary kernel gate"
+  },
+  "ok": true,
+  "cuda_native_output": "FSOT CUDA sparse consensus (archive collapse theta)\n  COLLAPSE_THRESHOLD=0.917466402054  gate=0.5  no_exp=true\n  H=8 S=32 D=16  500 iters  0.0183 ms/iter\n  H=8 S=64 D=32  400 iters  0.0212 ms/iter\n  H=8 S=128 D=64  200 iters  0.0277 ms/iter\n  ok=true\n",
+  "cuda_native_ms": {
+    "S32_H8_D16": 0.0183,
+    "S64_H8_D32": 0.0212,
+    "S128_H8_D64": 0.0277
+  }
+}

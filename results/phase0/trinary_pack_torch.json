@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-07-17T15:39:00.159296+00:00",
+  "device": "cuda",
+  "groups": 8192,
+  "roundtrip_ok": true,
+  "bytes_unpacked": 262144,
+  "bytes_packed": 65536,
+  "compression_ratio": 4.0,
+  "note": "PyTorch reference; CUDA skeleton in phase2_native_gpu/cuda/trinary_pack.cu"
+}

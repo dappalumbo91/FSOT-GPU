@@ -1,0 +1,62 @@
+{
+  "timestamp": "2026-07-17T15:38:55.014112+00:00",
+  "host": {
+    "python": "3.11.15 (main, Jun  2 2026, 22:29:49) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "machine": "AMD64"
+  },
+  "torch": {
+    "version": "2.11.0+cu128",
+    "cuda_compiled": "12.8",
+    "cuda_available": true,
+    "cudnn_version": 91900
+  },
+  "device": {
+    "name": "NVIDIA GeForce RTX 5070",
+    "index": 0,
+    "total_memory_bytes": 12820480000,
+    "total_memory_mib": 12226.56,
+    "major": 12,
+    "minor": 0,
+    "multi_processor_count": 48,
+    "capability": [
+      12,
+      0
+    ]
+  },
+  "benchmarks": {
+    "matmul_fp32": {
+      "1024": {
+        "iters": 20,
+        "seconds": 0.002296,
+        "approx_tflops": 18.705,
+        "result_norm": 32823.42578125
+      },
+      "2048": {
+        "iters": 20,
+        "seconds": 0.014842,
+        "approx_tflops": 23.151,
+        "result_norm": 92747.7265625
+      },
+      "4096": {
+        "iters": 10,
+        "seconds": 0.061074,
+        "approx_tflops": 22.504,
+        "result_norm": 262303.125
+      }
+    },
+    "h2d_copy": {
+      "bytes": 268435456,
+      "seconds": 0.023735,
+      "gib_per_s": 10.533
+    },
+    "alloc_half_free": {
+      "elements": 1435631616,
+      "mib": 5476.5,
+      "free_before_mib": 10953.0,
+      "free_after_mib": 5475.0,
+      "ok": true
+    }
+  },
+  "ok": true
+}

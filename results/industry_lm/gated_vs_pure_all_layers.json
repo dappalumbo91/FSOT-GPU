@@ -1,0 +1,156 @@
+{
+  "timestamp": "2026-07-17T16:27:24.239172+00:00",
+  "collapse_threshold": 0.9174663774653723,
+  "layers": 30,
+  "gated_all": {
+    "argmax_agreement": 0.125,
+    "mean_kl": 5.311089530587196,
+    "mean_top5": 0.15000000000000002,
+    "details": [
+      {
+        "prompt": "The capital of France is",
+        "base": " Paris",
+        "other": " is",
+        "match": false,
+        "kl": 6.597621917724609,
+        "top5": 0.0
+      },
+      {
+        "prompt": "def fibonacci(n):",
+        "base": "\n   ",
+        "other": ":",
+        "match": false,
+        "kl": 5.549649715423584,
+        "top5": 0.2
+      },
+      {
+        "prompt": "In mathematics, the derivative of x^2 is",
+        "base": " ",
+        "other": "The",
+        "match": false,
+        "kl": 9.472675323486328,
+        "top5": 0.0
+      },
+      {
+        "prompt": "Once upon a time",
+        "base": ",",
+        "other": " of",
+        "match": false,
+        "kl": 2.5776174068450928,
+        "top5": 0.2
+      },
+      {
+        "prompt": "2 + 2 =",
+        "base": " ",
+        "other": " ",
+        "match": true,
+        "kl": 1.126839518547058,
+        "top5": 0.4
+      },
+      {
+        "prompt": "The largest planet in our solar system is",
+        "base": " Jupiter",
+        "other": " land",
+        "match": false,
+        "kl": 7.8015265464782715,
+        "top5": 0.0
+      },
+      {
+        "prompt": "print('hello",
+        "base": " world",
+        "other": "',",
+        "match": false,
+        "kl": 3.8134007453918457,
+        "top5": 0.4
+      },
+      {
+        "prompt": "Water freezes at",
+        "base": " night",
+        "other": " of",
+        "match": false,
+        "kl": 5.549385070800781,
+        "top5": 0.0
+      }
+    ]
+  },
+  "pure_consensus_all": {
+    "argmax_agreement": 0.0,
+    "mean_kl": 8.049854278564453,
+    "mean_top5": 0.05,
+    "details": [
+      {
+        "prompt": "The capital of France is",
+        "base": " Paris",
+        "other": "\n",
+        "match": false,
+        "kl": 9.183928489685059,
+        "top5": 0.0
+      },
+      {
+        "prompt": "def fibonacci(n):",
+        "base": "\n   ",
+        "other": ":\")",
+        "match": false,
+        "kl": 10.197043418884277,
+        "top5": 0.0
+      },
+      {
+        "prompt": "In mathematics, the derivative of x^2 is",
+        "base": " ",
+        "other": "\n",
+        "match": false,
+        "kl": 5.554774761199951,
+        "top5": 0.0
+      },
+      {
+        "prompt": "Once upon a time",
+        "base": ",",
+        "other": "\n",
+        "match": false,
+        "kl": 4.807130336761475,
+        "top5": 0.0
+      },
+      {
+        "prompt": "2 + 2 =",
+        "base": " ",
+        "other": ":\")",
+        "match": false,
+        "kl": 8.96674919128418,
+        "top5": 0.0
+      },
+      {
+        "prompt": "The largest planet in our solar system is",
+        "base": " Jupiter",
+        "other": " the",
+        "match": false,
+        "kl": 10.097009658813477,
+        "top5": 0.2
+      },
+      {
+        "prompt": "print('hello",
+        "base": " world",
+        "other": "ongh",
+        "match": false,
+        "kl": 9.240601539611816,
+        "top5": 0.0
+      },
+      {
+        "prompt": "Water freezes at",
+        "base": " night",
+        "other": "\n",
+        "match": false,
+        "kl": 6.351596832275391,
+        "top5": 0.2
+      }
+    ]
+  },
+  "throughput_tps": {
+    "baseline": 13.068119017505598,
+    "fsot_gated": 12.216649659594479,
+    "fsot_pure": 11.884784929891548,
+    "gated_speedup": 0.9348437708004862,
+    "pure_speedup": 0.9094487824889798
+  },
+  "winner_quality": "gated",
+  "ok": true
+}

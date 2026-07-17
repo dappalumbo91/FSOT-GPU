@@ -1,0 +1,29 @@
+{
+  "timestamp": "2026-07-17T15:38:57.230981+00:00",
+  "canonical": 0.09928895626861721,
+  "cpu": {
+    "boot_scalar": 0.09928895626861683,
+    "vs_canonical_rel_err": 3.773836334801153e-15,
+    "matches_canonical": true
+  },
+  "gpu": {
+    "device": "NVIDIA GeForce RTX 5070",
+    "batch": 4096,
+    "dtype_primary": "float64",
+    "max_abs_err_vs_cpu_f64": 0.0,
+    "max_abs_err_vs_cpu_f32": 4.72916275917612e-07,
+    "sample_head": [
+      0.09928895626861683,
+      0.10028184583130301,
+      0.10127473539398918,
+      0.10226762495667534,
+      0.10326051451936151
+    ]
+  },
+  "match": {
+    "cpu_matches_canonical": true,
+    "gpu_f64_matches_cpu": true,
+    "gpu_f32_within_1e5_rel": true
+  },
+  "ok": true
+}

@@ -1,0 +1,39 @@
+# FSOT-GPU — goals (no understatement)
+
+## Standing of FSOT (this project assumes it)
+
+Fluid Spacetime Omni-Theory is treated here as a **verified, multi-domain scientific theory**, not a metaphor.
+
+Authority lives in:
+
+- **[FSOT-2.1-Lean](https://github.com/dappalumbo91/FSOT-2.1-Lean)** — formal Lean spine, cross-proof (Coq / Isabelle / F\* / Rust / …), domain verification  
+- Physical archive / full verification stack (local)  
+- Seed-derived engine (π, e, φ, γ, Catalan) with **zero free parameters** in the theory spine  
+
+This repo does **not** re-litigate cosmology vs ΛCDM. That work is already in the theory repositories and ledgers. **FSOT-GPU applies the theory to GPU compute and language-model hosts** so the same math runs where intelligence systems need silicon.
+
+## Mission of FSOT-GPU
+
+1. **Accuracy and true understanding** — operators that respect FSOT structure (collapse, trinary, coherence, scalar).  
+2. **Capability on real hardware** — outperform industry defaults on the same GPU (RTX-class / Blackwell) for the workloads that matter: attention, memory packing, LLM forward paths.  
+3. **Beat FlashAttention-class stacks** as a standing target — not as a one-off microbench anecdote, but as a **systematic** result (latency, throughput, quality-gated).  
+4. **Portability** — formal contracts so any serious language can host the same operators.  
+5. **Path to foundation-scale models** — FSOT-native training and hosting as the road to systems that understand, not only pattern-match.  
+
+AGI-as-media-hype is **not** the goal. **Correct structure → correct computation → correct capability** is.
+
+## Active workstreams
+
+| Track | Target |
+|-------|--------|
+| **FlashAttention / SDPA** | Pure FSOT CUDA consensus (and successors) **always faster** under FSOT-native and quality-matched industry loads |
+| **LLM host** | Pure FSOT all-layer path: **≥90%** next-token already hit on probes; push **quality of generation** + larger models |
+| **Foundation path** | Scale FSOT-host training with seed-derived optimizers (suction–poof / FSOT-LR), not free-parameter fishing |
+| **Formal** | Keep Lean/Coq/Isabelle/F\* parity on every kernel contract |
+
+## Non-negotiables
+
+- Do not water down FSOT for social acceptability.  
+- Measure everything (JSON ledgers).  
+- Separate **FSOT-GPU** (this repo) from **FSOT-2.1-Instruct** (other product) unless deliberately linked.  
+- Theory authority remains FSOT-2.1-Lean / archive.  

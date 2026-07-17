@@ -1,0 +1,17 @@
+{
+  "description": "Golden FSOT values for multi-language parity (Python fsot_lib authority for this lab)",
+  "collapse_threshold": 0.9174663774653723,
+  "seeds": {
+    "phi": 1.618033988749895,
+    "gamma": 0.5772156649015329,
+    "k": 0.42022166416069665,
+    "c_eff": 0.9577022026205613,
+    "p_var": 0.9579871226722757,
+    "psi_con": 0.6321205588285577
+  },
+  "scalar_observed_D8_dp0_7": 0.5195106204293135,
+  "pack_codes_0_to_31_mod3": [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1],
+  "pack_u64_word": 5270498306774157604,
+  "eps_f64": 1e-12,
+  "eps_threshold": 1e-12
+}

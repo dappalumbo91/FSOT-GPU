@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-07-17T15:46:54.360353+00:00",
+  "labs": {
+    "gpu_experiment": {
+      "path": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star",
+      "exists": true
+    },
+    "fsot_2_1_llm": {
+      "path": "C:\\Users\\damia\\Desktop\\fsot 2.1 llm",
+      "exists": true
+    },
+    "fsot_trinary_os": {
+      "path": "C:\\Users\\damia\\Desktop\\Fsot trinary\\fsot_os",
+      "exists": true
+    },
+    "cube_trinary": {
+      "path": "C:\\Users\\damia\\Desktop\\FSOT, Cube Block Trinary Design",
+      "exists": true
+    },
+    "archive": {
+      "path": "I:\\FSOT-Physical-Archive",
+      "exists": true
+    },
+    "fsot_compute": {
+      "path": "I:\\FSOT-Physical-Archive\\02_FSOT-2.1-Lean-Full\\vendor\\fsot_compute.py",
+      "exists": true
+    },
+    "release_05b": {
+      "path": "C:\\Users\\damia\\Desktop\\fsot 2.1 llm\\llm\\models\\release\\FSOT-2.1-Instruct-0.5B",
+      "exists": true
+    },
+    "trinary_forward": {
+      "path": "C:\\Users\\damia\\Desktop\\Fsot trinary\\fsot_os\\kernel\\src\\forward.rs",
+      "exists": true
+    },
+    "qemu_golden": {
+      "path": "I:\\FSOT-Physical-Archive\\02_FSOT-2.1-Lean-Full\\verification\\qemu",
+      "exists": true
+    }
+  },
+  "wiring": {
+    "scalar_authority": "I:\\FSOT-Physical-Archive\\02_FSOT-2.1-Lean-Full\\vendor\\fsot_compute.py",
+    "gpu_engine": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\phase2_native_gpu\\python\\fsot_gpu_engine.py",
+    "formal": {
+      "lean": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\phase1_formal_gpu\\lean",
+      "coq": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\phase1_formal_gpu\\coq",
+      "isabelle": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\phase1_formal_gpu\\isabelle",
+      "fstar": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\phase1_formal_gpu\\fstar"
+    },
+    "llm_release": "C:\\Users\\damia\\Desktop\\fsot 2.1 llm\\llm\\models\\release\\FSOT-2.1-Instruct-0.5B",
+    "kernel_forward": "C:\\Users\\damia\\Desktop\\Fsot trinary\\fsot_os\\kernel\\src\\forward.rs",
+    "next_action": "Run fsot_gpu_engine.py for FSOT cortical GPU train; load release 0.5B with FSOT routing from fsot 2.1 llm; keep QEMU trinary OS as bare-metal oracle."
+  },
+  "ok": true,
+  "live_smoke": {
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 5070",
+    "collapse_threshold": 0.9174663774653723,
+    "S_sample": 0.9366008488484302,
+    "logits_shape": [
+      16,
+      64
+    ],
+    "release_05b_present": true,
+    "trinary_forward_present": true
+  }
+}

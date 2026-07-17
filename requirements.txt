@@ -1,0 +1,5 @@
+# FSOT Formal-GPU experiment
+# PyTorch with CUDA should already be installed (torch 2.11+cu128 verified).
+# Install extras only:
+numpy>=1.26
+mpmath>=1.3

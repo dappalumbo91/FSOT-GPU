@@ -1,0 +1,109 @@
+{
+  "timestamp": "2026-07-17T16:23:25.703237+00:00",
+  "model": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\industry_lm\\models\\SmolLM2-135M-Instruct",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 5070",
+  "fsot_cuda_dll": true,
+  "swap_layer": 0,
+  "ok": true,
+  "quality": {
+    "n_prompts": 5,
+    "argmax_agreement": 0.6,
+    "mean_kl": 1.2285544842481613,
+    "mean_top5_overlap": 0.44000000000000006,
+    "details": [
+      {
+        "prompt": "The capital of France is",
+        "base_token": " Paris",
+        "fsot_token": " the",
+        "argmax_match": false,
+        "kl_base_fsot": 2.230491876602173,
+        "top5_overlap": 0.4
+      },
+      {
+        "prompt": "def fibonacci(n):",
+        "base_token": "\n   ",
+        "fsot_token": "\n   ",
+        "argmax_match": true,
+        "kl_base_fsot": 0.24450381100177765,
+        "top5_overlap": 0.6
+      },
+      {
+        "prompt": "In mathematics, the derivative of x^2 is",
+        "base_token": " ",
+        "fsot_token": " a",
+        "argmax_match": false,
+        "kl_base_fsot": 2.3222012519836426,
+        "top5_overlap": 0.2
+      },
+      {
+        "prompt": "Once upon a time",
+        "base_token": ",",
+        "fsot_token": ",",
+        "argmax_match": true,
+        "kl_base_fsot": 1.2376586198806763,
+        "top5_overlap": 0.2
+      },
+      {
+        "prompt": "2 + 2 =",
+        "base_token": " ",
+        "fsot_token": " ",
+        "argmax_match": true,
+        "kl_base_fsot": 0.10791686177253723,
+        "top5_overlap": 0.8
+      }
+    ]
+  },
+  "throughput": {
+    "baseline_tps": 29.400329696305686,
+    "fsot_layer0_tps": 30.249445226042287,
+    "speedup": 1.0288811567253715,
+    "baseline_gens": [
+      {
+        "ms": 876.2052000001859,
+        "new": 24,
+        "tps": 27.390844062549398,
+        "text": "The capital of France is Paris. Paris is the largest city in France and the capital of the French de"
+      },
+      {
+        "ms": 791.6178999994372,
+        "new": 24,
+        "tps": 30.317657041379512,
+        "text": "def fibonacci(n):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if"
+      },
+      {
+        "ms": 787.0791000004829,
+        "new": 24,
+        "tps": 30.492487984988138,
+        "text": "In mathematics, the derivative of x^2 is 2x.\n\nNow, consider the function f(x) = x^2. To find the der"
+      }
+    ],
+    "fsot_gens": [
+      {
+        "ms": 806.7768999999316,
+        "new": 24,
+        "tps": 29.74800096532515,
+        "text": "The capital of France is the capital of\u00e2n. land.\n\n se.\n se.1.\n\n the city of the city"
+      },
+      {
+        "ms": 785.354699999516,
+        "new": 24,
+        "tps": 30.559440212193024,
+        "text": "def fibonacci(n):\n    def gcd(1):\n        if (n < 1, then return n\n        if n < 2"
+      },
+      {
+        "ms": 788.4131000000707,
+        "new": 24,
+        "tps": 30.44089450060869,
+        "text": "In mathematics, the derivative of x^2 is a fundamental constant,,us,\n\n one of the roots of the polyn"
+      }
+    ]
+  },
+  "prefill_ms": {
+    "baseline": 36.08305333333798,
+    "fsot_layer0": 36.46205333334365,
+    "speedup": 0.9896056320103321
+  },
+  "vram_mib": 522.67,
+  "notes": "Layer-0 only swap. Full FSOT model would swap all layers. Quality shift expected; CUDA DLL H2D each call adds overhead until device API fused."
+}

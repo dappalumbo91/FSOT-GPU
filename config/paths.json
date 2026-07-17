@@ -1,0 +1,23 @@
+{
+  "experiment_root": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star",
+  "archive_root": "I:\\FSOT-Physical-Archive",
+  "fsot_lean_full": "I:\\FSOT-Physical-Archive\\02_FSOT-2.1-Lean-Full",
+  "fsot_srite": "I:\\FSOT-Physical-Archive\\01_SR-ITE-USB-Original",
+  "public_data": "I:\\FSOT-Physical-Archive\\03_FSOT-PublicData",
+  "portable_toolchain": "I:\\FSOT-Physical-Archive\\07_Portable-Toolchain",
+  "fstar_bin": "I:\\FSOT-Physical-Archive\\07_Portable-Toolchain\\fstar\\bin\\fstar.exe",
+  "coqc_bin": "I:\\FSOT-Physical-Archive\\07_Portable-Toolchain\\rocq\\bin\\coqc.exe",
+  "isabelle_bin": "I:\\FSOT-Physical-Archive\\07_Portable-Toolchain\\isabelle\\bin\\isabelle",
+  "vram_allocator_zig": "I:\\FSOT-Physical-Archive\\01_SR-ITE-USB-Original\\3_driver_zig\\fsot_vram_allocator.zig",
+  "fstar_scalar_kernel": "I:\\FSOT-Physical-Archive\\02_FSOT-2.1-Lean-Full\\verification\\fstar\\FSOTScalarKernel.fst",
+  "cuda_root": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3",
+  "cuda_nvcc": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\nvcc.exe",
+  "cuda_cicc": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\nvvm\\bin\\cicc.exe",
+  "cuda_arch": "sm_120",
+  "github": {
+    "FSOT_2_1_Lean": "https://github.com/dappalumbo91/FSOT-2.1-Lean",
+    "FSOT_2_0_code": "https://github.com/dappalumbo91/FSOT-2.0-code",
+    "FSOT_Living": "https://github.com/dappalumbo91/FSOT-Living",
+    "FSOT_Triforce": "https://github.com/dappalumbo91/FSOT-Triforce"
+  }
+}

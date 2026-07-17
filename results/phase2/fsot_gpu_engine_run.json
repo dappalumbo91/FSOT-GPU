@@ -1,0 +1,93 @@
+{
+  "timestamp": "2026-07-17T15:46:37.886559+00:00",
+  "device": "cuda",
+  "gpu_name": "NVIDIA GeForce RTX 5070",
+  "authority": {
+    "compute": "I:\\FSOT-Physical-Archive\\02_FSOT-2.1-Lean-Full\\vendor\\fsot_compute.py",
+    "trinary_kernel": "C:\\Users\\damia\\Desktop\\Fsot trinary\\fsot_os\\kernel\\src",
+    "llm_lab": "C:\\Users\\damia\\Desktop\\fsot 2.1 llm",
+    "collapse_threshold": 0.9174663774653723,
+    "formal_lab": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star"
+  },
+  "ok": true,
+  "scalar": {
+    "archive": 0.5195106204293135,
+    "gpu": 0.5195106204293135,
+    "rel_err": 0.0,
+    "source": "I:\\FSOT-Physical-Archive\\02_FSOT-2.1-Lean-Full\\vendor\\fsot_compute.py"
+  },
+  "crystal": {
+    "ok": true,
+    "voxels_total": 180000,
+    "voxels_used": 131072,
+    "packed_words": 4096,
+    "bytes_unpacked": 131072,
+    "bytes_packed": 32768,
+    "compression": 4.0,
+    "resonance_mean": 3.5973243713378906,
+    "spin_up": 131006,
+    "superposed": 66,
+    "spin_down": 0
+  },
+  "train": {
+    "steps": 120,
+    "seconds": 10.3363,
+    "loss_start": 4.852585315704346,
+    "loss_end": 4.831892490386963,
+    "loss_improved": true,
+    "lr_start": 0.0523048372533465,
+    "lr_end": 0.052273955813100105,
+    "S_end": -1.2529712442037342,
+    "history_tail": [
+      {
+        "loss": 4.832614421844482,
+        "lr": 0.05277207274921161,
+        "S": -1.0628712879347835,
+        "step": 115
+      },
+      {
+        "loss": 4.832433223724365,
+        "lr": 0.0526849896592559,
+        "S": -1.1111581534260215,
+        "step": 116
+      },
+      {
+        "loss": 4.832252502441406,
+        "lr": 0.05256596796930378,
+        "S": -1.1589230636523065,
+        "step": 117
+      },
+      {
+        "loss": 4.832071781158447,
+        "lr": 0.052425008603947075,
+        "S": -1.2061901461126776,
+        "step": 118
+      },
+      {
+        "loss": 4.831892490386963,
+        "lr": 0.052273955813100105,
+        "S": -1.2529712442037342,
+        "step": 119
+      }
+    ],
+    "params": 212992,
+    "config": {
+      "d_model": 64,
+      "n_heads": 8,
+      "n_layers": 4,
+      "ffn_mult": 4,
+      "vocab": 128,
+      "max_seq": 48
+    }
+  },
+  "forward_bench": {
+    "iters": 50,
+    "seconds": 3.4234,
+    "seq": 39,
+    "ms_per_forward": 68.467
+  },
+  "vram": {
+    "allocated_mib": 17.77,
+    "reserved_mib": 24.0
+  }
+}

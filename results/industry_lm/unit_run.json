@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-07-17T16:15:51.774043+00:00",
+  "unit": "industry_lm_SmolLM2-135M-Instruct",
+  "steps": {
+    "export": {
+      "ok": true,
+      "path": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\industry_lm\\portable\\portable_schema.json"
+    },
+    "baseline_hf": {
+      "ok": true,
+      "prefill_ms": 49.09565500001918,
+      "params": 134515008,
+      "vram_mib": 265.3,
+      "sample": "The capital of France is Paris. Paris is a major city in France, known for its historical landmarks, culture, and cultur"
+    },
+    "fsot_bridge": {
+      "ok": true,
+      "attn_speedup_torch": 0.079548274824853,
+      "norm_speedup": 0.24962473164997911,
+      "sdpa_ms": 0.21795399999973597,
+      "fsot_attn_ms": 2.739896000002773
+    },
+    "long_seq_norm": {
+      "ok": true,
+      "stdout_tail": "S=256: SDPA 0.217 ms | FSOT_torch 2.600 ms | A/S=0.004 | \u00d70.08\nS=512: SDPA 0.207 ms | FSOT_torch 2.635 ms | A/S=0.008 | \u00d70.08\nS=1024: SDPA 0.522 ms | FSOT_torch 4.308 ms | A/S=0.006 | \u00d70.12\nnorm: RMS 0.0599 ms | coh 0.1742 ms | winner=rms\nwrote C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\competitive\\long_seq_and_norm.json\n",
+      "stderr_tail": ""
+    }
+  },
+  "ok": true
+}

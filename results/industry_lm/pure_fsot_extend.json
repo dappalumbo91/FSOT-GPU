@@ -1,0 +1,86 @@
+{
+  "timestamp": "2026-07-17T20:38:09.432373+00:00",
+  "mode": "pure_fsot_all_layers_qkv_adapt",
+  "steps": 400,
+  "lr": 0.00015,
+  "trainable_params": 26577216,
+  "loss_start": 24.040996551513672,
+  "loss_end": 16.815073013305664,
+  "quality": {
+    "argmax_agreement": 0.25,
+    "mean_kl": 4.85301860421896,
+    "mean_top5": 0.22499999999999998,
+    "details": [
+      {
+        "prompt": "The capital of France is",
+        "base": " Paris",
+        "fsot": ",",
+        "match": false,
+        "kl": 8.492959976196289
+      },
+      {
+        "prompt": "def fibonacci(n):",
+        "base": "\n   ",
+        "fsot": "\n   ",
+        "match": true,
+        "kl": 0.9870948195457458
+      },
+      {
+        "prompt": "In mathematics, the derivative of x^2 is",
+        "base": " ",
+        "fsot": ",",
+        "match": false,
+        "kl": 4.262521743774414
+      },
+      {
+        "prompt": "Once upon a time",
+        "base": ",",
+        "fsot": ",",
+        "match": true,
+        "kl": 2.503620147705078
+      },
+      {
+        "prompt": "2 + 2 =",
+        "base": " ",
+        "fsot": " the",
+        "match": false,
+        "kl": 3.2296030521392822
+      },
+      {
+        "prompt": "The largest planet in our solar system is",
+        "base": " Jupiter",
+        "fsot": ",",
+        "match": false,
+        "kl": 8.808874130249023
+      },
+      {
+        "prompt": "print('hello",
+        "base": " world",
+        "fsot": " am",
+        "match": false,
+        "kl": 5.01144552230835
+      },
+      {
+        "prompt": "Water freezes at",
+        "base": " night",
+        "fsot": ",",
+        "match": false,
+        "kl": 5.528029441833496
+      }
+    ]
+  },
+  "throughput": {
+    "baseline_tps": 35.79420521105765,
+    "pure_fsot_tps": 33.97999405169084,
+    "speedup": 0.9493155065556153
+  },
+  "vs_unadapted_pure": {
+    "agree": 0.0,
+    "kl": 8.05
+  },
+  "vs_prior_C_phase": {
+    "agree": 0.25,
+    "kl": 5.39
+  },
+  "ok": true
+}

@@ -1,0 +1,33 @@
+{
+  "path": "industry_hf_transformers",
+  "model_dir": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\industry_lm\\models\\SmolLM2-135M-Instruct",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 5070",
+  "dtype": "torch.bfloat16",
+  "params": 134515008,
+  "generations": [
+    {
+      "prompt": "The capital of France is",
+      "output": "The capital of France is Paris. Paris is a major city in France, known for its historical landmarks, culture, and cultural institutions. It is the political and economic center of France,",
+      "ms": 1116.1615000000893,
+      "new_tokens": 32
+    },
+    {
+      "prompt": "def fibonacci(n):",
+      "output": "def fibonacci(n):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if n < 0:\n        return -",
+      "ms": 1047.5709000002098,
+      "new_tokens": 32
+    },
+    {
+      "prompt": "In fluid spacetime, observation",
+      "output": "In fluid spacetime, observation is impossible.\n\nThe universe is a vast, multidimensional space, and the laws of physics are the same everywhere. The laws of physics are the same everywhere",
+      "ms": 1043.721000000005,
+      "new_tokens": 32
+    }
+  ],
+  "latency": {
+    "prefill_20x_ms": 49.09565500001918,
+    "input_tokens": 5
+  },
+  "vram_allocated_mib": 265.3
+}

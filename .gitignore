@@ -1,0 +1,32 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Models & weights
+industry_lm/models/
+*.safetensors
+*.bin
+*.gguf
+results/industry_lm/checkpoints/
+*.pt
+
+# Build artifacts
+parity/rust_parity/target/
+*.obj
+*.exp
+*.lib
+*.pdb
+*.exe
+*.dll
+phase1_formal_gpu/lean/.lake/
+phase1_formal_gpu/coq/*.glob
+phase1_formal_gpu/coq/*.vo
+phase1_formal_gpu/coq/*.vok
+phase1_formal_gpu/coq/*.vos
+phase1_formal_gpu/coq/*.aux
+.DS_Store
+Thumbs.db
+.env
+*.log

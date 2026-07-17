@@ -1,0 +1,33 @@
+{
+  "path": "fsot_bridge_same_weights",
+  "model_dir": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\industry_lm\\models\\SmolLM2-135M-Instruct",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 5070",
+  "params": 134515008,
+  "activation_std": 2.0188510417938232,
+  "collapse_threshold": 0.9174663774653723,
+  "attn_bench": {
+    "shapes": {
+      "heads": 9,
+      "seq": 5,
+      "head_dim": 64,
+      "kv_heads_cfg": 3
+    },
+    "industry_sdpa": {
+      "ms_per_iter": 0.21795399999973597,
+      "out_max_abs": 7.382290840148926
+    },
+    "fsot_sparse_torch": {
+      "ms_per_iter": 2.739896000002773,
+      "out_max_abs": 1.156916618347168
+    },
+    "fsot_vs_sdpa_speedup": 0.079548274824853
+  },
+  "norm_bench": {
+    "rms_norm_ms": 0.06651899999269517,
+    "fsot_coherence_norm_ms": 0.26647600000615057,
+    "speedup_coh_vs_rms": 0.24962473164997911
+  },
+  "portable_note": "Weights remain industry safetensors; FSOT replaces op implementations. Full layer swap is next; this unit validates bank + op substitution timing.",
+  "prefill_logits_ok": true
+}

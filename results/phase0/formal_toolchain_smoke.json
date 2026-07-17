@@ -1,0 +1,24 @@
+﻿{
+    "timestamp":  "2026-07-17T11:39:01.3041792-04:00",
+    "lean":  {
+                 "ok":  true,
+                 "output":  "Lean (version 4.32.0, x86_64-w64-windows-gnu, commit 8c9756b28d64dab099da31a4c09229a9e6a2ef35, Release)"
+             },
+    "lake":  {
+                 "ok":  true,
+                 "output":  "Lake version 5.0.0-src+8c9756b (Lean version 4.32.0)"
+             },
+    "fstar":  {
+                  "ok":  true,
+                  "output":  "F* 2026.07.05\r\nplatform=Windows_x64\r\nsystem=Win32\r\ncompiler=OCaml 5.3.0\r\ndate=2026-07-05 14:04:04 +0000\r\ncommit=2173bc4316a51f01754f10bf94f697aba083c2e0"
+              },
+    "coqc":  {
+                 "ok":  true,
+                 "output":  "The Rocq Prover, version 9.0.1\r\ncompiled with OCaml 4.14.2"
+             },
+    "isabelle":  {
+                     "ok":  true,
+                     "output":  "present: I:\\FSOT-Physical-Archive\\07_Portable-Toolchain\\isabelle\\bin\\isabelle"
+                 },
+    "overall_ok":  true
+}

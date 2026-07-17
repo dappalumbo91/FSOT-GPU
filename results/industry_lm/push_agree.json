@@ -1,0 +1,354 @@
+{
+  "timestamp": "2026-07-17T21:59:20.112423+00:00",
+  "mode": "ce_kl_agree_push",
+  "start_agree16": 0.8125,
+  "best": {
+    "agree": 0.9375,
+    "agree8": 0.875,
+    "kl": 2.0763480700552464,
+    "step": 1800,
+    "top5": 0.38750000000000007,
+    "tps": 33.7770565505239,
+    "details": [
+      {
+        "prompt": "The capital of France is",
+        "base": " Paris",
+        "fsot": " Paris",
+        "match": true,
+        "kl": 3.116537094116211
+      },
+      {
+        "prompt": "def fibonacci(n):",
+        "base": "\n   ",
+        "fsot": "\n   ",
+        "match": true,
+        "kl": 0.20615385472774506
+      },
+      {
+        "prompt": "In mathematics, the derivative of x^2 is",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 3.551501989364624
+      },
+      {
+        "prompt": "Once upon a time",
+        "base": ",",
+        "fsot": ",",
+        "match": true,
+        "kl": 0.9212652444839478
+      },
+      {
+        "prompt": "2 + 2 =",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 0.5365259051322937
+      },
+      {
+        "prompt": "The largest planet in our solar system is",
+        "base": " Jupiter",
+        "fsot": " Jupiter",
+        "match": true,
+        "kl": 2.7561540603637695
+      },
+      {
+        "prompt": "print('hello",
+        "base": " world",
+        "fsot": " world",
+        "match": true,
+        "kl": 3.5553669929504395
+      },
+      {
+        "prompt": "Water freezes at",
+        "base": " night",
+        "fsot": " the",
+        "match": false,
+        "kl": 4.97711181640625
+      },
+      {
+        "prompt": "Python is a programming language that",
+        "base": " allows",
+        "fsot": " allows",
+        "match": true,
+        "kl": 2.0335853099823
+      },
+      {
+        "prompt": "The speed of light is approximately",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 0.1571471095085144
+      },
+      {
+        "prompt": "1 + 1 =",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 0.7946252822875977
+      },
+      {
+        "prompt": "The capital of Japan is",
+        "base": " Tokyo",
+        "fsot": " Tokyo",
+        "match": true,
+        "kl": 2.217156410217285
+      },
+      {
+        "prompt": "def main():",
+        "base": "\n   ",
+        "fsot": "\n   ",
+        "match": true,
+        "kl": 0.21057994663715363
+      },
+      {
+        "prompt": "The square root of 9 is",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 2.1327662467956543
+      },
+      {
+        "prompt": "Gravity on Earth is",
+        "base": " a",
+        "fsot": " a",
+        "match": true,
+        "kl": 3.567554235458374
+      },
+      {
+        "prompt": "The chemical formula for water is",
+        "base": " H",
+        "fsot": " H",
+        "match": true,
+        "kl": 2.4875376224517822
+      }
+    ]
+  },
+  "final": {
+    "agree16": 0.9375,
+    "agree8": 0.875,
+    "kl": 2.0763480700552464,
+    "top5": 0.38750000000000007,
+    "tps": 34.06791378782455,
+    "tps_x": 2.3959936205528614,
+    "details": [
+      {
+        "prompt": "The capital of France is",
+        "base": " Paris",
+        "fsot": " Paris",
+        "match": true,
+        "kl": 3.116537094116211
+      },
+      {
+        "prompt": "def fibonacci(n):",
+        "base": "\n   ",
+        "fsot": "\n   ",
+        "match": true,
+        "kl": 0.20615385472774506
+      },
+      {
+        "prompt": "In mathematics, the derivative of x^2 is",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 3.551501989364624
+      },
+      {
+        "prompt": "Once upon a time",
+        "base": ",",
+        "fsot": ",",
+        "match": true,
+        "kl": 0.9212652444839478
+      },
+      {
+        "prompt": "2 + 2 =",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 0.5365259051322937
+      },
+      {
+        "prompt": "The largest planet in our solar system is",
+        "base": " Jupiter",
+        "fsot": " Jupiter",
+        "match": true,
+        "kl": 2.7561540603637695
+      },
+      {
+        "prompt": "print('hello",
+        "base": " world",
+        "fsot": " world",
+        "match": true,
+        "kl": 3.5553669929504395
+      },
+      {
+        "prompt": "Water freezes at",
+        "base": " night",
+        "fsot": " the",
+        "match": false,
+        "kl": 4.97711181640625
+      },
+      {
+        "prompt": "Python is a programming language that",
+        "base": " allows",
+        "fsot": " allows",
+        "match": true,
+        "kl": 2.0335853099823
+      },
+      {
+        "prompt": "The speed of light is approximately",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 0.1571471095085144
+      },
+      {
+        "prompt": "1 + 1 =",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 0.7946252822875977
+      },
+      {
+        "prompt": "The capital of Japan is",
+        "base": " Tokyo",
+        "fsot": " Tokyo",
+        "match": true,
+        "kl": 2.217156410217285
+      },
+      {
+        "prompt": "def main():",
+        "base": "\n   ",
+        "fsot": "\n   ",
+        "match": true,
+        "kl": 0.21057994663715363
+      },
+      {
+        "prompt": "The square root of 9 is",
+        "base": " ",
+        "fsot": " ",
+        "match": true,
+        "kl": 2.1327662467956543
+      },
+      {
+        "prompt": "Gravity on Earth is",
+        "base": " a",
+        "fsot": " a",
+        "match": true,
+        "kl": 3.567554235458374
+      },
+      {
+        "prompt": "The chemical formula for water is",
+        "base": " H",
+        "fsot": " H",
+        "match": true,
+        "kl": 2.4875376224517822
+      }
+    ]
+  },
+  "history": [
+    {
+      "step": 0,
+      "loss": 5.857142448425293,
+      "ce": 1.376585602760315,
+      "agree16": 0.6875,
+      "agree8": 0.625,
+      "kl": 2.445883061736822,
+      "top5": 0.3375000000000001,
+      "tps_x": 0.9415299566874114
+    },
+    {
+      "step": 200,
+      "loss": 2.9221062660217285,
+      "ce": 0.6145187020301819,
+      "agree16": 0.75,
+      "agree8": 0.625,
+      "kl": 2.3038673768751323,
+      "top5": 0.3375000000000001,
+      "tps_x": 0.9427148529718535
+    },
+    {
+      "step": 400,
+      "loss": 14.19434928894043,
+      "ce": 4.251062393188477,
+      "agree16": 0.8125,
+      "agree8": 0.75,
+      "kl": 2.285426203161478,
+      "top5": 0.3875000000000001,
+      "tps_x": 0.9374598069987691
+    },
+    {
+      "step": 600,
+      "loss": 17.14763069152832,
+      "ce": 5.108902931213379,
+      "agree16": 0.75,
+      "agree8": 0.625,
+      "kl": 2.173077615443617,
+      "top5": 0.31250000000000006,
+      "tps_x": 0.9658794299314951
+    },
+    {
+      "step": 800,
+      "loss": 8.809569358825684,
+      "ce": 2.6032309532165527,
+      "agree16": 0.75,
+      "agree8": 0.625,
+      "kl": 2.218403358012438,
+      "top5": 0.3375000000000001,
+      "tps_x": 2.363671749262922
+    },
+    {
+      "step": 1000,
+      "loss": 3.960451126098633,
+      "ce": 0.8408738970756531,
+      "agree16": 0.8125,
+      "agree8": 0.75,
+      "kl": 2.146234915126115,
+      "top5": 0.4000000000000001,
+      "tps_x": 2.38750478159522
+    },
+    {
+      "step": 1200,
+      "loss": 1.8129698038101196,
+      "ce": 0.16414758563041687,
+      "agree16": 0.625,
+      "agree8": 0.625,
+      "kl": 2.3443941306322813,
+      "top5": 0.33750000000000013,
+      "tps_x": 1.7868722572175473
+    },
+    {
+      "step": 1400,
+      "loss": 5.7664794921875,
+      "ce": 1.553100347518921,
+      "agree16": 0.875,
+      "agree8": 0.75,
+      "kl": 2.1928250859491527,
+      "top5": 0.3625000000000001,
+      "tps_x": 2.3666316909122513
+    },
+    {
+      "step": 1600,
+      "loss": 11.24508285522461,
+      "ce": 3.2486371994018555,
+      "agree16": 0.75,
+      "agree8": 0.625,
+      "kl": 2.309342228807509,
+      "top5": 0.4000000000000001,
+      "tps_x": 2.3761073992441317
+    },
+    {
+      "step": 1800,
+      "loss": 1.0731465816497803,
+      "ce": 0.045822255313396454,
+      "agree16": 0.9375,
+      "agree8": 0.875,
+      "kl": 2.0763480700552464,
+      "top5": 0.38750000000000007,
+      "tps_x": 2.375537654584289
+    }
+  ],
+  "baseline_tps": 14.21869970587133,
+  "hit_80": true,
+  "ok": true
+}

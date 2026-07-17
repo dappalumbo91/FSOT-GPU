@@ -1,0 +1,8 @@
+[package]
+name = "fsot_gpu_parity"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "fsot_gpu_parity"
+path = "src/main.rs"

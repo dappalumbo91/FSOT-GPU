@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-07-17T16:00:00Z",
+  "problem": "CUDA 13.2 install was truncated: bin/include/lib only, no nvvm/cicc",
+  "fix": "winget install Nvidia.CUDA 13.3 full toolkit",
+  "cuda_root": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3",
+  "nvcc": "13.3.73",
+  "cicc_present": true,
+  "device": "NVIDIA GeForce RTX 5070",
+  "compute_capability": "12.0",
+  "arch_flag": "sm_120",
+  "kernel_test": {
+    "binary": "phase2_native_gpu/cuda/trinary_pack_test.exe",
+    "mismatches": 0,
+    "groups": 65536,
+    "trits": 2097152,
+    "iters": 50,
+    "ms": 3.248,
+    "Mtrits_per_s": 32284.062,
+    "ok": true
+  },
+  "notes": [
+    "v13.2 stub left on disk; PATH/CUDA_PATH prefer v13.3",
+    "FSOT 2.1 Instruct project not modified",
+    "Rebuild: scripts/build_cuda_kernels.ps1"
+  ]
+}

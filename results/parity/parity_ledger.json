@@ -1,0 +1,76 @@
+{
+  "timestamp": "2026-07-17T16:00:33.474624+00:00",
+  "project": "FSOT-Formal-GPU",
+  "golden": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\parity\\golden.json",
+  "layers": {
+    "python": {
+      "collapse_threshold": 0.9174663774653723,
+      "phi": 1.618033988749895,
+      "gamma": 0.5772156649015329,
+      "k": 0.4202216641606967,
+      "c_eff": 0.9577022026205613,
+      "p_var": 0.9579871226722757,
+      "psi_con": 0.6321205588285577,
+      "pack_u64_word": 5270498306774157604,
+      "pack_ok": true,
+      "scalar": 0.5195106204293135,
+      "scalar_match": true,
+      "threshold_match": true,
+      "word_match": true,
+      "ok": true
+    },
+    "rust": {
+      "build_ok": true,
+      "raw": "{\"lang\":\"rust\",\"collapse_threshold\":0.91746637746537230,\"phi\":1.61803398874989490,\"gamma\":0.57721566490153287,\"k\":0.42022166416069667,\"c_eff\":0.95770220262056127,\"p_var\":0.95798712267227570,\"psi_con\":0.63212055882855767,\"pack_u64_word\":5270498306774157604,\"pack_ok\":true}",
+      "lang": "rust",
+      "collapse_threshold": 0.9174663774653723,
+      "phi": 1.618033988749895,
+      "gamma": 0.5772156649015329,
+      "k": 0.4202216641606967,
+      "c_eff": 0.9577022026205613,
+      "p_var": 0.9579871226722757,
+      "psi_con": 0.6321205588285577,
+      "pack_u64_word": 5270498306774157604,
+      "pack_ok": true,
+      "threshold_match": true,
+      "word_match": true,
+      "ok": true
+    },
+    "zig": {
+      "build_ok": true,
+      "build_raw": "",
+      "run_ok": true,
+      "lang": "zig",
+      "collapse_threshold": 0.9174663774653723,
+      "phi": 1.618033988749895,
+      "gamma": 0.5772156649015329,
+      "k": 0.4202216641606967,
+      "c_eff": 0.9577022026205613,
+      "p_var": 0.9579871226722757,
+      "psi_con": 0.6321205588285577,
+      "pack_u64_word": 5270498306774157604,
+      "pack_ok": true,
+      "threshold_match": true,
+      "word_match": true,
+      "ok": true
+    },
+    "formal": {
+      "lean_trinary": true,
+      "lean_memory": true,
+      "coq_vo": true,
+      "fstar": true,
+      "isabelle": true,
+      "lake_build_ok": true,
+      "ok": true
+    },
+    "cuda_native": {
+      "ok": true,
+      "returncode": 0,
+      "output": "FSOT CUDA trinary pack\n  device: NVIDIA GeForce RTX 5070  CC 12.0\n  groups=65536 trits=2097152 mismatches=0\n  50 iters: 3.656 ms  => 28680.711 Mtrits/s pack+unpack\n  ok=true",
+      "exe": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\phase2_native_gpu\\cuda\\trinary_pack_test.exe"
+    }
+  },
+  "overall_ok": true,
+  "portability_thesis": "Same seeds + pack + collapse across Python/Rust/Zig/formal \u21d2 any language implementing the contract is an FSOT GPU host.",
+  "sota_note": "Parity proves portability. Competitive capability claims require docs/COMPETITIVE_POSITION.md gates \u2014 not this ledger alone."
+}

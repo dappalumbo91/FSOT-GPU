@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-07-17T15:55:24.096031+00:00",
+  "owned_lib": "fsot_lib",
+  "version": "0.1.0",
+  "collapse_threshold": 0.9174663774653723,
+  "checks": {
+    "scalar_pure": {
+      "S": 0.5195106204293135,
+      "ok": true
+    },
+    "pack_pure": {
+      "ok": true,
+      "word": 5270498306774157604
+    },
+    "coherence_pure": {
+      "ok": true,
+      "out_head": [
+        0.10599721323576916,
+        1.006973525739807,
+        -1.0493724110341147
+      ]
+    },
+    "learn_pure": {
+      "lr": 0.05456452772937311,
+      "ok": true
+    },
+    "torch_backend": {
+      "device": "cuda",
+      "gpu": "NVIDIA GeForce RTX 5070",
+      "consensus_shape": [
+        8,
+        16
+      ],
+      "pack_roundtrip": true,
+      "ok": true
+    },
+    "native_cuda": {
+      "ok": true,
+      "returncode": 0,
+      "output": "FSOT CUDA trinary pack\n  device: NVIDIA GeForce RTX 5070  CC 12.0\n  groups=65536 trits=2097152 mismatches=0\n  50 iters: 3.650 ms  => 28727.229 Mtrits/s pack+unpack\n  ok=true",
+      "exe": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\phase2_native_gpu\\cuda\\trinary_pack_test.exe"
+    }
+  },
+  "ok": true
+}
