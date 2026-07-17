@@ -7,12 +7,12 @@
 
 | | |
 |--|--|
-| Wins | prefill, decode_tps, attn_S4096, attn_S8192 |
-| Ties | — |
-| Loses | factual_hit_rate |
+| Wins | prefill, attn_S8192 |
+| Ties | factual_hit_rate, attn_S4096 |
+| Loses | decode_tps |
 | Fidelity on factual set | 90% (clone match, not capability) |
-| Factual hits base / FSOT | 5/10 vs **4/10** |
-| Prefill | 43.32 → **38.91 ms** (1.11×) |
-| Decode | 30.9 → **37.7 t/s** (1.22×) |
+| Factual hits base / FSOT | 5/10 vs **5/10** |
+| Prefill | 29.84 → **26.55 ms** (1.12×) |
+| Decode | 33.7 → **30.3 t/s** (0.90×) |
 
 Ledger: `exceed_baseline.json`

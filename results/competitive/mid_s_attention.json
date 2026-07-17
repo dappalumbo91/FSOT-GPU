@@ -1,0 +1,69 @@
+{
+  "timestamp": "2026-07-17T23:08:04.592443+00:00",
+  "suite": "mid_s_fsot_collapse_path",
+  "authority": "C_eff*P_var collapse, coh>0.5, consensus no exp; mid trit-pack fused",
+  "H": 9,
+  "D": 64,
+  "rows": [
+    {
+      "S": 64,
+      "sdpa": 0.0168,
+      "fsot": 0.0266,
+      "speedup": 0.631578947368421,
+      "fsot_wins": false
+    },
+    {
+      "S": 128,
+      "sdpa": 0.0193,
+      "fsot": 0.0654,
+      "speedup": 0.29510703363914376,
+      "fsot_wins": false
+    },
+    {
+      "S": 256,
+      "sdpa": 0.0359,
+      "fsot": 0.1034,
+      "speedup": 0.3471953578336557,
+      "fsot_wins": false
+    },
+    {
+      "S": 512,
+      "sdpa": 0.0835,
+      "fsot": 0.1496,
+      "speedup": 0.5581550802139037,
+      "fsot_wins": false
+    },
+    {
+      "S": 1024,
+      "sdpa": 0.2093,
+      "fsot": 0.2304,
+      "speedup": 0.908420138888889,
+      "fsot_wins": false
+    },
+    {
+      "S": 2048,
+      "sdpa": 0.6689,
+      "fsot": 0.6594,
+      "speedup": 1.0144070367000304,
+      "fsot_wins": false
+    },
+    {
+      "S": 4096,
+      "sdpa": 2.2577,
+      "fsot": 1.826,
+      "speedup": 1.236418400876232,
+      "fsot_wins": true
+    },
+    {
+      "S": 8192,
+      "sdpa": 8.4705,
+      "fsot": 6.071,
+      "speedup": 1.3952396639762807,
+      "fsot_wins": true
+    }
+  ],
+  "wins": 2,
+  "n": 8,
+  "long_wins": 2,
+  "note": "Mid-S still industry fused sweet spot; long-S FSOT structural win domain"
+}

@@ -1,0 +1,446 @@
+{
+  "timestamp": "2026-07-17T23:07:44.375107+00:00",
+  "ladder": "B_exceed_knowledge",
+  "authority": "FSOT suction_poof + D_eff scalar + pure consensus",
+  "D_eff": 14.0,
+  "start": {
+    "agree16": 1.0,
+    "fact_fsot": 0.2857142857142857,
+    "fact_base": 0.42857142857142855
+  },
+  "best": {
+    "fact": 0.5,
+    "agree": 0.9375,
+    "step": 1500,
+    "rows": [
+      {
+        "prompt": "The capital of France is",
+        "got": " Paris",
+        "want": " Paris",
+        "hit": true
+      },
+      {
+        "prompt": "The largest planet in our solar system is",
+        "got": " Jupiter",
+        "want": " Jupiter",
+        "hit": true
+      },
+      {
+        "prompt": "2 + 2 =",
+        "got": " ",
+        "want": " 4",
+        "hit": false
+      },
+      {
+        "prompt": "1 + 1 =",
+        "got": " ",
+        "want": " 2",
+        "hit": false
+      },
+      {
+        "prompt": "The capital of Japan is",
+        "got": " Tokyo",
+        "want": " Tokyo",
+        "hit": true
+      },
+      {
+        "prompt": "The chemical formula for water is",
+        "got": " H",
+        "want": " H",
+        "hit": true
+      },
+      {
+        "prompt": "Water freezes at",
+        "got": " ",
+        "want": " 0",
+        "hit": false
+      },
+      {
+        "prompt": "The square root of 9 is",
+        "got": " ",
+        "want": " 3",
+        "hit": false
+      },
+      {
+        "prompt": "The Earth orbits the",
+        "got": " Sun",
+        "want": " Sun",
+        "hit": true
+      },
+      {
+        "prompt": "The speed of light is approximately",
+        "got": " ",
+        "want": " 3",
+        "hit": false
+      },
+      {
+        "prompt": "The boiling point of water is",
+        "got": " ",
+        "want": " 100",
+        "hit": false
+      },
+      {
+        "prompt": "Ice melts at",
+        "got": " ",
+        "want": " 0",
+        "hit": false
+      },
+      {
+        "prompt": "The sun rises in the",
+        "got": " east",
+        "want": " east",
+        "hit": true
+      },
+      {
+        "prompt": "HTML stands for",
+        "got": " Hyper",
+        "want": " Hyper",
+        "hit": true
+      }
+    ]
+  },
+  "final": {
+    "agree16": 0.9375,
+    "fact_fsot": 0.5,
+    "fact_base": 0.42857142857142855,
+    "rows": [
+      {
+        "prompt": "The capital of France is",
+        "got": " Paris",
+        "want": " Paris",
+        "hit": true
+      },
+      {
+        "prompt": "The largest planet in our solar system is",
+        "got": " Jupiter",
+        "want": " Jupiter",
+        "hit": true
+      },
+      {
+        "prompt": "2 + 2 =",
+        "got": " ",
+        "want": " 4",
+        "hit": false
+      },
+      {
+        "prompt": "1 + 1 =",
+        "got": " ",
+        "want": " 2",
+        "hit": false
+      },
+      {
+        "prompt": "The capital of Japan is",
+        "got": " Tokyo",
+        "want": " Tokyo",
+        "hit": true
+      },
+      {
+        "prompt": "The chemical formula for water is",
+        "got": " H",
+        "want": " H",
+        "hit": true
+      },
+      {
+        "prompt": "Water freezes at",
+        "got": " ",
+        "want": " 0",
+        "hit": false
+      },
+      {
+        "prompt": "The square root of 9 is",
+        "got": " ",
+        "want": " 3",
+        "hit": false
+      },
+      {
+        "prompt": "The Earth orbits the",
+        "got": " Sun",
+        "want": " Sun",
+        "hit": true
+      },
+      {
+        "prompt": "The speed of light is approximately",
+        "got": " ",
+        "want": " 3",
+        "hit": false
+      },
+      {
+        "prompt": "The boiling point of water is",
+        "got": " ",
+        "want": " 100",
+        "hit": false
+      },
+      {
+        "prompt": "Ice melts at",
+        "got": " ",
+        "want": " 0",
+        "hit": false
+      },
+      {
+        "prompt": "The sun rises in the",
+        "got": " east",
+        "want": " east",
+        "hit": true
+      },
+      {
+        "prompt": "HTML stands for",
+        "got": " Hyper",
+        "want": " Hyper",
+        "hit": true
+      }
+    ]
+  },
+  "history": [
+    {
+      "step": 1,
+      "loss": 1.609678030014038,
+      "lr": 3e-05,
+      "agree16": 0.875,
+      "fact_rate": 0.21428571428571427,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 50,
+      "loss": 0.42146778106689453,
+      "lr": 3e-05,
+      "agree16": 0.875,
+      "fact_rate": 0.21428571428571427,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 100,
+      "loss": 0.051355015486478806,
+      "lr": 3e-05,
+      "agree16": 0.8125,
+      "fact_rate": 0.2857142857142857,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 150,
+      "loss": 0.9432680010795593,
+      "lr": 3e-05,
+      "agree16": 0.875,
+      "fact_rate": 0.42857142857142855,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 200,
+      "loss": 0.012482442893087864,
+      "lr": 3e-05,
+      "agree16": 0.875,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 250,
+      "loss": 0.0023816439788788557,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 300,
+      "loss": 0.0005942255374975502,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 350,
+      "loss": 0.0004432403948158026,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 400,
+      "loss": 0.0009718913934193552,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 450,
+      "loss": 4.7759640438016504e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 500,
+      "loss": 9.104859782382846e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 550,
+      "loss": 3.436698898440227e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 600,
+      "loss": 0.0003050641098525375,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 650,
+      "loss": 4.079221616848372e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 700,
+      "loss": 3.0332237656693906e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 750,
+      "loss": 0.0017292769625782967,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 800,
+      "loss": 5.405917181633413e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 850,
+      "loss": 4.4058910134481266e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 900,
+      "loss": 1.4418263162951916e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 950,
+      "loss": 0.00025313429068773985,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 1000,
+      "loss": 8.206025813706219e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 1050,
+      "loss": 4.027258910355158e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 1100,
+      "loss": 0.001363764051347971,
+      "lr": 3e-05,
+      "agree16": 0.875,
+      "fact_rate": 0.42857142857142855,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 1150,
+      "loss": 0.005777457263320684,
+      "lr": 3e-05,
+      "agree16": 0.875,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 1200,
+      "loss": 0.00010695569653762504,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 1250,
+      "loss": 1.8149479728890583e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 1300,
+      "loss": 0.0005241143517196178,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 1350,
+      "loss": 1.541955498396419e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 1400,
+      "loss": 1.7457965441280976e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 1450,
+      "loss": 0.002186352387070656,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    },
+    {
+      "step": 1500,
+      "loss": 3.1619627407053486e-05,
+      "lr": 3e-05,
+      "agree16": 0.9375,
+      "fact_rate": 0.5,
+      "base_fact": 0.42857142857142855
+    }
+  ],
+  "exceeds_baseline_fact": true,
+  "elapsed_s": 305.21911692619324,
+  "ok": true
+}

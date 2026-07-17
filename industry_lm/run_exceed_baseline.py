@@ -96,6 +96,7 @@ def load_fsot(device):
     tok, m = load_base(device)
     swap_all_layers(m)
     for path in [
+        CKPT / "pure_fsot_exceed_best.pt",
         CKPT / "pure_fsot_agree100_best.pt",
         CKPT / "pure_fsot_agree_best.pt",
         CKPT / "pure_fsot_push80_best.pt",

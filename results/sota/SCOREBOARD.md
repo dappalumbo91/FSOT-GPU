@@ -23,22 +23,22 @@
 | Exact multi-token (clone) | 100% (self) | 22% | harsh metric |
 | Gen top5 on base path | — | **47%** | — |
 | Teacher NLL of FSOT gen | — | **8.32** | lower better |
-| Prefill ms | 30.08 | 27.72 | **1.08×** |
-| Decode tok/s | 35.7 | 37.6 | **1.05×** |
-| Attn track win rate | — | **38%** (3/8) | long 2/2 |
+| Prefill ms | 44.21 | 35.10 | **1.26×** |
+| Decode tok/s | 34.7 | 36.1 | **1.04×** |
+| Attn track win rate | — | **25%** (2/8) | long 2/2 |
 
 ## Attention op sweep (H=9 D=64, fused SDPA vs FSOT CUDA)
 
 | S | SDPA ms | FSOT ms | Speedup | Win |
 |---|---------|---------|---------|-----|
-| 64 | 0.017 | 0.065 | **0.26×** | — |
-| 128 | 0.019 | 0.078 | **0.24×** | — |
-| 256 | 0.038 | 0.116 | **0.33×** | — |
-| 512 | 0.096 | 0.141 | **0.68×** | — |
-| 1024 | 0.244 | 0.248 | **0.99×** | — |
-| 2048 | 0.743 | 0.628 | **1.18×** | WIN |
-| 4096 | 2.597 | 2.088 | **1.24×** | WIN |
-| 8192 | 9.752 | 6.332 | **1.54×** | WIN |
+| 64 | 0.014 | 0.062 | **0.23×** | — |
+| 128 | 0.019 | 0.067 | **0.28×** | — |
+| 256 | 0.033 | 0.101 | **0.33×** | — |
+| 512 | 0.094 | 0.123 | **0.77×** | — |
+| 1024 | 0.220 | 0.341 | **0.65×** | — |
+| 2048 | 0.654 | 0.879 | **0.74×** | — |
+| 4096 | 2.353 | 2.022 | **1.16×** | WIN |
+| 8192 | 8.774 | 5.493 | **1.60×** | WIN |
 
 FSOT structural domain: **long context** (collapse sparsity O(S·A) vs dense O(S²)) and **short fused** path. Mid-S remains the industry fused-kernel sweet spot.
 

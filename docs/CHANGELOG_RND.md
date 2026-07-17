@@ -1,5 +1,12 @@
 # R&D changelog (lab)
 
+## 2026-07-17 (cont.) — Exceed knowledge + mid-S (FSOT law)
+
+- **Exceed knowledge:** pure FSOT + full DoF + `suction_poof_lr` + `D_eff` scalar. Factual hit rate **50% > baseline 43%** on 14-prompt set; agree retained **94%**. Ckpt `pure_fsot_exceed_best.pt`. Ledger `exceed_knowledge.json`.
+- **Earth orbits the → Sun** fixed under exceed path (was FSOT miss).
+- **Mid-S kernel:** trit-pack fused mid path under collapse/coh; long-S still wins (S=4096 ~1.24×, S=8192 ~1.40×). Mid-S still fused-SDPA sweet spot. `results/competitive/mid_s_attention.json`.
+- No 2D/3D architecture reshape this round. FSOT only.
+
 ## 2026-07-17 (cont.) — Ladder A: 100% = baseline fidelity
 
 - Surgical board+margin push: pure FSOT next-token agree **100%** on EVAL16 (was 94%, 1 miss).

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-17T22:56:18.558669+00:00",
+  "timestamp": "2026-07-17T23:08:49.649632+00:00",
   "project": "FSOT-GPU",
   "goal": "Beat industry capability on this GPU with FSOT using a tiny model",
   "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
@@ -190,17 +190,17 @@
     ]
   },
   "prefill": {
-    "baseline_ms": 30.07612749997861,
-    "fsot_ms": 27.720945000055508,
-    "speedup": 1.0849603972706698,
+    "baseline_ms": 44.209527499970136,
+    "fsot_ms": 35.104347499964206,
+    "speedup": 1.2593747113520688,
     "baseline_vram_mib": 1052.26513671875,
     "fsot_vram_mib": 1052.26513671875
   },
   "decode": {
     "baseline": {
-      "tps_mean": 35.73145294266416,
-      "tps_min": 35.14113227807573,
-      "tps_max": 36.137334519137305,
+      "tps_mean": 34.66077438471642,
+      "tps_min": 33.570410368805845,
+      "tps_max": 35.12451916451934,
       "max_new": 32,
       "vram_peak_mib": 1053.46826171875,
       "samples": [
@@ -212,9 +212,9 @@
       ]
     },
     "fsot": {
-      "tps_mean": 37.629211307731474,
-      "tps_min": 36.74310917437939,
-      "tps_max": 38.173744217972455,
+      "tps_mean": 36.07011551611822,
+      "tps_min": 35.58326701325581,
+      "tps_max": 36.50770072904601,
       "max_new": 32,
       "vram_peak_mib": 1053.46826171875,
       "samples": [
@@ -225,7 +225,7 @@
         "2 + 2 = \n\n\n\n\n\n\n\n\n\n\n\n\n\n, the \"    1, the 2, the 1 the"
       ]
     },
-    "speedup": 1.0531117043606515
+    "speedup": 1.0406609822319275
   },
   "attention_op": {
     "rows": [
@@ -233,78 +233,78 @@
         "H": 9,
         "S": 64,
         "D": 64,
-        "sdpa_ms": 0.01696125000307802,
-        "fsot_ms": 0.06527874998027983,
-        "fsot_speedup": 0.2598280452398656,
+        "sdpa_ms": 0.014310000005934853,
+        "fsot_ms": 0.061853750003137975,
+        "fsot_speedup": 0.23135218164151528,
         "fsot_wins": false
       },
       {
         "H": 9,
         "S": 128,
         "D": 64,
-        "sdpa_ms": 0.01876500000435044,
-        "fsot_ms": 0.07750124996164232,
-        "fsot_speedup": 0.2421251271900492,
+        "sdpa_ms": 0.018947500029753428,
+        "fsot_ms": 0.06677000001218403,
+        "fsot_speedup": 0.2837726527826259,
         "fsot_wins": false
       },
       {
         "H": 9,
         "S": 256,
         "D": 64,
-        "sdpa_ms": 0.038487499978145934,
-        "fsot_ms": 0.11584124999899359,
-        "fsot_speedup": 0.3322434795764057,
+        "sdpa_ms": 0.033268749984927126,
+        "fsot_ms": 0.10068249998766987,
+        "fsot_speedup": 0.33043229944629304,
         "fsot_wins": false
       },
       {
         "H": 9,
         "S": 512,
         "D": 64,
-        "sdpa_ms": 0.09557249995850725,
-        "fsot_ms": 0.14081749995966675,
-        "fsot_speedup": 0.6786976049559276,
+        "sdpa_ms": 0.09446000003663357,
+        "fsot_ms": 0.12331249999988358,
+        "fsot_speedup": 0.7660212876774273,
         "fsot_wins": false
       },
       {
         "H": 9,
         "S": 1024,
         "D": 64,
-        "sdpa_ms": 0.24420999998255866,
-        "fsot_ms": 0.247510000008333,
-        "fsot_speedup": 0.9866672052617541,
+        "sdpa_ms": 0.22048499995435122,
+        "fsot_ms": 0.3414849999899161,
+        "fsot_speedup": 0.6456652560459817,
         "fsot_wins": false
       },
       {
         "H": 9,
         "S": 2048,
         "D": 64,
-        "sdpa_ms": 0.7433200000377838,
-        "fsot_ms": 0.6282800000917632,
-        "fsot_speedup": 1.183103074949415,
-        "fsot_wins": true
+        "sdpa_ms": 0.6541700000525452,
+        "fsot_ms": 0.8786200000031386,
+        "fsot_speedup": 0.7445425781910364,
+        "fsot_wins": false
       },
       {
         "H": 9,
         "S": 4096,
         "D": 64,
-        "sdpa_ms": 2.5968250000005355,
-        "fsot_ms": 2.0878600000287406,
-        "fsot_speedup": 1.2437735288595924,
+        "sdpa_ms": 2.3527350000222214,
+        "fsot_ms": 2.0222500001182198,
+        "fsot_speedup": 1.163424403453916,
         "fsot_wins": true
       },
       {
         "H": 9,
         "S": 8192,
         "D": 64,
-        "sdpa_ms": 9.752320000006875,
-        "fsot_ms": 6.332240000119782,
-        "fsot_speedup": 1.5401058708801938,
+        "sdpa_ms": 8.773904999907245,
+        "fsot_ms": 5.492960000083258,
+        "fsot_speedup": 1.5972999985024936,
         "fsot_wins": true
       }
     ],
-    "wins": 3,
+    "wins": 2,
     "n": 8,
-    "win_rate": 0.375,
+    "win_rate": 0.25,
     "long_context_wins": 2,
     "long_context_n": 2,
     "short_wins": 0,
@@ -313,14 +313,14 @@
       "H": 9,
       "S": 256,
       "D": 64,
-      "sdpa_ms": 0.038487499978145934,
-      "fsot_ms": 0.11584124999899359,
-      "fsot_speedup": 0.3322434795764057,
+      "sdpa_ms": 0.033268749984927126,
+      "fsot_ms": 0.10068249998766987,
+      "fsot_speedup": 0.33043229944629304,
       "fsot_wins": false
     },
-    "sdpa_ms": 0.038487499978145934,
-    "fsot_ms": 0.11584124999899359,
-    "fsot_speedup": 0.3322434795764057,
+    "sdpa_ms": 0.033268749984927126,
+    "fsot_ms": 0.10068249998766987,
+    "fsot_speedup": 0.33043229944629304,
     "collapse_threshold": 0.9174663774653723,
     "cuda_dll": true,
     "note": "Track win = long-context (S>=2048) sweep + short win, or win_rate>=0.5"
