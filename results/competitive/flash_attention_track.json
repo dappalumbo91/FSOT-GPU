@@ -1,0 +1,160 @@
+{
+  "timestamp": "2026-07-17T22:07:42.208472+00:00",
+  "suite": "flash_attention_track",
+  "device": "NVIDIA GeForce RTX 5070",
+  "goal": "FSOT sparse CUDA always faster than FlashAttention-class SDPA under FSOT loads",
+  "rows": [
+    {
+      "H": 8,
+      "S": 128,
+      "D": 64,
+      "fsot_ms": 0.08608,
+      "A_frac": 0.0068,
+      "backends": {
+        "default": {
+          "ms": 0.8096762500372279,
+          "error": null,
+          "fsot_speedup": 9.406090265302367,
+          "fsot_wins": true
+        },
+        "flash": {
+          "ms": null,
+          "error": "No available kernel. Aborting execution."
+        },
+        "mem_efficient": {
+          "ms": null,
+          "error": "No available kernel. Aborting execution."
+        },
+        "math": {
+          "ms": 0.7674787500036473,
+          "error": null,
+          "fsot_speedup": 8.915877671975457,
+          "fsot_wins": true
+        }
+      }
+    },
+    {
+      "H": 8,
+      "S": 256,
+      "D": 64,
+      "fsot_ms": 0.11575,
+      "A_frac": 0.0073,
+      "backends": {
+        "default": {
+          "ms": 0.7450999999946362,
+          "error": null,
+          "fsot_speedup": 6.437149028031413,
+          "fsot_wins": true
+        },
+        "flash": {
+          "ms": null,
+          "error": "No available kernel. Aborting execution."
+        },
+        "mem_efficient": {
+          "ms": null,
+          "error": "No available kernel. Aborting execution."
+        },
+        "math": {
+          "ms": 1.2514550000105373,
+          "error": null,
+          "fsot_speedup": 10.811706263589954,
+          "fsot_wins": true
+        }
+      }
+    },
+    {
+      "H": 8,
+      "S": 512,
+      "D": 64,
+      "fsot_ms": 0.21788,
+      "A_frac": 0.0068,
+      "backends": {
+        "default": {
+          "ms": 0.5945062499904452,
+          "error": null,
+          "fsot_speedup": 2.7285948686912302,
+          "fsot_wins": true
+        },
+        "flash": {
+          "ms": null,
+          "error": "No available kernel. Aborting execution."
+        },
+        "mem_efficient": {
+          "ms": null,
+          "error": "No available kernel. Aborting execution."
+        },
+        "math": {
+          "ms": 0.8545812499960448,
+          "error": null,
+          "fsot_speedup": 3.9222565173308466,
+          "fsot_wins": true
+        }
+      }
+    },
+    {
+      "H": 8,
+      "S": 1024,
+      "D": 64,
+      "fsot_ms": 0.53972,
+      "A_frac": 0.0072,
+      "backends": {
+        "default": {
+          "ms": 1.5256862499882118,
+          "error": null,
+          "fsot_speedup": 2.8268106610616837,
+          "fsot_wins": true
+        },
+        "flash": {
+          "ms": null,
+          "error": "No available kernel. Aborting execution."
+        },
+        "mem_efficient": {
+          "ms": null,
+          "error": "No available kernel. Aborting execution."
+        },
+        "math": {
+          "ms": 1.0448550000091927,
+          "error": null,
+          "fsot_speedup": 1.9359204773015504,
+          "fsot_wins": true
+        }
+      }
+    },
+    {
+      "H": 9,
+      "S": 256,
+      "D": 64,
+      "fsot_ms": 0.16265,
+      "A_frac": 0.0095,
+      "backends": {
+        "default": {
+          "ms": 0.7896524999978283,
+          "error": null,
+          "fsot_speedup": 4.85491853672197,
+          "fsot_wins": true
+        },
+        "flash": {
+          "ms": null,
+          "error": "No available kernel. Aborting execution."
+        },
+        "mem_efficient": {
+          "ms": null,
+          "error": "No available kernel. Aborting execution."
+        },
+        "math": {
+          "ms": 1.2006824999843957,
+          "error": null,
+          "fsot_speedup": 7.382001229538246,
+          "fsot_wins": true
+        }
+      }
+    }
+  ],
+  "ok": true,
+  "summary": {
+    "comparisons": 10,
+    "fsot_wins": 10,
+    "win_rate": 1.0,
+    "standing_goal": "win_rate \u2192 1.0 on all FlashAttention-class backends + larger S"
+  }
+}
