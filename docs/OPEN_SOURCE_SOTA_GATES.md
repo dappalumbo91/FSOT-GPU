@@ -17,6 +17,7 @@
 | G8 | Public capability packs (ARC/GSM8K/MMLU smoke) | **OPENING** | Granular metrics + real packs; ARC-Easy hold **32%** ≫ base **8%**; GSM free exact still collapsed |
 | G8b | Granular accuracy axes (not headline-only) | **PASS (v1)** | TF / first-digit / constrained / held-out / mode-collapse — `granular_metrics.py` |
 | G8c | FSOT 2.1 verification bridge on host path | **PASS** | V1–V6: archive stamp, connective spine, seed θ, formal artifacts, owned stack, pure-FSOT host — `fsot21_verify.py` |
+| G8d | Overfit gap metric (train vs hold) | **PASS (v1)** | `overfit_gap`, `gen_score`, `accept_update` — curb memorization direction — `overfit_metrics.py` |
 | G9 | Repro package (ckpt recipe + ledgers + Apache-2.0) | **PARTIAL** | Repo public |
 
 ## Decision: start Phase 1 curriculum?

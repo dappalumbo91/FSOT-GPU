@@ -1,0 +1,276 @@
+{
+  "timestamp": "2026-07-18T15:59:40.150970+00:00",
+  "protocol": "overfit_gap = train_acc \u2212 hold_acc; gen_score = hold \u2212 penalty*gap",
+  "how_to_use": {
+    "reject_step_if": "hold drops OR overfit_gap widens >2pts OR gen_score falls",
+    "accept_step_if": "overfit_metrics.accept_update(before, after) is True",
+    "system_surface": [
+      "gen_score",
+      "mean_overfit_gap",
+      "overfit_flag",
+      "direction_label(before, after)"
+    ]
+  },
+  "ranked_by_gen_score": [
+    {
+      "host": "data_driven_best",
+      "gen_score": 0.2916666666666667,
+      "mean_hold_acc": 0.2916666666666667,
+      "mean_overfit_gap": -0.06666666666666667,
+      "overfit_flag": false
+    },
+    {
+      "host": "granular_best",
+      "gen_score": 0.2916666666666667,
+      "mean_hold_acc": 0.2916666666666667,
+      "mean_overfit_gap": -0.06666666666666667,
+      "overfit_flag": false
+    },
+    {
+      "host": "12x3_best",
+      "gen_score": 0.2722222222222222,
+      "mean_hold_acc": 0.30277777777777776,
+      "mean_overfit_gap": 0.03055555555555557,
+      "overfit_flag": true
+    },
+    {
+      "host": "baseline_hf",
+      "gen_score": 0.1138888888888889,
+      "mean_hold_acc": 0.16111111111111112,
+      "mean_overfit_gap": 0.04722222222222222,
+      "overfit_flag": true
+    }
+  ],
+  "hosts": [
+    {
+      "host": "baseline_hf",
+      "ckpt": null,
+      "meta": {
+        "phase": "hf_baseline"
+      },
+      "report": {
+        "mean_train_acc": 0.20833333333333334,
+        "mean_hold_acc": 0.16111111111111112,
+        "mean_overfit_gap": 0.04722222222222222,
+        "max_overfit_gap": 0.16666666666666669,
+        "gen_score": 0.1138888888888889,
+        "overfit_flag": true,
+        "threshold_gap": 0.08,
+        "notes": "overfit_signature",
+        "splits": [
+          {
+            "name": "arc_easy",
+            "acc_train": 0.25,
+            "acc_hold": 0.08333333333333333,
+            "err_train": 0.75,
+            "err_hold": 0.9166666666666666,
+            "overfit_gap": 0.16666666666666669,
+            "n_train": 40,
+            "n_hold": 60
+          },
+          {
+            "name": "arc_challenge",
+            "acc_train": 0.125,
+            "acc_hold": 0.125,
+            "err_train": 0.875,
+            "err_hold": 0.875,
+            "overfit_gap": 0.0,
+            "n_train": 40,
+            "n_hold": 40
+          },
+          {
+            "name": "gsm_first_digit",
+            "acc_train": 0.25,
+            "acc_hold": 0.275,
+            "err_train": 0.75,
+            "err_hold": 0.725,
+            "overfit_gap": -0.025000000000000022,
+            "n_train": 40,
+            "n_hold": 40
+          }
+        ]
+      },
+      "paths": {
+        "json": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\overfit_baseline_hf.json",
+        "md": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\overfit_baseline_hf.md"
+      }
+    },
+    {
+      "host": "data_driven_best",
+      "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_data_driven_best.pt",
+      "meta": {
+        "phase": "data_driven_A_arc",
+        "step": 1,
+        "arc_min": 0.275,
+        "arc_easy_hold": 0.3,
+        "arc_challenge_hold": 0.275,
+        "gsm_first": 0.3,
+        "agree16": 1.0
+      },
+      "report": {
+        "mean_train_acc": 0.225,
+        "mean_hold_acc": 0.2916666666666667,
+        "mean_overfit_gap": -0.06666666666666667,
+        "max_overfit_gap": -0.04999999999999999,
+        "gen_score": 0.2916666666666667,
+        "overfit_flag": false,
+        "threshold_gap": 0.08,
+        "notes": "gap_within_threshold",
+        "splits": [
+          {
+            "name": "arc_easy",
+            "acc_train": 0.25,
+            "acc_hold": 0.3,
+            "err_train": 0.75,
+            "err_hold": 0.7,
+            "overfit_gap": -0.04999999999999999,
+            "n_train": 40,
+            "n_hold": 60
+          },
+          {
+            "name": "arc_challenge",
+            "acc_train": 0.175,
+            "acc_hold": 0.275,
+            "err_train": 0.825,
+            "err_hold": 0.725,
+            "overfit_gap": -0.10000000000000003,
+            "n_train": 40,
+            "n_hold": 40
+          },
+          {
+            "name": "gsm_first_digit",
+            "acc_train": 0.25,
+            "acc_hold": 0.3,
+            "err_train": 0.75,
+            "err_hold": 0.7,
+            "overfit_gap": -0.04999999999999999,
+            "n_train": 40,
+            "n_hold": 40
+          }
+        ]
+      },
+      "paths": {
+        "json": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\overfit_data_driven_best.json",
+        "md": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\overfit_data_driven_best.md"
+      }
+    },
+    {
+      "host": "12x3_best",
+      "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_12x3_best.pt",
+      "meta": {
+        "phase": null,
+        "step": null,
+        "arc_min": null,
+        "arc_easy_hold": null,
+        "arc_challenge_hold": null,
+        "gsm_first": null,
+        "agree16": 1.0
+      },
+      "report": {
+        "mean_train_acc": 0.3333333333333333,
+        "mean_hold_acc": 0.30277777777777776,
+        "mean_overfit_gap": 0.03055555555555557,
+        "max_overfit_gap": 0.16666666666666666,
+        "gen_score": 0.2722222222222222,
+        "overfit_flag": true,
+        "threshold_gap": 0.08,
+        "notes": "overfit_signature",
+        "splits": [
+          {
+            "name": "arc_easy",
+            "acc_train": 0.35,
+            "acc_hold": 0.18333333333333332,
+            "err_train": 0.65,
+            "err_hold": 0.8166666666666667,
+            "overfit_gap": 0.16666666666666666,
+            "n_train": 40,
+            "n_hold": 60
+          },
+          {
+            "name": "arc_challenge",
+            "acc_train": 0.4,
+            "acc_hold": 0.425,
+            "err_train": 0.6,
+            "err_hold": 0.575,
+            "overfit_gap": -0.024999999999999967,
+            "n_train": 40,
+            "n_hold": 40
+          },
+          {
+            "name": "gsm_first_digit",
+            "acc_train": 0.25,
+            "acc_hold": 0.3,
+            "err_train": 0.75,
+            "err_hold": 0.7,
+            "overfit_gap": -0.04999999999999999,
+            "n_train": 40,
+            "n_hold": 40
+          }
+        ]
+      },
+      "paths": {
+        "json": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\overfit_12x3_best.json",
+        "md": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\overfit_12x3_best.md"
+      }
+    },
+    {
+      "host": "granular_best",
+      "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_granular_best.pt",
+      "meta": {
+        "phase": "data_driven_A_arc",
+        "step": 1,
+        "arc_min": 0.275,
+        "arc_easy_hold": 0.3,
+        "arc_challenge_hold": 0.275,
+        "gsm_first": 0.3,
+        "agree16": 1.0
+      },
+      "report": {
+        "mean_train_acc": 0.225,
+        "mean_hold_acc": 0.2916666666666667,
+        "mean_overfit_gap": -0.06666666666666667,
+        "max_overfit_gap": -0.04999999999999999,
+        "gen_score": 0.2916666666666667,
+        "overfit_flag": false,
+        "threshold_gap": 0.08,
+        "notes": "gap_within_threshold",
+        "splits": [
+          {
+            "name": "arc_easy",
+            "acc_train": 0.25,
+            "acc_hold": 0.3,
+            "err_train": 0.75,
+            "err_hold": 0.7,
+            "overfit_gap": -0.04999999999999999,
+            "n_train": 40,
+            "n_hold": 60
+          },
+          {
+            "name": "arc_challenge",
+            "acc_train": 0.175,
+            "acc_hold": 0.275,
+            "err_train": 0.825,
+            "err_hold": 0.725,
+            "overfit_gap": -0.10000000000000003,
+            "n_train": 40,
+            "n_hold": 40
+          },
+          {
+            "name": "gsm_first_digit",
+            "acc_train": 0.25,
+            "acc_hold": 0.3,
+            "err_train": 0.75,
+            "err_hold": 0.7,
+            "overfit_gap": -0.04999999999999999,
+            "n_train": 40,
+            "n_hold": 40
+          }
+        ]
+      },
+      "paths": {
+        "json": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\overfit_granular_best.json",
+        "md": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\overfit_granular_best.md"
+      }
+    }
+  ]
+}

@@ -12,6 +12,7 @@ Layers:
   V4  Phase-1 formal artifacts present (Lean/Coq/Isabelle/F*)
   V5  Owned stack smoke (scalar, pack, coherence, consensus no-softmax)
   V6  Pure-FSOT host structural: all layers FsotLlamaAttention, finite forward
+  V7  Overfit-metric module present (train−hold gap API) — soft, always available
 
 Does not re-run full multi-hour Lean/Coq/Isabelle suite each time — it
 **binds** to the already-green archive report and re-proves the exported
@@ -422,6 +423,31 @@ def run_verification(
         if not c.get("ok"):
             report["ok"] = False
             report["failed_layers"].append("V6_pure_fsot_host")
+
+    # V7 soft: overfit metric API must be importable (does not load GPU models here)
+    try:
+        from overfit_metrics import (  # noqa: WPS433
+            accept_update,
+            build_overfit_report,
+            overfit_gap,
+        )
+
+        g = overfit_gap(0.40, 0.30)  # train 40%, hold 30% → gap +0.10
+        dummy = build_overfit_report([])
+        report["layers"]["V7_overfit_metric_api"] = {
+            "ok": True,
+            "soft": True,
+            "sample_gap_train40_hold30": g,
+            "accept_update": callable(accept_update),
+            "detail": "train−hold gap + gen_score for non-overfit direction",
+        }
+    except Exception as e:
+        report["layers"]["V7_overfit_metric_api"] = {
+            "ok": False,
+            "soft": True,
+            "error": str(e),
+        }
+        # soft: do not fail overall ledger solely on V7
 
     if write:
         out_dir = ROOT / "results" / "industry_lm"
