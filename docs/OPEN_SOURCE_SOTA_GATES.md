@@ -14,7 +14,8 @@
 | G5 | Exceed knowledge (factual set) | **PASS (narrow)** | 50% > 43% base |
 | G6 | Mid-S attention op | **OPEN** | Still fused-SDPA sweet spot |
 | G7 | FSOT curriculum (2.1 math/arch + solidification) | **OPENING NOW** | Phase 1 |
-| G8 | Public capability packs (ARC/GSM8K/MMLU smoke) | **NEXT** | `D:\training data` |
+| G8 | Public capability packs (ARC/GSM8K/MMLU smoke) | **OPENING** | Granular metrics + real packs; ARC-Easy hold **32%** ≫ base **8%**; GSM free exact still collapsed |
+| G8b | Granular accuracy axes (not headline-only) | **PASS (v1)** | TF / first-digit / constrained / held-out / mode-collapse — `granular_metrics.py` |
 | G9 | Repro package (ckpt recipe + ledgers + Apache-2.0) | **PARTIAL** | Repo public |
 
 ## Decision: start Phase 1 curriculum?
