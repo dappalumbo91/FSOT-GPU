@@ -1,0 +1,135 @@
+{
+  "timestamp": "2026-07-18T01:05:25.658235+00:00",
+  "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_sota_climb_best.pt",
+  "meta": {
+    "agree16": 0.9375,
+    "fact_rate": 0.6428571428571429,
+    "fsot_literacy": 0.375,
+    "step": 640,
+    "score": null
+  },
+  "sets": {
+    "arc_easy": {
+      "n": 40,
+      "baseline": 0.125,
+      "fsot": 0.2,
+      "delta": 0.07500000000000001,
+      "fsot_wins": true,
+      "sample_misses": [
+        {
+          "kind": "arc_easy",
+          "gold": "B",
+          "pred": "S",
+          "hit": false
+        },
+        {
+          "kind": "arc_easy",
+          "gold": "B",
+          "pred": "A",
+          "hit": false
+        },
+        {
+          "kind": "arc_easy",
+          "gold": "D",
+          "pred": "S",
+          "hit": false
+        },
+        {
+          "kind": "arc_easy",
+          "gold": "A",
+          "pred": "S",
+          "hit": false
+        },
+        {
+          "kind": "arc_easy",
+          "gold": "3",
+          "pred": "S",
+          "hit": false
+        }
+      ]
+    },
+    "gsm8k": {
+      "n": 40,
+      "baseline": 0.675,
+      "fsot": 0.15,
+      "delta": -0.525,
+      "fsot_wins": false,
+      "sample_misses": [
+        {
+          "kind": "gsm8k",
+          "gold": "3",
+          "pred": "0.0",
+          "hit": false
+        },
+        {
+          "kind": "gsm8k",
+          "gold": "70000",
+          "pred": "000000000000000000000000000000000000000000000",
+          "hit": false
+        },
+        {
+          "kind": "gsm8k",
+          "gold": "540",
+          "pred": "1",
+          "hit": false
+        },
+        {
+          "kind": "gsm8k",
+          "gold": "20",
+          "pred": " up up up up up up up up up for Hyper au",
+          "hit": false
+        },
+        {
+          "kind": "gsm8k",
+          "gold": "64",
+          "pred": "0.000000000000000000000000000",
+          "hit": false
+        }
+      ]
+    },
+    "math": {
+      "n": 30,
+      "baseline": 0.3333333333333333,
+      "fsot": 0.03333333333333333,
+      "delta": -0.3,
+      "fsot_wins": false,
+      "sample_misses": [
+        {
+          "kind": "math",
+          "gold": "2",
+          "pred": "0.",
+          "hit": false
+        },
+        {
+          "kind": "math",
+          "gold": "3",
+          "pred": "0.00",
+          "hit": false
+        },
+        {
+          "kind": "math",
+          "gold": "3",
+          "pred": "0",
+          "hit": false
+        },
+        {
+          "kind": "math",
+          "gold": "196.",
+          "pred": "0.0",
+          "hit": false
+        },
+        {
+          "kind": "math",
+          "gold": "Evelyn covered more distance in less tim",
+          "pred": "00000000.",
+          "hit": false
+        }
+      ]
+    }
+  },
+  "ok": true,
+  "macro_baseline": 0.37777777777777777,
+  "macro_fsot": 0.12777777777777777,
+  "macro_delta": -0.25,
+  "fsot_macro_wins": false
+}

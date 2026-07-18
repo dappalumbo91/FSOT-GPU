@@ -321,21 +321,38 @@ __global__ void consensus_kernel(const float *__restrict__ q,
     const float *kh = kbase + (size_t)kj * (size_t)D;
     const float *vh = vbase + (size_t)kj * (size_t)D;
     float acc = 0.f;
+    if (D == 64) {
+#pragma unroll 64
+      for (int d = 0; d < 64; ++d) {
+        int tq = collapse_code(__ldg(qh + d));
+        int tk = collapse_code(__ldg(kh + d));
+        if (tq == 1 || tk == 1)
+          continue;
+        acc += (tq == tk) ? 1.f : -1.f;
+      }
+    } else {
 #pragma unroll 8
-    for (int d = 0; d < D; ++d) {
-      int tq = collapse_code(__ldg(qh + d));
-      int tk = collapse_code(__ldg(kh + d));
-      if (tq == 1 || tk == 1)
-        continue;
-      acc += (tq == tk) ? 1.f : -1.f;
+      for (int d = 0; d < D; ++d) {
+        int tq = collapse_code(__ldg(qh + d));
+        int tk = collapse_code(__ldg(kh + d));
+        if (tq == 1 || tk == 1)
+          continue;
+        acc += (tq == tk) ? 1.f : -1.f;
+      }
     }
     float w = acc / (float)D;
     if (w == 0.f)
       continue;
     active += 1.f;
+    if (D == 64) {
+#pragma unroll 64
+      for (int d = 0; d < 64; ++d)
+        oh[d] += w * __ldg(vh + d);
+    } else {
 #pragma unroll 8
-    for (int d = 0; d < D; ++d)
-      oh[d] += w * __ldg(vh + d);
+      for (int d = 0; d < D; ++d)
+        oh[d] += w * __ldg(vh + d);
+    }
   }
   if (active > 1.f) {
     float inv = 1.f / active;
@@ -426,14 +443,14 @@ EXPORT int fsot_consensus_cuda_device(float *q, float *k, float *v, float *out,
 
   int mode = g_mode;
   if (mode < 0) {
-    // Adaptive under collapse sparsity:
-    // short: light fused | mid: trit-pack fused | long: multipass scales past SDPA
+    // Adaptive under collapse sparsity (measured on RTX 5070):
+    // short: light fused | mid: trit-pack | long: multipass (beats fused SDPA)
     if (S <= 96)
       mode = 1;
-    else if (S <= 2048)
+    else if (S <= 384)
       mode = 2;
     else
-      mode = 0;
+      mode = 0; // multipass wins mid-long + long under collapse A≪S
   }
   if (mode == 1)
     return launch_light(q, k, v, out, B, H, S, D);

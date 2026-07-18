@@ -1,0 +1,23 @@
+{
+  "n": 20000,
+  "by_kind": {
+    "fsot_operator_primer": 1,
+    "fsot_2_1_doc": 1617,
+    "fsot_2_1_tree": 45,
+    "solidification_nist_codata": 11,
+    "solidification_nasa_exoplanet": 18,
+    "solidification_pubchem": 80,
+    "solidification_rcsb_pdb": 5,
+    "solidification_openalex": 19,
+    "solidification_noaa_tides": 2,
+    "solidification_gbif": 205,
+    "solidification_cern_opendata": 23,
+    "solidification_uniprot": 3,
+    "solidification_world_bank": 72,
+    "solidification_consciousness": 108,
+    "solidification_anomaly_observables": 164,
+    "solidification_trinary_os": 9,
+    "arxiv_fsot_core": 17618
+  },
+  "out": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\curriculum_v2_chunks.jsonl"
+}

@@ -1,69 +1,63 @@
 {
-  "timestamp": "2026-07-17T23:08:04.592443+00:00",
-  "suite": "mid_s_fsot_collapse_path",
-  "authority": "C_eff*P_var collapse, coh>0.5, consensus no exp; mid trit-pack fused",
-  "H": 9,
-  "D": 64,
+  "timestamp": "2026-07-18T00:04:52.409111+00:00",
   "rows": [
     {
       "S": 64,
-      "sdpa": 0.0168,
-      "fsot": 0.0266,
-      "speedup": 0.631578947368421,
-      "fsot_wins": false
+      "sdpa": 0.016649999997753184,
+      "fsot": 0.02469504065811634,
+      "speedup": 0.6742244415896902,
+      "win": false
     },
     {
       "S": 128,
-      "sdpa": 0.0193,
-      "fsot": 0.0654,
-      "speedup": 0.29510703363914376,
-      "fsot_wins": false
+      "sdpa": 0.020257999967725482,
+      "fsot": 0.06472544372081757,
+      "speedup": 0.31298356261727606,
+      "win": false
     },
     {
       "S": 256,
-      "sdpa": 0.0359,
-      "fsot": 0.1034,
-      "speedup": 0.3471953578336557,
-      "fsot_wins": false
+      "sdpa": 0.03598399998736568,
+      "fsot": 0.07447952032089233,
+      "speedup": 0.48313952388965326,
+      "win": false
     },
     {
       "S": 512,
-      "sdpa": 0.0835,
-      "fsot": 0.1496,
-      "speedup": 0.5581550802139037,
-      "fsot_wins": false
+      "sdpa": 0.08327499999722932,
+      "fsot": 0.167220801115036,
+      "speedup": 0.49799426531835617,
+      "win": false
     },
     {
       "S": 1024,
-      "sdpa": 0.2093,
-      "fsot": 0.2304,
-      "speedup": 0.908420138888889,
-      "fsot_wins": false
+      "sdpa": 0.20781400002306327,
+      "fsot": 0.3044217824935913,
+      "speedup": 0.6826515445800537,
+      "win": false
     },
     {
       "S": 2048,
-      "sdpa": 0.6689,
-      "fsot": 0.6594,
-      "speedup": 1.0144070367000304,
-      "fsot_wins": false
+      "sdpa": 0.6840000001830049,
+      "fsot": 0.6296934485435486,
+      "speedup": 1.0862428404885978,
+      "win": true
     },
     {
       "S": 4096,
-      "sdpa": 2.2577,
-      "fsot": 1.826,
-      "speedup": 1.236418400876232,
-      "fsot_wins": true
+      "sdpa": 2.316700000083074,
+      "fsot": 2.409994125366211,
+      "speedup": 0.9612886503327221,
+      "win": false
     },
     {
       "S": 8192,
-      "sdpa": 8.4705,
-      "fsot": 6.071,
-      "speedup": 1.3952396639762807,
-      "fsot_wins": true
+      "sdpa": 8.532699999923352,
+      "fsot": 4.874959468841553,
+      "speedup": 1.7503119881222307,
+      "win": true
     }
   ],
   "wins": 2,
-  "n": 8,
-  "long_wins": 2,
-  "note": "Mid-S still industry fused sweet spot; long-S FSOT structural win domain"
+  "n": 8
 }

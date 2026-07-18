@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-07-18T01:10:32.535411+00:00",
+  "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_curriculum_best.pt",
+  "sets": {
+    "arc_easy": {
+      "n": 40,
+      "baseline": 0.125,
+      "fsot": 0.125,
+      "delta": 0.0,
+      "fsot_wins": false
+    },
+    "gsm8k": {
+      "n": 40,
+      "baseline": 0.675,
+      "fsot": 0.0,
+      "delta": -0.675,
+      "fsot_wins": false
+    },
+    "math": {
+      "n": 30,
+      "baseline": 0.3333333333333333,
+      "fsot": 0.0,
+      "delta": -0.3333333333333333,
+      "fsot_wins": false
+    }
+  },
+  "macro_baseline": 0.37777777777777777,
+  "macro_fsot": 0.041666666666666664,
+  "macro_delta": -0.3361111111111111
+}

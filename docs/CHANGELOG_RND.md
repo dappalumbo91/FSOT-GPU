@@ -1,5 +1,13 @@
 # R&D changelog (lab)
 
+## 2026-07-18 — SOTA climb package (deeper curriculum + packs + mid-S + fact)
+
+- **Deeper curriculum v2:** 20k chunks, multi-domain solidification (PubChem, GBIF, CERN, consciousness, NASA, …) + 2.1 docs.
+- **Capability smoke:** ARC-Easy pure FSOT **20% > baseline 12%** (climb ckpt). GSM8K/MATH still gap under free-gen.
+- **Mid-S:** S=2048 **win ~1.09×**, S=8192 **~1.75×**; short-mid still open.
+- **Fact multi-token:** climb **29%→64%** toward base 71% (not yet exceed); FSOT literacy peaks **50% > base 25%**.
+- Status: `results/industry_lm/CLIMB_STATUS.md`. Tools: `curriculum_corpus_v2.py`, `run_capability_smoke.py`, `run_fact_breakout.py`, `run_sota_climb.py`.
+
 ## 2026-07-17 (cont.) — Phase 1 FSOT curriculum OPEN (open-source SOTA path)
 
 - **Decision:** host gates G1–G5 sufficient to open curriculum; mid-S does not block.
