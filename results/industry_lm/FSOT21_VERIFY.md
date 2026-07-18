@@ -2,7 +2,7 @@
 
 **Overall: PASS**
 
-UTC: 2026-07-18T15:48:22.570493+00:00
+UTC: 2026-07-18T16:25:58.468562+00:00
 
 | Layer | OK | Notes |
 |-------|----|-------|
@@ -12,5 +12,6 @@ UTC: 2026-07-18T15:48:22.570493+00:00
 | V4_formal_artifacts | ✓ |  |
 | V5_owned_stack | ✓ |  |
 | V6_pure_fsot_host | ✓ | layers 30/30 finite=True |
+| V7_overfit_metric_api | ✓ | train−hold gap + gen_score for non-overfit direction |
 
 Refine capability only while this ledger stays green.

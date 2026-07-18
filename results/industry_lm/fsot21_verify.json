@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-18T15:48:22.570493+00:00",
+  "timestamp": "2026-07-18T16:25:58.468562+00:00",
   "protocol": "fsot21_verify_bridge_v1",
   "theory_authority": "FSOT-2.1-Lean + Physical-Archive cross_proof",
   "layers": {
@@ -101,15 +101,15 @@
       "n_layers": 30,
       "n_fsot_attn": 30,
       "all_layers_fsot": true,
-      "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_data_driven_best.pt",
+      "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_sota_standard_best.pt",
       "ckpt_meta": {
-        "arc_min": 0.275,
-        "arc_easy_hold": 0.3,
-        "arc_challenge_hold": 0.275,
+        "arc_min": 0.325,
+        "arc_easy_hold": 0.3333333333333333,
+        "arc_challenge_hold": 0.325,
         "gsm_first": 0.3,
         "agree16": 1.0,
-        "phase": "data_driven_A_arc",
-        "step": 1
+        "phase": "sota_standard_climb",
+        "step": 150
       },
       "forward_finite": true,
       "logits_shape": [
@@ -117,6 +117,13 @@
         10,
         49152
       ]
+    },
+    "V7_overfit_metric_api": {
+      "ok": true,
+      "soft": true,
+      "sample_gap_train40_hold30": 0.09999999999999998,
+      "accept_update": true,
+      "detail": "train\u2212hold gap + gen_score for non-overfit direction"
     }
   },
   "ok": true,

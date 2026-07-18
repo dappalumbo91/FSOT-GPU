@@ -22,15 +22,26 @@ This repo does **not** re-litigate cosmology vs ΛCDM. That work is already in t
 
 AGI-as-media-hype is **not** the goal. **Correct structure → correct computation → correct capability** is.
 
+## SOTA operating standards
+
+Climb under **[`docs/SOTA_STANDARDS.md`](SOTA_STANDARDS.md)** only:
+
+1. **G-VERIFY** — FSOT 2.1 bridge green (`fsot21_verify.py`)  
+2. **G-OVERFIT** — train−hold gap / `gen_score` / `accept_update`  
+3. **G-CAPABILITY** — held-out ARC min, GSM first-digit/TF/exact, agree  
+4. **G-PUBLISH** — GitHub only when all three improve  
+
+Command: `python -u industry_lm/run_sota_standard_climb.py`
+
 ## Active workstreams
 
 | Track | Target | Status (this lab) |
 |-------|--------|-------------------|
 | **FlashAttention / SDPA** | Pure FSOT CUDA consensus faster under FSOT-correct loads | **Long-context won** (S≥4096); mid-S still industry fused sweet spot |
-| **LLM host** | Pure FSOT all-layer: ≥90% next-token; e2e speed; gen quality | **94%** next-token; prefill/decode **win**; gen partial |
-| **SOTA scoreboard** | Across-the-board on same GPU with tiny model | **Hit** (`results/sota/SCOREBOARD.md`) |
-| **Foundation path** | Scale pure-FSOT host, then curriculum on FSOT 2.1 math/architecture + solidification data (`D:\training data` + archive public data) | **Phase 1 OPEN** — literacy peak 75% vs base 62% |
-| **Formal** | Keep Lean/Coq/Isabelle/F\* parity on every kernel contract | Green |
+| **LLM host** | Pure FSOT all-layer: ≥90% next-token; e2e speed; gen quality | **100%** agree; prefill/decode **win**; gen + capability climb open |
+| **SOTA scoreboard** | Across-the-board on same GPU with tiny model | **Hit speed/agree** (`results/sota/SCOREBOARD.md`); **capability standards climb** active |
+| **Foundation path** | Scale pure-FSOT host, then curriculum on FSOT 2.1 math/architecture + solidification data (`D:\training data` + archive public data) | **Standards-gated** — verify + overfit + holds |
+| **Formal** | Keep Lean/Coq/Isabelle/F\* parity on every kernel contract | Green + live bridge to industry host |
 
 ## Non-negotiables
 
