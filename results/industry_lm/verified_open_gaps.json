@@ -1,0 +1,168 @@
+{
+  "timestamp": "2026-07-18T15:48:23.117864+00:00",
+  "protocol": "verified_open_gaps: FSOT2.1 verify \u2192 ARC dual + head first-digit \u2192 re-verify",
+  "verify_pre_ok": true,
+  "verify_post_ok": true,
+  "verify_failed_pre": [],
+  "verify_failed_post": [],
+  "gate0": {
+    "arc_e": 0.3,
+    "arc_c": 0.275,
+    "arc_min": 0.275,
+    "gsm_first": 0.3,
+    "gsm_tf": 0.5375,
+    "gsm_exact": 0.0,
+    "agree": 1.0,
+    "balanced": 2.17125,
+    "mode": "1200000",
+    "mode_frac": 0.85
+  },
+  "best": {
+    "arc_e": 0.3,
+    "arc_c": 0.275,
+    "arc_min": 0.275,
+    "gsm_first": 0.3,
+    "gsm_tf": 0.5375,
+    "gsm_exact": 0.0,
+    "agree": 1.0,
+    "balanced": 2.17125,
+    "mode": "1200000",
+    "mode_frac": 0.85
+  },
+  "final": {
+    "arc_e": 0.3,
+    "arc_c": 0.275,
+    "arc_min": 0.275,
+    "gsm_first": 0.3,
+    "gsm_tf": 0.5375,
+    "gsm_exact": 0.0,
+    "agree": 1.0,
+    "balanced": 2.17125,
+    "mode": "1200000",
+    "mode_frac": 0.85
+  },
+  "capability_improved": false,
+  "promote_reasons": [],
+  "improved": false,
+  "promote_to_github": false,
+  "history": [
+    {
+      "phase": "A",
+      "step": 1,
+      "arc_e": 0.2833333333333333,
+      "arc_c": 0.25,
+      "arc_min": 0.25,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5375,
+      "gsm_exact": 0.0,
+      "agree": 1.0,
+      "balanced": 2.09,
+      "mode": "1200000",
+      "mode_frac": 0.85,
+      "promote": false,
+      "reasons": [
+        "arc_min_regressed"
+      ]
+    },
+    {
+      "phase": "A",
+      "step": 50,
+      "arc_e": 0.21666666666666667,
+      "arc_c": 0.15,
+      "arc_min": 0.15,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5375,
+      "gsm_exact": 0.0,
+      "agree": 1.0,
+      "balanced": 1.7650000000000001,
+      "mode": "1200000",
+      "mode_frac": 0.875,
+      "promote": false,
+      "reasons": [
+        "arc_min_regressed"
+      ]
+    },
+    {
+      "phase": "A",
+      "step": 100,
+      "arc_e": 0.2,
+      "arc_c": 0.075,
+      "arc_min": 0.075,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5375,
+      "gsm_exact": 0.0,
+      "agree": 1.0,
+      "balanced": 1.5462500000000001,
+      "mode": "1200000",
+      "mode_frac": 0.85,
+      "promote": false,
+      "reasons": [
+        "arc_min_regressed"
+      ]
+    },
+    {
+      "phase": "B",
+      "step": 1,
+      "arc_e": 0.2833333333333333,
+      "arc_c": 0.25,
+      "arc_min": 0.25,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5375,
+      "gsm_exact": 0.0,
+      "agree": 1.0,
+      "balanced": 2.09,
+      "mode": "1200000",
+      "mode_frac": 0.85,
+      "promote": false,
+      "reasons": [
+        "arc_min_regressed"
+      ]
+    },
+    {
+      "phase": "B",
+      "step": 50,
+      "arc_e": 0.2833333333333333,
+      "arc_c": 0.225,
+      "arc_min": 0.225,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5375,
+      "gsm_exact": 0.0,
+      "agree": 1.0,
+      "balanced": 2.02125,
+      "mode": "1200000",
+      "mode_frac": 0.85,
+      "promote": false,
+      "reasons": [
+        "arc_min_regressed"
+      ]
+    },
+    {
+      "phase": "B",
+      "step": 100,
+      "arc_e": 0.2833333333333333,
+      "arc_c": 0.25,
+      "arc_min": 0.25,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5375,
+      "gsm_exact": 0.0,
+      "agree": 1.0,
+      "balanced": 2.09,
+      "mode": "1200000",
+      "mode_frac": 0.875,
+      "promote": false,
+      "reasons": [
+        "arc_min_regressed"
+      ]
+    }
+  ],
+  "elapsed_s": 306.588889837265,
+  "deltas": {
+    "arc_min": 0.0,
+    "arc_e": 0.0,
+    "arc_c": 0.0,
+    "gsm_first": 0.0,
+    "gsm_tf": 0.0,
+    "gsm_exact": 0.0,
+    "balanced": 0.0
+  }
+}

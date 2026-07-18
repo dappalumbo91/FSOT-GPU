@@ -1,0 +1,124 @@
+{
+  "timestamp": "2026-07-18T15:48:22.570493+00:00",
+  "protocol": "fsot21_verify_bridge_v1",
+  "theory_authority": "FSOT-2.1-Lean + Physical-Archive cross_proof",
+  "layers": {
+    "V1_archive_stamp": {
+      "ok": true,
+      "sources": {
+        "cross_proof": {
+          "path": "I:\\FSOT-Physical-Archive\\02_FSOT-2.1-Lean-Full\\data\\cross_proof_verification_report.json",
+          "overall_ok": true,
+          "tier": "91_seven_way_bare_metal",
+          "generated_at": "2026-07-16T17:33:14.691886+00:00",
+          "connective_n": 24,
+          "full_formal_n": 2379,
+          "github_ready": true
+        },
+        "archive_verification_report": {
+          "path": "I:\\FSOT-Physical-Archive\\VERIFICATION_REPORT.json",
+          "status": "GREEN",
+          "ok": true,
+          "cross_proof": {
+            "overall_ok": true,
+            "github_ready": true,
+            "seven_way_bare_metal": true,
+            "eight_way_hardware": true
+          }
+        }
+      },
+      "detail": "archive_stamp_green"
+    },
+    "V2_connective_spine": {
+      "ok": true,
+      "path": "I:\\FSOT-Physical-Archive\\02_FSOT-2.1-Lean-Full\\verification\\obligations\\connective_spine.json",
+      "passed": 24,
+      "failed": [],
+      "total": 24,
+      "obligation_count_export": 24
+    },
+    "V3_seed_alignment": {
+      "ok": true,
+      "lab": {
+        "collapse_threshold": 0.9174663774653723,
+        "c_eff": 0.9577022026205613,
+        "p_var": 0.9579871226722757,
+        "phi": 1.618033988749895,
+        "S_D14": 0.5144513787582022
+      },
+      "archive_path": "I:\\FSOT-Physical-Archive\\02_FSOT-2.1-Lean-Full\\vendor\\fsot_compute.py",
+      "archive": {
+        "C_EFF": 0.9577022026205613,
+        "P_VAR": 0.9579871226722757,
+        "collapse_threshold": 0.9174663774653723
+      },
+      "theta_rel_err": 0.0
+    },
+    "V4_formal_artifacts": {
+      "ok": true,
+      "present": {
+        "lean_trinary": true,
+        "lean_memory": true,
+        "coq_trinary": true,
+        "coq_vo": true,
+        "isabelle": true,
+        "fstar": true
+      },
+      "required_lean": true,
+      "other_provers": 3
+    },
+    "V5_owned_stack": {
+      "ok": true,
+      "checks": {
+        "scalar": {
+          "S": 0.9266838794986767,
+          "ok": true
+        },
+        "pack": {
+          "ok": true
+        },
+        "coherence": {
+          "ok": true
+        },
+        "collapse_theta": {
+          "theta": 0.9174663774653723,
+          "ok": true
+        },
+        "consensus": {
+          "device": "cuda",
+          "shape": [
+            8,
+            16
+          ],
+          "finite": true,
+          "ok": true,
+          "no_softmax": true
+        }
+      }
+    },
+    "V6_pure_fsot_host": {
+      "ok": true,
+      "n_layers": 30,
+      "n_fsot_attn": 30,
+      "all_layers_fsot": true,
+      "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_data_driven_best.pt",
+      "ckpt_meta": {
+        "arc_min": 0.275,
+        "arc_easy_hold": 0.3,
+        "arc_challenge_hold": 0.275,
+        "gsm_first": 0.3,
+        "agree16": 1.0,
+        "phase": "data_driven_A_arc",
+        "step": 1
+      },
+      "forward_finite": true,
+      "logits_shape": [
+        1,
+        10,
+        49152
+      ]
+    }
+  },
+  "ok": true,
+  "failed_layers": []
+}
