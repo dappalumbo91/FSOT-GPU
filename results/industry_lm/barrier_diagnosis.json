@@ -1,0 +1,189 @@
+{
+  "timestamp": "2026-07-18T18:40:21.496063+00:00",
+  "host": "pure_fsot_sota_standard_best.pt",
+  "probes": {
+    "B1_fidelity_baseline": {
+      "agree16": 1.0,
+      "fsot_arc_easy_hold": 0.3333333333333333,
+      "fsot_arc_ch_hold": 0.325,
+      "fsot_arc_min": 0.325,
+      "hf_arc_easy_hold": 0.08333333333333333,
+      "hf_arc_ch_hold": 0.125,
+      "hf_arc_min": 0.08333333333333333,
+      "fsot_gsm_first": 0.3,
+      "fsot_gsm_tf": 0.5375,
+      "fsot_gsm_exact": 0.0,
+      "hf_gsm_first": 0.275,
+      "hf_gsm_tf": 0.4541666666666668,
+      "hf_gsm_exact": 0.025,
+      "beats_hf_arc_min": true
+    },
+    "B2_letter_bias": {
+      "easy_hold": {
+        "pred": {
+          "D": 48,
+          "B": 12
+        },
+        "gold": {
+          "D": 18,
+          "C": 15,
+          "4": 1,
+          "B": 15,
+          "A": 9,
+          "2": 1,
+          "3": 1
+        },
+        "exact": 0.3333333333333333,
+        "tf_first": 0.3333333333333333,
+        "top_pred_frac": 0.8,
+        "letter_collapse": true
+      },
+      "ch_hold": {
+        "pred": {
+          "D": 28,
+          "B": 12
+        },
+        "gold": {
+          "B": 9,
+          "D": 12,
+          "A": 14,
+          "C": 3,
+          "1": 1,
+          "2": 1
+        },
+        "exact": 0.325,
+        "tf_first": 0.325,
+        "top_pred_frac": 0.7,
+        "letter_collapse": true
+      },
+      "easy_train_probe": {
+        "pred": {
+          "B": 17,
+          "D": 22
+        },
+        "exact": 0.25,
+        "tf_first": 0.25
+      }
+    },
+    "B3_grad_conflict": {
+      "cosine_letter_loss_grad_vs_digit_loss_grad": 2.542269794503227e-05,
+      "conflict": false,
+      "strong_conflict": false,
+      "under_digit_loss_mean_letter_row_grad_norm": 0.0006207390688359737,
+      "under_digit_loss_mean_digit_row_grad_norm": 4.437743663787842,
+      "digit_bleeds_into_letter_rows": false
+    },
+    "B4_sensitivity_ridge": {
+      "hold_exact_before": 0.3333333333333333,
+      "hold_exact_after_5_letter_steps": 0.25,
+      "train_probe_before": 0.25,
+      "train_probe_after": 0.2,
+      "hold_delta": -0.08333333333333331,
+      "train_delta": -0.04999999999999999,
+      "ridge_fragile": false
+    },
+    "B5_gsm_free_vs_tf": {
+      "free_first_digit": 0.3,
+      "free_exact": 0.0,
+      "free_format_ok": 1.0,
+      "tf_token_acc": 0.5375,
+      "tf_first_ok": 1.0,
+      "mode": "1200000",
+      "mode_frac": 0.8,
+      "mode_collapse": true,
+      "free_tf_gap": 0.7,
+      "format_barrier": true,
+      "sample_thoughts": [
+        {
+          "gold": "18",
+          "thought": " 1200000"
+        },
+        {
+          "gold": "3",
+          "thought": " 1200000"
+        },
+        {
+          "gold": "70000",
+          "thought": " 1888888"
+        },
+        {
+          "gold": "540",
+          "thought": " 1200000"
+        },
+        {
+          "gold": "20",
+          "thought": " 1200000"
+        },
+        {
+          "gold": "64",
+          "thought": " 1000000"
+        },
+        {
+          "gold": "260",
+          "thought": " 1200000"
+        },
+        {
+          "gold": "160",
+          "thought": " 1200000"
+        }
+      ]
+    },
+    "B6_mode_collapse": {
+      "unique_outputs": 3,
+      "top3": [
+        [
+          "1200000",
+          32
+        ],
+        [
+          "1000000",
+          7
+        ],
+        [
+          "1888888",
+          1
+        ]
+      ],
+      "collapse_frac": 0.8,
+      "severe_collapse": true
+    },
+    "B7_body_vs_decode": {
+      "arc_easy_tf_first": 0.3333333333333333,
+      "arc_easy_free": 0.3333333333333333,
+      "arc_ch_tf_first": 0.325,
+      "arc_ch_free": 0.325,
+      "tf_above_free": false,
+      "body_ok_decode_weak": false
+    },
+    "B8_hold_noise": {
+      "arc_min_point": 0.325,
+      "boot_p05": 0.2,
+      "boot_p50": 0.3,
+      "boot_p95": 0.38333333333333336,
+      "noise_halfwidth": 0.09166666666666667,
+      "high_noise": true
+    }
+  },
+  "barriers_ranked": [
+    {
+      "id": "GSM_FREE_GEN_COLLAPSE",
+      "severity": 1.0,
+      "detail": "mode=1200000 @80%; TF first ok but free first-digit stuck",
+      "lever": "Constrained digit decode + separate digit probe (not tied embed CE)"
+    },
+    {
+      "id": "ARC_LETTER_MODE_COLLAPSE",
+      "severity": 0.8,
+      "detail": "easy top=80% ch top=70%",
+      "lever": "Balanced letter CE + entropy regularize preds; diversify ARC mix"
+    },
+    {
+      "id": "EVAL_NOISE",
+      "severity": 0.5,
+      "detail": "boot halfwidth 9%",
+      "lever": "Larger holds + multi-rep promote threshold > noise"
+    }
+  ],
+  "recommended_lever": "Constrained digit decode + separate digit probe (not tied embed CE)",
+  "primary_barrier": "GSM_FREE_GEN_COLLAPSE"
+}
