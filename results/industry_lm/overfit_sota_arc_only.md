@@ -1,4 +1,4 @@
-# Overfit metrics — overfit_sota_start
+# Overfit metrics — overfit_sota_arc_only
 
 **gen_score:** 0.319  
 **mean hold acc:** 31.9%  

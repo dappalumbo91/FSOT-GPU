@@ -1,6 +1,6 @@
 # SOTA standard climb
 
-**Status: IMPROVED — eligible to push**
+**Status: NO_PUSH (standards not all met)**
 
 Constitution: [`docs/SOTA_STANDARDS.md`](../../docs/SOTA_STANDARDS.md)
 
@@ -9,9 +9,9 @@ Constitution: [`docs/SOTA_STANDARDS.md`](../../docs/SOTA_STANDARDS.md)
 | Gate | Pre | Post / Final |
 |------|-----|--------------|
 | G-VERIFY | PASS | PASS |
-| G-OVERFIT gen_score | 0.292 | 0.319 (Δ +0.028) |
-| G-OVERFIT gap | -7% | -10% |
-| G-CAP arc_min | 28% | 32% |
+| G-OVERFIT gen_score | 0.319 | 0.319 (Δ +0.000) |
+| G-OVERFIT gap | -10% | -10% |
+| G-CAP arc_min | 32% | 32% |
 | G-CAP gsm_first | 30% | 30% |
 | G-CAP agree | 100% | 100% |
 
@@ -19,15 +19,15 @@ Constitution: [`docs/SOTA_STANDARDS.md`](../../docs/SOTA_STANDARDS.md)
 
 | Axis | Start | Final | Δ |
 |------|-------|-------|---|
-| ARC min | 28% | 32% | +5% |
-| ARC-Easy hold | 30% | 33% | +3% |
-| ARC-Challenge hold | 28% | 32% | +5% |
+| ARC min | 32% | 32% | +0% |
+| ARC-Easy hold | 33% | 33% | +0% |
+| ARC-Challenge hold | 32% | 32% | +0% |
 | GSM first-digit | 30% | 30% | +0% |
 | GSM TF | 54% | 54% | +0% |
 | GSM free exact | 0% | 0% | +0% |
-| Balanced | 2.171 | 2.334 | +0.163 |
-| gen_score | 0.292 | 0.319 | +0.028 |
+| Balanced | 2.334 | 2.334 | +0.000 |
+| gen_score | 0.319 | 0.319 | +0.000 |
 
-Promote reasons: ['arc_min 27.5%→32.5%', 'both_arc_holds_up', 'balanced→2.334', 'gen_score_up']  
-Elapsed: 1166s  
+Promote reasons: none  
+Elapsed: 917s  
 Architecture: pure FSOT all-layer · SmolLM2-135M · RTX-class host

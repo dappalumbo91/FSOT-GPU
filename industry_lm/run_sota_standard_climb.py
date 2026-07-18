@@ -93,6 +93,15 @@ def next_ce(student, tok, device, prompt, gold, kind="num"):
     )
 
 
+def _digit_token_ids(tok) -> list[int]:
+    ids = []
+    for d in "0123456789":
+        e = tok.encode(d, add_special_tokens=False)
+        if len(e) == 1:
+            ids.append(e[0])
+    return ids
+
+
 def first_digit_ce(student, tok, device, prompt, gold):
     g = str(gold).strip().replace(",", "")
     m = re.search(r"\d", g)
@@ -104,6 +113,31 @@ def first_digit_ce(student, tok, device, prompt, gold):
         student(**pe).logits[0, -1].float().unsqueeze(0),
         torch.tensor([tid[0]], device=device),
     )
+
+
+def first_digit_vocab_ce(student, tok, device, prompt, gold, digit_ids: list[int] | None = None):
+    """
+    CE restricted to digit vocabulary only — forces ranking among 0-9,
+    not against the whole vocab (anti-collapse / first-digit climb).
+    """
+    g = str(gold).strip().replace(",", "")
+    m = re.search(r"\d", g)
+    if not m:
+        return torch.tensor(0.0, device=device)
+    gold_d = m.group(0)
+    digs = digit_ids or _digit_token_ids(tok)
+    if not digs:
+        return first_digit_ce(student, tok, device, prompt, gold)
+    # map gold digit char -> index in digs
+    gold_tid = tok.encode(gold_d, add_special_tokens=False)
+    if not gold_tid or gold_tid[0] not in digs:
+        return first_digit_ce(student, tok, device, prompt, gold)
+    local = digs.index(gold_tid[0])
+    pe = tok(prompt + " ", return_tensors="pt", truncation=True, max_length=400).to(device)
+    logits = student(**pe).logits[0, -1].float()
+    # gather digit logits only
+    sub = torch.stack([logits[i] for i in digs], dim=0).unsqueeze(0)
+    return F.cross_entropy(sub, torch.tensor([local], device=device))
 
 
 def answer_ce_short(student, tok, device, prompt, gold, kind="num"):
@@ -332,9 +366,18 @@ def main():
     for p in teacher.parameters():
         p.requires_grad_(False)
 
-    src = CKPT / "pure_fsot_data_driven_best.pt"
-    if not src.is_file():
-        src = CKPT / "pure_fsot_12x3_best.pt"
+    src = None
+    for cand in (
+        CKPT / "pure_fsot_sota_standard_best.pt",
+        CKPT / "pure_fsot_data_driven_best.pt",
+        CKPT / "pure_fsot_12x3_best.pt",
+    ):
+        if cand.is_file():
+            src = cand
+            break
+    if src is None:
+        print("no host checkpoint found")
+        return 1
     tok, student = load_model(device)
     swap_all_layers(student)
     ck0 = torch.load(src, map_location=device, weights_only=False)
@@ -360,75 +403,143 @@ def main():
     history = []
     t0 = time.time()
 
-    # ----- train: head-first GSM digit + light ARC hold (body mostly frozen) -----
-    # Past full-body ARC CE destroyed min; standards prefer gen_score direction.
-    print("\n[TRAIN] head/norm first-digit + light ARC letter (protective)")
-    set_trainable(student, "head")
+    # ----- train: digit-vocab first-digit focus + soft ARC hold -----
+    # Head-only; digit CE restricted to 0-9 ranking (open: first-digit climb).
+    print("\n[TRAIN] digit-row gradient mask on tied embed/lm_head (+ light ARC)")
+    # SmolLM2 ties lm_head ↔ embed_tokens — enable that weight only, mask rows
+    for p in student.parameters():
+        p.requires_grad_(False)
+    tied = False
+    for name, p in student.named_parameters():
+        if "embed_tokens.weight" in name or name.endswith("lm_head.weight"):
+            p.requires_grad_(True)
+            tied = True
+            print(f"  enabled {name} {tuple(p.shape)}")
+    if not tied:
+        # fallback: any head/embed
+        set_trainable(student, "head")
+        print("  fallback set_trainable(head)")
     n_tr = sum(p.numel() for p in trainable(student))
-    print(f"  trainable {n_tr/1e6:.2f}M (head/norm/embed)")
-    opt = torch.optim.AdamW(trainable(student), lr=plan.lr0 * 0.55, weight_decay=0.0)
+    print(f"  trainable {n_tr/1e6:.2f}M; digit+letter row mask")
+    if n_tr < 1:
+        print("no trainable params — abort")
+        return 1
+    opt = torch.optim.AdamW(trainable(student), lr=plan.lr0 * 1.1, weight_decay=0.0)
+    digit_ids = _digit_token_ids(tok)
+    print(f"  digit token ids: {digit_ids}")
+    # letter tokens for ARC soft retention on head rows
+    letter_ids = []
+    for L in ("A", "B", "C", "D", " A", " B", " C", " D"):
+        e = tok.encode(L, add_special_tokens=False)
+        if len(e) == 1:
+            letter_ids.append(e[0])
+    letter_ids = sorted(set(letter_ids))
+    print(f"  letter token ids: {letter_ids}")
 
-    rng = random.Random(21)
+    def mask_head_grad_digits_and_letters():
+        """Only update lm_head rows for digits + ABCD — curb ARC bleed from digit CE."""
+        wh = None
+        for name, p in student.named_parameters():
+            if p.grad is None:
+                continue
+            if "lm_head.weight" in name or name.endswith("lm_head.weight"):
+                wh = p
+                break
+        # tied embeddings sometimes use embed_tokens
+        if wh is None:
+            for name, p in student.named_parameters():
+                if p.grad is None:
+                    continue
+                if "embed_tokens.weight" in name:
+                    wh = p
+                    break
+        if wh is None or wh.grad is None:
+            return
+        allow = set(digit_ids + letter_ids)
+        mask = torch.zeros_like(wh.grad)
+        for i in allow:
+            if 0 <= i < mask.size(0):
+                mask[i] = 1.0
+        wh.grad.mul_(mask)
+
+    rng = random.Random(31)
     arith = []
-    while len(arith) < 1500:
+    # Prefer 1-digit golds for first-digit signal (0-9 sums/diffs)
+    while len(arith) < 2000:
         a, b = rng.randint(0, 9), rng.randint(0, 9)
-        if rng.random() < 0.55:
+        if rng.random() < 0.6:
             gold, q = str(a + b), f"What is {a} + {b}?"
         else:
             aa, bb = max(a, b), min(a, b)
             gold, q = str(aa - bb), f"What is {aa} - {bb}?"
-        if len(gold) <= 2:
+        # keep many single-digit answers
+        if len(gold) == 1 or (len(gold) == 2 and rng.random() < 0.35):
             arith.append({"prompt": f"Question: {q}\n####", "gold": gold})
-    gsm_real = [r for r in load_gsm8k_train(1500) if len(str(r["gold"]).strip()) <= 2]
-    # ARC mix weighted to weaker hold
+    # pure digit identity: #### → d
+    for d in range(10):
+        for _ in range(40):
+            arith.append(
+                {
+                    "prompt": f"Question: Write the digit {d}.\n####",
+                    "gold": str(d),
+                }
+            )
+    random.Random(32).shuffle(arith)
+    gsm_real = [r for r in load_gsm8k_train(2000) if len(str(r["gold"]).strip()) <= 2]
     if cap0["arc_c"] <= cap0["arc_e"]:
-        arc_mix = ch_tr[:800] + easy_tr[:400] + ch_tr[:400]
+        arc_mix = ch_tr[:600] + easy_tr[:300]
     else:
-        arc_mix = easy_tr[:800] + ch_tr[:400] + easy_tr[:400]
-    random.Random(22).shuffle(gsm_real)
-    random.Random(23).shuffle(arc_mix)
+        arc_mix = easy_tr[:600] + ch_tr[:300]
+    random.Random(33).shuffle(gsm_real)
+    random.Random(34).shuffle(arc_mix)
 
-    STEPS = 600
+    STEPS = 700
     EVAL_EVERY = 50
     reject_streak = 0
+    arc_min_floor = max(cap0["arc_min"] - 0.02, 0.22)
     student.train()
 
     for step in range(1, STEPS + 1):
         r = step % 10
+        # 50% arith digit-vocab, 20% real short GSM, 30% ARC hold (protect min)
         if r < 5:
             row = arith[step % len(arith)]
+            fd_v = first_digit_vocab_ce(
+                student, tok, device, row["prompt"], row["gold"], digit_ids
+            )
             fd = first_digit_ce(student, tok, device, row["prompt"], row["gold"])
             ce = answer_ce_short(student, tok, device, row["prompt"], row["gold"], "num")
-            loss_task = 1.7 * fd + 0.4 * ce
+            loss_task = 2.0 * fd_v + 0.8 * fd + 0.3 * ce
             task = "digit"
-        elif r < 8 and gsm_real:
+        elif r < 7 and gsm_real:
             row = gsm_real[step % len(gsm_real)]
             q = row["text"].split("\n")[0]
             if not q.startswith("Question:"):
                 q = "Question: " + q
             prompt = f"{q}\n####"
             gold = str(row["gold"]).strip()
+            fd_v = first_digit_vocab_ce(student, tok, device, prompt, gold, digit_ids)
             fd = first_digit_ce(student, tok, device, prompt, gold)
             ce = answer_ce_short(student, tok, device, prompt, gold, "num")
-            loss_task = 1.7 * fd + 0.4 * ce
+            loss_task = 2.0 * fd_v + 0.8 * fd + 0.3 * ce
             task = "gsm"
         else:
             row = arc_mix[step % len(arc_mix)]
             gold = row["gold"].strip().upper()[:1]
             if gold not in "ABCD":
                 continue
-            # next-token only — soft
             loss_task = next_ce(student, tok, device, row["prompt"], gold, "letter")
             task = "arc"
 
         ce_r = retention_ce(student, teacher, tok, device, EVAL16[step % len(EVAL16)])
-        loss = loss_task + 0.45 * ce_r
+        loss = loss_task + 0.55 * ce_r
         if not torch.isfinite(loss):
             continue
         for g in opt.param_groups:
-            g["lr"] = min(plan.lr0 * 0.6, 3.5e-5)
+            g["lr"] = min(plan.lr0 * 0.9, 4.5e-5)
         opt.zero_grad(set_to_none=True)
         loss.backward()
+        mask_head_grad_digits_and_letters()
         torch.nn.utils.clip_grad_norm_(trainable(student), 0.5)
         opt.step()
 
@@ -484,20 +595,24 @@ def main():
             save_promoted(student, cap, ov, step, "sota_standard_climb", cap0)
             print(f"    * PROMOTED {cap_reasons} | ov {ov_reasons}")
         elif not ov_ok and dlab in ("OVERFIT_STEP", "MEMORIZE_COLLAPSE"):
-            # restore best weights — curb overfit direction
             student.load_state_dict(best_state, strict=False)
             reject_streak += 1
             print(f"    * REJECT overfit dir — restored ({ov_reasons})")
-            if reject_streak >= 4:
+            if reject_streak >= 5:
                 print("too many overfit rejects — stop train")
                 break
         else:
-            # capability not better; if hold collapsed hard, restore
-            if cap["arc_min"] + 1e-9 < best_cap["arc_min"] - 0.02:
+            if cap["arc_min"] + 1e-9 < arc_min_floor:
+                student.load_state_dict(best_state, strict=False)
+                reject_streak += 1
+                print(f"    * REJECT below arc_min floor {arc_min_floor:.0%} — restored")
+                if reject_streak >= 5:
+                    break
+            elif cap["arc_min"] + 1e-9 < best_cap["arc_min"] - 0.02:
                 student.load_state_dict(best_state, strict=False)
                 reject_streak += 1
                 print("    * REJECT arc_min drop — restored")
-                if reject_streak >= 4:
+                if reject_streak >= 5:
                     break
             else:
                 reject_streak = 0
