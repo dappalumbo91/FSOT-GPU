@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-07-18T03:57:25.256513+00:00",
+  "n_misses": 101,
+  "by_kind": {
+    "gsm8k": 39,
+    "arc": 35,
+    "math": 27
+  },
+  "by_diagnosis": {
+    "missing_final_marker_####": 39,
+    "wrong_numeric_final": 62,
+    "natural_language_answer_phrase": 35,
+    "gold_digit_also_in_question": 7,
+    "no_parseable_answer": 24,
+    "empty_generation": 22,
+    "no_letter_choice": 22,
+    "too_short_trace": 23,
+    "wrong_choice_letter": 13,
+    "unclassified_wrong": 2
+  },
+  "meta": {
+    "arm": "baseline",
+    "stats": {
+      "gsm8k": {
+        "n": 40,
+        "acc": 0.025,
+        "misses": 39
+      },
+      "arc": {
+        "n": 40,
+        "acc": 0.125,
+        "misses": 35
+      },
+      "math": {
+        "n": 30,
+        "acc": 0.1,
+        "misses": 27
+      }
+    }
+  },
+  "paths": {
+    "md": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\miss_traces\\miss_trace_baseline.md",
+    "jsonl": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\miss_traces\\miss_trace_baseline.jsonl"
+  }
+}

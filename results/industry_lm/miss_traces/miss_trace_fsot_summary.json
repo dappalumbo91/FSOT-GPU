@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-07-18T03:56:16.203258+00:00",
+  "n_misses": 97,
+  "by_kind": {
+    "gsm8k": 40,
+    "arc": 29,
+    "math": 28
+  },
+  "by_diagnosis": {
+    "missing_final_marker_####": 40,
+    "wrong_numeric_final": 64,
+    "gold_digit_also_in_question": 9,
+    "no_letter_choice": 23,
+    "wrong_choice_letter": 29,
+    "unclassified_wrong": 3,
+    "no_parseable_answer": 1
+  },
+  "meta": {
+    "arm": "fsot",
+    "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_realdata_best.pt",
+    "stats": {
+      "gsm8k": {
+        "n": 40,
+        "acc": 0.0,
+        "misses": 40
+      },
+      "arc": {
+        "n": 40,
+        "acc": 0.275,
+        "misses": 29
+      },
+      "math": {
+        "n": 30,
+        "acc": 0.06666666666666667,
+        "misses": 28
+      }
+    },
+    "meta_ckpt": {
+      "macro": 0.11833333333333335,
+      "gsm": 0.0,
+      "arc": 0.275,
+      "math": 0.08,
+      "agree16": 1.0,
+      "step": 100,
+      "epoch": null
+    }
+  },
+  "paths": {
+    "md": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\miss_traces\\miss_trace_fsot.md",
+    "jsonl": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\miss_traces\\miss_trace_fsot.jsonl"
+  }
+}

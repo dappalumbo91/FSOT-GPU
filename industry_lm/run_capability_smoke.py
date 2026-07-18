@@ -196,6 +196,9 @@ def eval_set(tok, model, device, rows, max_new=48):
                 "gold": gold,
                 "pred": pred,
                 "hit": ok,
+                "prompt": prompt,
+                "thought": tail,
+                "generation": tail,
             }
         )
     return hits / max(len(rows), 1), details
@@ -225,6 +228,7 @@ def main():
         "ok": True,
     }
 
+    all_fsot_misses = []
     for name, rows in [("arc_easy", arc), ("gsm8k", gsm), ("math", math_rows)]:
         if not rows:
             report["sets"][name] = {"n": 0, "note": "empty"}
@@ -242,6 +246,20 @@ def main():
             "sample_misses": [d for d in det if not d["hit"]][:5],
         }
         print(f"  {name}: base={b:.0%} fsot={f:.0%} delta={f-b:+.0%}")
+        for d in det:
+            if not d.get("hit"):
+                all_fsot_misses.append(
+                    {
+                        "kind": d.get("kind") or name,
+                        "arm": "fsot",
+                        "prompt": d.get("prompt") or "",
+                        "question": d.get("prompt") or "",
+                        "gold": d.get("gold"),
+                        "pred": d.get("pred"),
+                        "thought": d.get("thought") or d.get("generation") or "",
+                        "generation": d.get("thought") or d.get("generation") or "",
+                    }
+                )
 
     # aggregate
     scores_b = [v["baseline"] for v in report["sets"].values() if "baseline" in v]
@@ -250,6 +268,22 @@ def main():
     report["macro_fsot"] = sum(scores_f) / max(len(scores_f), 1)
     report["macro_delta"] = report["macro_fsot"] - report["macro_baseline"]
     report["fsot_macro_wins"] = report["macro_fsot"] > report["macro_baseline"]
+
+    # Wrong-answer thought trails (easy audit)
+    try:
+        from miss_trace import write_miss_log  # noqa: WPS433
+
+        trace_dir = OUT / "miss_traces"
+        paths = write_miss_log(
+            all_fsot_misses,
+            trace_dir,
+            name="miss_trace_fsot_smoke",
+            meta={"ckpt": ckpt, "source": "capability_smoke", "stats": report["sets"]},
+        )
+        report["miss_trace"] = paths
+        print("miss trace:", paths.get("md"))
+    except Exception as e:
+        print("miss trace skipped:", e)
 
     path = OUT / "capability_smoke.json"
     path.write_text(json.dumps(report, indent=2), encoding="utf-8")
@@ -272,6 +306,11 @@ def main():
     lines.append(
         f"**Macro:** base {report['macro_baseline']:.0%} | FSOT **{report['macro_fsot']:.0%}** | "
         f"Δ {report['macro_delta']:+.0%} | win={report['fsot_macro_wins']}"
+    )
+    lines.append("")
+    lines.append(
+        "Wrong-answer trails (question / gold / model thought): "
+        "`miss_traces/miss_trace_fsot_smoke.md`"
     )
     md.write_text("\n".join(lines), encoding="utf-8")
     print("macro", report["macro_baseline"], "->", report["macro_fsot"])
