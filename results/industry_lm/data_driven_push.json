@@ -1,0 +1,210 @@
+{
+  "timestamp": "2026-07-18T13:04:39.018026+00:00",
+  "protocol": "data_driven_v2: PhaseA ARC bottleneck full; PhaseB head first-digit",
+  "start_host": "pure_fsot_answer_locked_best.pt",
+  "gate_base": {
+    "arc_e": 0.31666666666666665,
+    "arc_c": 0.25,
+    "arc_min": 0.25,
+    "arc_mean": 0.2833333333333333,
+    "gsm_first": 0.3,
+    "gsm_tf": 0.5375,
+    "gsm_exact": 0.0,
+    "gsm_const": 0.0,
+    "mode": "1200000",
+    "mode_frac": 0.85,
+    "agree": 1.0,
+    "balanced": 2.115
+  },
+  "gate_best": {
+    "arc_e": 0.3,
+    "arc_c": 0.275,
+    "arc_min": 0.275,
+    "arc_mean": 0.2875,
+    "gsm_first": 0.3,
+    "gsm_tf": 0.5375,
+    "gsm_exact": 0.0,
+    "gsm_const": 0.0,
+    "mode": "1200000",
+    "mode_frac": 0.85,
+    "agree": 1.0,
+    "balanced": 2.17125
+  },
+  "final": {
+    "arc_e": 0.3,
+    "arc_c": 0.275,
+    "arc_min": 0.275,
+    "arc_mean": 0.2875,
+    "gsm_first": 0.3,
+    "gsm_tf": 0.5375,
+    "gsm_exact": 0.0,
+    "gsm_const": 0.0,
+    "mode": "1200000",
+    "mode_frac": 0.85,
+    "agree": 1.0,
+    "balanced": 2.17125
+  },
+  "improved": true,
+  "promote_to_github": true,
+  "promote_reasons": [
+    "arc_min 25.0%\u219227.5%",
+    "balanced 2.115\u21922.171"
+  ],
+  "best_step": 1,
+  "history": [
+    {
+      "phase": "A",
+      "step": 1,
+      "arc_e": 0.3,
+      "arc_c": 0.275,
+      "arc_min": 0.275,
+      "arc_mean": 0.2875,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5375,
+      "gsm_exact": 0.0,
+      "gsm_const": 0.0,
+      "mode": "1200000",
+      "mode_frac": 0.85,
+      "agree": 1.0,
+      "balanced": 2.17125,
+      "promote": true,
+      "reasons": [
+        "arc_min 25.0%\u219227.5%",
+        "balanced 2.115\u21922.171"
+      ]
+    },
+    {
+      "phase": "A",
+      "step": 50,
+      "arc_e": 0.2,
+      "arc_c": 0.125,
+      "arc_min": 0.125,
+      "arc_mean": 0.1625,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5375,
+      "gsm_exact": 0.0,
+      "gsm_const": 0.0,
+      "mode": "1200000",
+      "mode_frac": 0.85,
+      "agree": 1.0,
+      "balanced": 1.6837499999999999,
+      "promote": false,
+      "reasons": [
+        "arc_min_regressed"
+      ]
+    },
+    {
+      "phase": "A",
+      "step": 100,
+      "arc_e": 0.23333333333333334,
+      "arc_c": 0.075,
+      "arc_min": 0.075,
+      "arc_mean": 0.15416666666666667,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5375,
+      "gsm_exact": 0.0,
+      "gsm_const": 0.0,
+      "mode": "1200000",
+      "mode_frac": 0.85,
+      "agree": 1.0,
+      "balanced": 1.57125,
+      "promote": false,
+      "reasons": [
+        "arc_min_regressed"
+      ]
+    },
+    {
+      "phase": "A",
+      "step": 150,
+      "arc_e": 0.25,
+      "arc_c": 0.275,
+      "arc_min": 0.25,
+      "arc_mean": 0.2625,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5375,
+      "gsm_exact": 0.0,
+      "gsm_const": 0.0,
+      "mode": "1200000",
+      "mode_frac": 0.9,
+      "agree": 1.0,
+      "balanced": 2.08375,
+      "promote": false,
+      "reasons": [
+        "arc_min_regressed"
+      ]
+    },
+    {
+      "phase": "B",
+      "step": 1,
+      "task": "digit",
+      "arc_e": 0.3,
+      "arc_c": 0.25,
+      "arc_min": 0.25,
+      "arc_mean": 0.275,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5375,
+      "gsm_exact": 0.0,
+      "gsm_const": 0.0,
+      "mode": "1200000",
+      "mode_frac": 0.85,
+      "agree": 1.0,
+      "balanced": 2.1025,
+      "promote": false,
+      "reasons": [
+        "arc_min_regressed"
+      ]
+    },
+    {
+      "phase": "B",
+      "step": 50,
+      "task": "digit",
+      "arc_e": 0.2833333333333333,
+      "arc_c": 0.25,
+      "arc_min": 0.25,
+      "arc_mean": 0.26666666666666666,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5375,
+      "gsm_exact": 0.0,
+      "gsm_const": 0.0,
+      "mode": "1200000",
+      "mode_frac": 0.8,
+      "agree": 1.0,
+      "balanced": 2.09,
+      "promote": false,
+      "reasons": [
+        "arc_min_regressed"
+      ]
+    },
+    {
+      "phase": "B",
+      "step": 100,
+      "task": "digit",
+      "arc_e": 0.23333333333333334,
+      "arc_c": 0.225,
+      "arc_min": 0.225,
+      "arc_mean": 0.22916666666666669,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5375,
+      "gsm_exact": 0.0,
+      "gsm_const": 0.0,
+      "mode": "1200000",
+      "mode_frac": 0.8,
+      "agree": 1.0,
+      "balanced": 1.9837500000000001,
+      "promote": false,
+      "reasons": [
+        "arc_min_regressed"
+      ]
+    }
+  ],
+  "elapsed_s": 406.43594884872437,
+  "deltas": {
+    "arc_min": 0.025000000000000022,
+    "arc_e": -0.016666666666666663,
+    "arc_c": 0.025000000000000022,
+    "gsm_first": 0.0,
+    "gsm_tf": 0.0,
+    "gsm_exact": 0.0,
+    "balanced": 0.05624999999999991
+  }
+}

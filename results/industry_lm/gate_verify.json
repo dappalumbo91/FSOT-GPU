@@ -1,0 +1,23 @@
+{
+  "base_avg": {
+    "arc_min": 0.25,
+    "arc_e": 0.3167,
+    "arc_c": 0.25,
+    "gsm_first": 0.3,
+    "gsm_tf": 0.5375,
+    "balanced": 2.115
+  },
+  "prom_avg": {
+    "arc_min": 0.275,
+    "arc_e": 0.3,
+    "arc_c": 0.275,
+    "gsm_first": 0.3,
+    "gsm_tf": 0.5375,
+    "balanced": 2.171
+  },
+  "delta_arc_min": 0.025,
+  "delta_balanced": 0.056,
+  "delta_gsm_first": 0.0,
+  "confirmed_improve": true,
+  "note": "3 deterministic greedy reps; free-gen is deterministic so reps identical"
+}
