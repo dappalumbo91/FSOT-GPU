@@ -49,6 +49,7 @@ def load_fsot(device):
     tok, m = load_base(device)
     swap_all_layers(m)
     for path in [
+        CKPT / "pure_fsot_realdata_best.pt",
         CKPT / "pure_fsot_sota_climb_best.pt",
         CKPT / "pure_fsot_curriculum_best.pt",
         CKPT / "pure_fsot_exceed_best.pt",
@@ -156,29 +157,44 @@ def load_math(n=N_MATH):
 
 @torch.no_grad()
 def eval_set(tok, model, device, rows, max_new=48):
+    """
+    Honest scoring (no question-digit leakage).
+    GSM/MATH: prefer numbers after ####, else first number in generation tail only.
+    """
     hits = 0
     details = []
     for r in rows:
-        tail = gen(tok, model, device, r["prompt"], max_new=max_new)
+        prompt = r["prompt"]
+        if r["kind"] == "gsm8k" and "####" not in prompt:
+            # align with real-data #### protocol
+            q = prompt.split("Answer:")[0].strip()
+            prompt = q + "\n####"
+            max_new = 12
+        tail = gen(tok, model, device, prompt, max_new=max_new)
         gold = str(r["answer"]).strip()
         ok = False
+        pred = None
         if r["kind"] == "arc_easy":
-            # first letter A-D in gen
             m = re.search(r"\b([ABCD])\b", tail.upper())
-            pred = m.group(1) if m else tail.strip()[:1].upper()
+            pred = m.group(1) if m else (tail.strip()[:1].upper() if tail.strip() else "")
             ok = pred == gold.upper()
         else:
-            pred = extract_num(tail) or tail.strip()[:20]
             gnum = extract_num(gold) or gold
-            ok = pred is not None and gnum is not None and (
-                pred == gnum or pred in gold or gnum in tail
-            )
+            if "####" in tail:
+                after = tail.split("####")[-1]
+                nums = re.findall(r"-?\d+\.?\d*", after.replace(",", ""))
+                pred = nums[0] if nums else None
+            else:
+                # first number only from short tail (not full question dump)
+                nums = re.findall(r"-?\d+\.?\d*", tail.replace(",", "")[:80])
+                pred = nums[0] if nums else None
+            ok = pred is not None and gnum is not None and str(pred) == str(gnum)
         hits += int(ok)
         details.append(
             {
                 "kind": r["kind"],
                 "gold": gold,
-                "pred": (pred if r["kind"] == "arc_easy" else (extract_num(tail) or tail[:40])),
+                "pred": pred,
                 "hit": ok,
             }
         )
