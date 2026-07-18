@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-07-18T06:18:46.251615+00:00",
+  "n_misses": 74,
+  "by_kind": {
+    "gsm8k": 40,
+    "arc": 34
+  },
+  "by_diagnosis": {
+    "missing_final_marker_####": 40,
+    "wrong_numeric_final": 40,
+    "gold_digit_also_in_question": 2,
+    "no_letter_choice": 30,
+    "wrong_choice_letter": 34
+  },
+  "meta": {
+    "phase": "merge",
+    "step": 400,
+    "gsm": 0.0,
+    "arc": 0.15
+  },
+  "paths": {
+    "md": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\miss_traces\\miss_merge_step0400.md",
+    "jsonl": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\miss_traces\\miss_merge_step0400.jsonl"
+  }
+}

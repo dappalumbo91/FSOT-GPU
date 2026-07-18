@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-07-18T05:56:21.481849+00:00",
+  "n_misses": 31,
+  "by_kind": {
+    "arc": 31
+  },
+  "by_diagnosis": {
+    "wrong_choice_letter": 31
+  },
+  "meta": {
+    "phase": "arc_answer_locked",
+    "step": 825,
+    "acc": 0.225
+  },
+  "paths": {
+    "md": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\miss_traces\\miss_arc_step0825.md",
+    "jsonl": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\miss_traces\\miss_arc_step0825.jsonl"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-07-18T06:29:28.297651+00:00",
+  "n_misses": 66,
+  "by_kind": {
+    "gsm8k": 40,
+    "arc": 26
+  },
+  "by_diagnosis": {
+    "missing_final_marker_####": 40,
+    "wrong_numeric_final": 40,
+    "gold_digit_also_in_question": 2,
+    "wrong_choice_letter": 26
+  },
+  "meta": {
+    "gsm": 0.0,
+    "arc": 0.35,
+    "agree": 1.0,
+    "gsm_best": {
+      "acc": 0.0,
+      "step": 1,
+      "agree": 1.0
+    },
+    "arc_best": {
+      "acc": 0.325,
+      "step": 1,
+      "agree": 1.0
+    },
+    "merge_best": {
+      "score": 0.825,
+      "gsm": 0.0,
+      "arc": 0.35,
+      "agree": 1.0,
+      "step": 1
+    }
+  },
+  "paths": {
+    "md": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\miss_traces\\miss_answer_locked_final.md",
+    "jsonl": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\miss_traces\\miss_answer_locked_final.jsonl"
+  }
+}
