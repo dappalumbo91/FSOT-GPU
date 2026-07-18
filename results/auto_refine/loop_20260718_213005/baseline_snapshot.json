@@ -1,0 +1,78 @@
+{
+  "host": "pure_fsot_sota_standard_best.pt",
+  "snap": {
+    "arc_min": 0.325,
+    "arc_e": 0.3333333333333333,
+    "arc_c": 0.325,
+    "gsm_first": 0.3,
+    "gsm_exact": 0.0,
+    "agree": 1.0,
+    "gen_score": 0.3194444444444444,
+    "space_digit": 0.35,
+    "digit_argmax": "1@80%",
+    "arc_letter_top": "D@80%"
+  },
+  "full": {
+    "cap": {
+      "arc_e": 0.3333333333333333,
+      "arc_c": 0.325,
+      "arc_min": 0.325,
+      "gsm_first": 0.3,
+      "gsm_tf": 0.5625,
+      "gsm_exact": 0.0,
+      "agree": 1.0,
+      "balanced": 2.3537500000000002,
+      "mode": "1000000",
+      "mode_frac": 0.975
+    },
+    "overfit": {
+      "mean_train_acc": 0.21666666666666667,
+      "mean_hold_acc": 0.3194444444444444,
+      "mean_overfit_gap": -0.10277777777777776,
+      "max_overfit_gap": -0.04999999999999999,
+      "gen_score": 0.3194444444444444,
+      "overfit_flag": false,
+      "threshold_gap": 0.08,
+      "notes": "gap_within_threshold",
+      "splits": [
+        {
+          "name": "arc_easy",
+          "acc_train": 0.25,
+          "acc_hold": 0.3333333333333333,
+          "err_train": 0.75,
+          "err_hold": 0.6666666666666667,
+          "overfit_gap": -0.08333333333333331,
+          "n_train": 40,
+          "n_hold": 60
+        },
+        {
+          "name": "arc_challenge",
+          "acc_train": 0.15,
+          "acc_hold": 0.325,
+          "err_train": 0.85,
+          "err_hold": 0.675,
+          "overfit_gap": -0.17500000000000002,
+          "n_train": 40,
+          "n_hold": 40
+        },
+        {
+          "name": "gsm_first_digit",
+          "acc_train": 0.25,
+          "acc_hold": 0.3,
+          "err_train": 0.75,
+          "err_hold": 0.7,
+          "overfit_gap": -0.04999999999999999,
+          "n_train": 40,
+          "n_hold": 40
+        }
+      ]
+    },
+    "gen_score": 0.3194444444444444,
+    "mean_overfit_gap": -0.10277777777777776,
+    "space_digit": 0.35,
+    "digit_argmax_top": "1",
+    "digit_argmax_frac": 0.8,
+    "arc_easy_top_letter": "D",
+    "arc_easy_top_frac": 0.8
+  }
+}

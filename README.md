@@ -90,12 +90,23 @@ python -u industry_lm\run_sota_standard_climb.py
 
 ## Where next
 
-Documented in [`docs/CURRENT_STATUS.md`](docs/CURRENT_STATUS.md):
+Documented in [`docs/CURRENT_STATUS.md`](docs/CURRENT_STATUS.md) and **[`docs/COMPETITIVE_GAPS.md`](docs/COMPETITIVE_GAPS.md)** (full lag inventory).
 
 1. **Finish GSM digit de-collapse** (space-digit ≥45–50%, argmax-`1` &lt;50%) without losing ARC min  
 2. **Break ARC free-gen ~80% D** letter collapse (letter-only / LoRA)  
 3. **FSOT 2.1 curriculum** + larger pure-FSOT open host on the **same** stack  
 4. **Mid-S attention** kernel path  
+
+### Auto verify + refine loop
+
+```powershell
+python -u industry_lm\run_auto_refine_loop.py --cycles 1 --dry-measure
+python -u industry_lm\run_auto_refine_loop.py --cycles 3
+# optional nightly full archive cross-proof:
+python -u industry_lm\run_auto_refine_loop.py --cycles 1 --full-archive
+```
+
+Loop: **data → FSOT-GPU verify + Physical-Archive light cross-proof → measure → train lever → re-verify → diagnose/fix**. Ledgers under `results/auto_refine/`.
 
 ---
 

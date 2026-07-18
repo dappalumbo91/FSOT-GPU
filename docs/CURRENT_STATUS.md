@@ -101,27 +101,60 @@ python -u industry_lm/run_sota_digit_decollapse.py
 
 ---
 
+## Competitive gaps (where we still lag)
+
+Full inventory: **[`COMPETITIVE_GAPS.md`](COMPETITIVE_GAPS.md)**
+
+| Priority | Lack | Us | Bar to beat |
+|----------|------|-----|-------------|
+| 1 | GSM free exact / digit collapse | exact 0%; space-digit 35% | non-collapsed gen, exact >0 then climb |
+| 2 | ARC letter free-gen diversity | ~80% **D** | balanced A–D |
+| 3 | ARC min hold stability >35% | ~32.5% | 3-eval hold >35% |
+| 4 | Mid-S attention speed | lag fused SDPA | FlashAttention-class mid-S |
+| 5 | Host scale | 135M only | larger open pure-FSOT same stack |
+
+**Already lead:** agree 100%, long-S speed, ARC vs same-class HF, verify/overfit process.
+
+---
+
+## Autonomous refine loop
+
+```powershell
+# Measure only (data + verify + snapshot)
+python -u industry_lm/run_auto_refine_loop.py --cycles 1 --dry-measure
+
+# Full cycles: verify → train lever → re-verify → diagnose/fix
+python -u industry_lm/run_auto_refine_loop.py --cycles 3
+
+# Nightly: include full Physical-Archive cross_proof (slow)
+python -u industry_lm/run_auto_refine_loop.py --cycles 1 --full-archive
+```
+
+Ledgers: `results/auto_refine/loop_*/` and `results/auto_refine/LATEST_LOOP.md`  
+Archive bind: light connective spine + stamp every cycle; full suite optional.
+
+---
+
 ## Where we are going next
 
-### Near-term (same 135M pure FSOT host)
+### Near-term (same 135M pure FSOT host) — auto-loop priorities
 
-1. **Finish digit de-collapse**  
+1. **Finish digit de-collapse** (`digit_decollapse` lever)  
    - Target: digit-after-space **≥45–50%**, argmax-`1` fraction **&lt;50%**  
    - Hold ARC min ≥ 32% and agree ≥ 90%  
-   - Then free-gen first-digit / free exact should start to move  
 
-2. **ARC letter D collapse**  
-   - Letter-only softmax + balanced sampling **or** LoRA last-block (avoid fragile full embed CE)  
-   - Goal: free-gen letter entropy up; ARC min **&gt;35%** with 3-eval hold  
+2. **ARC letter D collapse** (`arc_letter_balance` lever)  
+   - Letter-only / LoRA; ARC min **&gt;35%** stable  
 
-3. **Larger holds / multi-rep**  
-   - Reduce promote false positives from ±9% noise  
+3. **GSM free exact >0%** once digits uncollapse  
+
+4. **Larger holds / multi-rep** — noise mitigation  
 
 ### Mid-term (same architecture, scale stack)
 
-4. **FSOT 2.1 curriculum path** (literacy / solidification data) — parallel, low risk to ARC peak  
-5. **Larger open pure-FSOT host** (same layer-swap + consensus) once 135M plateaus on holds  
-6. **Mid-S attention** kernel path (close G6)  
+5. **FSOT 2.1 curriculum path** — parallel  
+6. **Larger open pure-FSOT host** — same stack  
+7. **Mid-S attention** kernel path (G6)  
 
 ### North star
 
@@ -137,10 +170,12 @@ python -u industry_lm/run_sota_digit_decollapse.py
 | [SOTA_STANDARDS.md](SOTA_STANDARDS.md) | Climb constitution |
 | [OPEN_SOURCE_SOTA_GATES.md](OPEN_SOURCE_SOTA_GATES.md) | Gate board |
 | [CURRENT_STATUS.md](CURRENT_STATUS.md) | **This page** — live position |
+| [COMPETITIVE_GAPS.md](COMPETITIVE_GAPS.md) | Full lack inventory vs competitors |
 | `results/sota/SCOREBOARD.md` | Speed / agree SOTA |
 | `results/industry_lm/BARRIER_DIAGNOSIS.md` | Plateau root cause |
 | `results/industry_lm/SOTA_DIGIT_DECOLLAPSE.md` | Digit collapse breakthrough |
 | `results/industry_lm/FSOT21_VERIFY.md` | Last verify ledger |
+| `results/auto_refine/LATEST_LOOP.md` | Last auto refine loop |
 
 ---
 
