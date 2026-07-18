@@ -24,14 +24,20 @@ AGI-as-media-hype is **not** the goal. **Correct structure → correct computati
 
 ## SOTA operating standards
 
-Climb under **[`docs/SOTA_STANDARDS.md`](SOTA_STANDARDS.md)** only:
+**Where we are right now:** [`CURRENT_STATUS.md`](CURRENT_STATUS.md)
+
+Climb under **[`SOTA_STANDARDS.md`](SOTA_STANDARDS.md)** only:
 
 1. **G-VERIFY** — FSOT 2.1 bridge green (`fsot21_verify.py`)  
 2. **G-OVERFIT** — train−hold gap / `gen_score` / `accept_update`  
-3. **G-CAPABILITY** — held-out ARC min, GSM first-digit/TF/exact, agree  
-4. **G-PUBLISH** — GitHub only when all three improve  
+3. **G-CAPABILITY** — held-out ARC min, GSM digit-after-space / free exact, agree  
+4. **G-PUBLISH** — GitHub only when gates improve (no fake GSM)  
 
-Command: `python -u industry_lm/run_sota_standard_climb.py`
+```powershell
+python -u industry_lm/fsot21_verify.py
+python -u industry_lm/run_sota_standard_climb.py
+python -u industry_lm/run_sota_digit_decollapse.py
+```
 
 ## Active workstreams
 

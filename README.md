@@ -9,6 +9,24 @@ Theory authority: **[FSOT-2.1-Lean](https://github.com/dappalumbo91/FSOT-2.1-Lea
 
 ---
 
+## Current status (read this first)
+
+**Live position, barriers, and next steps:**  
+→ **[`docs/CURRENT_STATUS.md`](docs/CURRENT_STATUS.md)**  
+→ Climb rules: [`docs/SOTA_STANDARDS.md`](docs/SOTA_STANDARDS.md)
+
+| Layer | Where we are |
+|-------|----------------|
+| **Structure** | Pure FSOT **all-layer** consensus attention (no softmax) on open SmolLM2-135M |
+| **Fidelity** | **100%** next-token agree vs industry host (EVAL16) |
+| **Speed** | Prefill/decode win; **long-context** attention win (S≥4096) |
+| **Verify** | FSOT 2.1 bridge **PASS** (archive stamp + spine + host) |
+| **ARC (held-out min)** | **~32.5%** vs HF baseline **~8%** |
+| **GSM** | Free exact still collapsed; **root cause found** — digit argmax after `####`+space was always `1`; de-collapse in progress (**space-digit 30%→35%**, argmax-`1` 100%→80%) |
+| **Process** | Standards-gated climb only (verify + overfit + capability); push only on real improve |
+
+---
+
 ## What this is
 
 FSOT-GPU is the silicon path for Fluid Spacetime Omni-Theory:
@@ -17,8 +35,9 @@ FSOT-GPU is the silicon path for Fluid Spacetime Omni-Theory:
 - **Owned operators** — collapse threshold `C_eff·P_var`, trinary pack, coherence gate, **consensus attention (no softmax exp)**  
 - **CUDA kernels** — sparse active-key consensus on NVIDIA (Blackwell / RTX 5070 validated)  
 - **Industry LLM host** — real Hugging Face **SafeTensors** models with **all attention layers** on the FSOT operator after adaptation  
+- **Standards climb** — granular metrics, overfit gap, FSOT 2.1 verify bridge, barrier diagnosis  
 
-**Mission:** accuracy and true structure first; then **beat industry capability on the same hardware** — including standing work to **surpass FlashAttention-class** performance under FSOT-correct loads.
+**Mission:** accuracy and true structure first; then **beat industry capability on the same hardware** — including standing work to **surpass FlashAttention-class** performance under FSOT-correct loads. Build **open, same-class pure-FSOT SOTA**, not closed-model theater.
 
 ---
 
@@ -29,10 +48,12 @@ FSOT-GPU is the silicon path for Fluid Spacetime Omni-Theory:
 | Multi-lang parity (Py · Rust · Zig · formal · CUDA) | `overall_ok` |
 | Sparse FSOT CUDA vs dense-softmax CUDA | Up to **~89×** faster |
 | Sparse FSOT CUDA vs fused SDPA | **Long-context win** (S≥4096; up to **~1.6×** at S=8192) |
-| SmolLM2-135M **pure FSOT all-layer** next-token | **100%** agree vs baseline (16-probe) — Ladder A equal |
-| Prefill / decode (pure FSOT vs industry SDPA host) | Prefill **~1.09×**, decode **~1.06×** |
-| SOTA scoreboard (tiny model, same GPU) | **Across the board** — see `results/sota/SCOREBOARD.md` |
-| Blend demo (FSOT+SDPA) | **~100%** next-token agree |
+| SmolLM2-135M **pure FSOT all-layer** next-token | **100%** agree vs baseline (16-probe) |
+| Prefill / decode (pure FSOT vs industry SDPA host) | Prefill **~1.09–1.26×**, decode **≥1×** |
+| SOTA speed/agree scoreboard | See `results/sota/SCOREBOARD.md` |
+| Open capability (ARC hold min) | **~32.5%** FSOT vs **~8%** HF — `docs/CURRENT_STATUS.md` |
+| FSOT 2.1 verification bridge | **PASS** — `industry_lm/fsot21_verify.py` |
+| Overfit metric + standards climb | Live — `docs/SOTA_STANDARDS.md` |
 
 See `results/` JSON ledgers and `docs/`.
 
@@ -56,9 +77,25 @@ python competitive\beat_cuda_suite.py
 python industry_lm\run_unit.py
 .\scripts\build_fsot_attn_dll.ps1
 python industry_lm\run_push_agree.py
+
+# Standards path (verify → overfit → capability)
+python -u industry_lm\fsot21_verify.py
+python -u industry_lm\run_barrier_diagnosis.py
+python -u industry_lm\run_sota_standard_climb.py
 ```
 
 **Hardware tested:** NVIDIA GeForce RTX 5070 (CC 12.0), CUDA 13.3.
+
+---
+
+## Where next
+
+Documented in [`docs/CURRENT_STATUS.md`](docs/CURRENT_STATUS.md):
+
+1. **Finish GSM digit de-collapse** (space-digit ≥45–50%, argmax-`1` &lt;50%) without losing ARC min  
+2. **Break ARC free-gen ~80% D** letter collapse (letter-only / LoRA)  
+3. **FSOT 2.1 curriculum** + larger pure-FSOT open host on the **same** stack  
+4. **Mid-S attention** kernel path  
 
 ---
 
@@ -70,9 +107,9 @@ phase1_formal_gpu/        Lean · Coq · Isabelle · F*
 phase2_native_gpu/cuda/   CUDA kernels + DLL
 parity/                   Python · Rust · Zig cross-check
 competitive/              SDPA / dense-CUDA / FlashAttention-track benches
-industry_lm/              SafeTensors host, layer swap, distill
-docs/                     goals, architecture, layman, publication
-results/                  machine-readable ledgers
+industry_lm/              SafeTensors host, layer swap, verify, climb, barriers
+docs/                     goals, SOTA standards, CURRENT_STATUS, architecture
+results/                  machine-readable ledgers (capability + verify + overfit)
 ```
 
 ---

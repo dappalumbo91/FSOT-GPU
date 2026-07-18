@@ -4,14 +4,17 @@
 **Model:** SmolLM2-135M-Instruct (tiny modern instruct)  
 **Arms:** industry baseline vs **pure FSOT all-layer** host  
 
-## Verdict
+**Capability / barriers / roadmap:** see [`docs/CURRENT_STATUS.md`](../../docs/CURRENT_STATUS.md) (this file is the **speed + agree** track).
+
+## Verdict (speed + fidelity track)
 
 | Category | Result |
 |----------|--------|
-| Wins | quality_next_token_eq_baseline, quality_top5_overlap, prefill_latency, decode_tps, attention_op_track |
+| Wins | quality_next_token_eq_baseline, quality_top5_overlap, prefill_latency, decode_tps, attention_op_track (long-S) |
 | Ties | quality_generation_partial, vram |
-| Loses | — |
-| Across the board | **True** |
+| Loses | mid-S attention vs fused SDPA |
+| Across the board (this track) | **True** for agree + prefill/decode + long-S |
+| Open capability track | ARC hold min **~32.5%** ≫ HF; GSM free-gen still open — CURRENT_STATUS |
 
 ## Numbers
 
