@@ -430,11 +430,17 @@ def main():
     for p in teacher.parameters():
         p.requires_grad_(False)
 
+    # Prefer fidelity / unpolluted pure-FSOT hosts. Polluted digit-phase "standard"
+    # (ARC collapsed to ~18%) must not be the default spine.
     src = None
     for cand in (
+        CKPT / "pure_fsot_capability_recovery_best.pt",
+        CKPT / "pure_fsot_agree100_best.pt",
+        CKPT / "pure_fsot_fulldof_best.pt",
+        CKPT / "pure_fsot_12x3_best.pt",
+        CKPT / "pure_fsot_answer_locked_best.pt",
         CKPT / "pure_fsot_sota_standard_best.pt",
         CKPT / "pure_fsot_data_driven_best.pt",
-        CKPT / "pure_fsot_12x3_best.pt",
     ):
         if cand.is_file():
             src = cand
@@ -447,6 +453,7 @@ def main():
     ck0 = torch.load(src, map_location=device, weights_only=False)
     student.load_state_dict(ck0["state_dict"], strict=False)
     print("host", src.name)
+    # Refuse thrash if live ARC is catastrophic and a better name exists later — measure after load
 
     cap0, ov0 = measure_all(tok, teacher, student, device, packs)
     write_overfit_ledger(ov0, OUT, name="overfit_sota_start", meta={"phase": "start"})

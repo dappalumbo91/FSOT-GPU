@@ -34,7 +34,8 @@ OUT = ROOT / "results" / "industry_lm"
 OUT.mkdir(parents=True, exist_ok=True)
 
 MODES = {
-    # Correct FSOT application: joint package only (no single-axis regression theater)
+    # Primary: restore documented pure-FSOT capability (ARC≥32.5%, agree, gen)
+    "recover_capability": [sys.executable, "-u", str(HERE / "run_recover_capability.py")],
     "joint_package": [sys.executable, "-u", str(HERE / "run_joint_package_climb.py")],
     "audit_package": [sys.executable, "-u", str(HERE / "audit_host_package.py")],
     "hardware_sota": [sys.executable, "-u", str(HERE / "run_hardware_sota_climb.py")],

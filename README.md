@@ -85,12 +85,11 @@ python -u industry_lm\fsot21_verify.py
 python -u industry_lm\run_barrier_diagnosis.py
 python -u industry_lm\run_sota_standard_climb.py
 
-# Single train entrypoint (Phase 1 construction)
+# Single train entrypoint
 python -u industry_lm\run_train.py --dry-config
 python -u industry_lm\run_train.py --verify-only
-# Hardware-constrained low-param SOTA (digit + ARC retention on high-ARC host)
-python -u industry_lm\run_train.py --mode hardware_sota
-python -u industry_lm\run_train.py --mode standard_climb
+# PRIMARY: restore documented pure-FSOT capability (ARC≥32.5%, agree, gen)
+python -u industry_lm\run_train.py --mode recover_capability
 ```
 
 
