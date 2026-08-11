@@ -1,10 +1,10 @@
 {
   "schema": "fsot_llm_checkpoint_contract_v1",
-  "timestamp_utc": "2026-08-11T22:06:42.175161+00:00",
-  "git_rev": "0ebece3",
-  "phase": "joint_package",
-  "step": 375,
-  "ckpt_name": "pure_fsot_joint_package_best.pt",
+  "timestamp_utc": "2026-08-11T23:19:25.824872+00:00",
+  "git_rev": "a9cf4be",
+  "phase": "capability_recovery",
+  "step": 200,
+  "ckpt_name": "pure_fsot_sota_standard_best.pt",
   "pin_verify_pass": true,
   "attention_mode": "pure_fsot_consensus",
   "layer_policy": "all_layers",
@@ -27,21 +27,19 @@
   },
   "scores": {
     "agree16": 1.0,
-    "arc_min": 0.25,
-    "arc_e": 0.25,
-    "arc_c": 0.375,
-    "gsm_first": 0.275,
+    "arc_min": 0.325,
+    "arc_e": 0.35,
+    "arc_c": 0.325,
+    "gsm_first": 0.3,
     "gsm_exact": 0.0,
-    "gsm_space_digit": 0.225,
-    "gen_score": 0.3,
-    "overfit_gap": -0.00833333333333334,
-    "balanced": 2.1220833333333333
+    "gsm_space_digit": null,
+    "gen_score": 0.325,
+    "overfit_gap": -0.08333333333333331,
+    "balanced": 2.3479166666666664
   },
   "extra": {
-    "gate0_arc_min": 0.21666666666666667,
-    "wrote_standard": false,
-    "lab": "pure_fsot_joint_package_best.pt",
-    "digit_argmax_top": "1",
-    "digit_argmax_frac": 0.25
+    "gate0_arc_min": 0.25,
+    "wrote_standard": true,
+    "lab": "pure_fsot_capability_recovery_best.pt"
   }
 }

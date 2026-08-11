@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-11T22:23:51.502950+00:00",
+  "timestamp": "2026-08-11T23:22:06.547918+00:00",
   "protocol": "fsot21_verify_bridge_v1",
   "theory_authority": "FSOT-2.1-Lean + Physical-Archive cross_proof",
   "layers": {
@@ -103,12 +103,12 @@
       "all_layers_fsot": true,
       "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_data_driven_best.pt",
       "ckpt_meta": {
-        "arc_min": 0.18333333333333332,
-        "arc_easy_hold": 0.18333333333333332,
-        "arc_challenge_hold": 0.425,
+        "arc_min": 0.325,
+        "arc_easy_hold": 0.35,
+        "arc_challenge_hold": 0.325,
         "gsm_first": 0.3,
         "agree16": 1.0,
-        "phase": "sota_digit_decollapse",
+        "phase": "capability_recovery",
         "step": 200
       },
       "forward_finite": true,
