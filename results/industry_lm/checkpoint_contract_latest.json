@@ -1,10 +1,10 @@
 {
   "schema": "fsot_llm_checkpoint_contract_v1",
-  "timestamp_utc": "2026-08-11T18:37:08.659052+00:00",
-  "git_rev": "e9c9a45",
-  "phase": "sota_digit_decollapse",
-  "step": 80,
-  "ckpt_name": "pure_fsot_sota_standard_best.pt",
+  "timestamp_utc": "2026-08-11T19:46:40.356608+00:00",
+  "git_rev": "8d22cef",
+  "phase": "hardware_sota",
+  "step": 520,
+  "ckpt_name": "pure_fsot_hardware_sota_best.pt",
   "pin_verify_pass": true,
   "attention_mode": "pure_fsot_consensus",
   "layer_policy": "all_layers",
@@ -27,19 +27,21 @@
   },
   "scores": {
     "agree16": 1.0,
-    "arc_min": 0.18333333333333332,
-    "arc_e": 0.18333333333333332,
-    "arc_c": 0.425,
-    "gsm_first": 0.3,
+    "arc_min": 0.21666666666666667,
+    "arc_e": 0.21666666666666667,
+    "arc_c": 0.35,
+    "gsm_first": 0.275,
     "gsm_exact": 0.0,
-    "gsm_space_digit": 0.325,
-    "gen_score": 0.2722222222222222,
-    "overfit_gap": 0.03055555555555557,
-    "balanced": 2.0312499999999996
+    "gsm_space_digit": 0.275,
+    "gen_score": 0.2611111111111111,
+    "overfit_gap": 0.019444444444444448,
+    "balanced": 2.0250000000000004
   },
   "extra": {
-    "gate0_arc_min": 0.18333333333333332,
+    "gate0_arc_min": 0.21666666666666667,
+    "wrote_standard": false,
+    "lab": "pure_fsot_hardware_sota_best.pt",
     "digit_argmax_top": "1",
-    "digit_argmax_frac": 0.7
+    "digit_argmax_frac": 0.225
   }
 }
