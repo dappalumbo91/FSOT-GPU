@@ -55,10 +55,13 @@ def pure_digit_ids(tok):
     return [tok.encode(d, add_special_tokens=False)[0] for d in "0123456789"]
 
 
-def digit_ce(student, tok, device, prompt, gold, pure, *, anti_one: float = 0.35):
+def digit_ce(student, tok, device, prompt, gold, pure, *, anti_mode: float = 0.45):
     """
-    First-digit CE after forced space + anti-collapse margin:
-    when gold first digit != 1, push logit[gold] above logit[1].
+    First-digit CE after forced space + anti-mode-collapse margin.
+
+    Host weights are free; we guide them with balanced digit CE.
+    Anti-collapse: push gold logit above every *other* digit by a margin
+    (not only vs '1' — last run just mode-hopped 1→2).
     """
     g = str(gold).strip().replace(",", "")
     m = re.search(r"\d", g)
@@ -69,10 +72,14 @@ def digit_ce(student, tok, device, prompt, gold, pure, *, anti_one: float = 0.35
     logits = student(**pe).logits[0, -1].float()
     sub = torch.stack([logits[i] for i in pure], dim=0)  # [10]
     ce = F.cross_entropy(sub.unsqueeze(0), torch.tensor([d], device=device))
-    if d != 1 and anti_one > 0:
-        # hinge: want sub[d] >= sub[1] + 0.5
-        margin = torch.relu(sub[1] - sub[d] + 0.5)
-        ce = ce + anti_one * margin
+    if anti_mode > 0:
+        # max competing digit logit (exclude gold)
+        mask = torch.ones(10, dtype=torch.bool, device=device)
+        mask[d] = False
+        rival = sub[mask].max()
+        # hinge: gold >= rival + 0.4
+        margin = torch.relu(rival - sub[d] + 0.4)
+        ce = ce + anti_mode * margin
     return ce
 
 
@@ -155,7 +162,20 @@ def main():
 
     tok, student = load_model(device)
     swap_all_layers(student)
-    src = CKPT / "pure_fsot_sota_standard_best.pt"
+    # Prefer pre-digit-mode-hop hosts if present (standard was overwritten with 2@~68%).
+    src = None
+    for cand in (
+        CKPT / "pure_fsot_12x3_best.pt",
+        CKPT / "pure_fsot_answer_locked_best.pt",
+        CKPT / "pure_fsot_sota_standard_best.pt",
+        CKPT / "pure_fsot_data_driven_best.pt",
+    ):
+        if cand.is_file():
+            src = cand
+            break
+    if src is None:
+        raise FileNotFoundError("no pure_fsot_*.pt host checkpoint")
+    print(f"load host={src.name}")
     ck = torch.load(src, map_location=device, weights_only=False)
     student.load_state_dict(ck["state_dict"], strict=False)
     pure = pure_digit_ids(tok)
@@ -228,14 +248,14 @@ def main():
     t0 = time.time()
     student.train()
     floor = cap0["arc_min"] - 0.02
-    # Phase A: first-digit only (anti-1). Phase B: add multi-digit after uncollapse.
-    STEPS = 1000
+    # Phase A: first-digit + anti-mode. Phase B: multi-digit when mode mass drops.
+    STEPS = 800
     EVAL_EVERY = 40
 
     for step in range(1, STEPS + 1):
         row = bal[step % len(bal)]
-        # heavier first-digit + anti-1; multi-digit only after some uncollapse signal
-        phase_b = best_d["top_frac"] < 0.85
+        # uncollapse when no single digit owns >50% of hold argmax
+        phase_b = best_d["top_frac"] < 0.50
         loss = digit_ce(
             student,
             tok,
@@ -243,10 +263,10 @@ def main():
             row["prompt"],
             row["gold"],
             pure,
-            anti_one=0.55 if not phase_b else 0.25,
+            anti_mode=0.65 if not phase_b else 0.30,
         )
         if phase_b:
-            loss = loss + 0.4 * multi_digit_tf_ce(
+            loss = loss + 0.35 * multi_digit_tf_ce(
                 student, tok, device, row["prompt"], row["gold"], pure, max_digits=3
             )
         loss = loss + 0.30 * retention_ce(
@@ -254,9 +274,9 @@ def main():
         )
         if not torch.isfinite(loss):
             continue
-        # cosine decay LR
-        lr = plan.lr0 * (1.6 if step < 400 else 1.0)
-        lr = min(lr, 5e-5)
+        # FSOT suction–poof LR schedule (host weights free; plan from substrate)
+        lr = plan.lr0 * (1.5 if step < 300 else 1.0)
+        lr = min(lr, 4e-5)
         for g in opt.param_groups:
             g["lr"] = lr
         opt.zero_grad(set_to_none=True)
@@ -286,12 +306,10 @@ def main():
         )
         free_up = cap["gsm_first"] > best_cap["gsm_first"] + 0.025
         uncollapse = dstat["top_frac"] < best_d["top_frac"] - 0.08
-        # composite digit score: space_digit - 0.3 * max(0, top_frac-0.4) if top is 1
+        # Composite: space_digit minus ANY mode-collapse penalty (not only digit 1).
         def dig_score(ds):
-            pen = 0.0
-            if ds["top_argmax"].strip() == "1":
-                pen = 0.35 * max(0.0, ds["top_frac"] - 0.35)
-            return ds["first_digit_after_space"] - pen
+            pen = 0.40 * max(0.0, float(ds["top_frac"]) - 0.30)
+            return float(ds["first_digit_after_space"]) - pen
 
         score_up = dig_score(dstat) > dig_score(best_d) + 0.02
         arc_ok = cap["arc_min"] + 1e-9 >= floor

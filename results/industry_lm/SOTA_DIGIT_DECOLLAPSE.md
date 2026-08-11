@@ -6,8 +6,8 @@ TF “first” was **space** (100%), not the digit.
 
 | Metric | Start | Final |
 |--------|-------|-------|
-| Digit after space | 35% | 25% |
-| Argmax top | 1@80% | 1@45% |
+| Digit after space | 25% | 28% |
+| Argmax top | 1@45% | 2@68% |
 | Free first-digit | 30% | 30% |
 | ARC min | 32% | 32% |
 | gen_score | 0.319 | 0.319 |

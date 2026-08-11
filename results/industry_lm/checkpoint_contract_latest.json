@@ -1,33 +1,45 @@
 {
   "schema": "fsot_llm_checkpoint_contract_v1",
-  "timestamp_utc": "2026-08-11T17:47:14.359908+00:00",
-  "git_rev": "5b801c4",
-  "phase": "run_train_none",
-  "step": null,
-  "ckpt_name": null,
+  "timestamp_utc": "2026-08-11T18:37:08.659052+00:00",
+  "git_rev": "e9c9a45",
+  "phase": "sota_digit_decollapse",
+  "step": 80,
+  "ckpt_name": "pure_fsot_sota_standard_best.pt",
   "pin_verify_pass": true,
   "attention_mode": "pure_fsot_consensus",
   "layer_policy": "all_layers",
   "curriculum_hash": null,
   "substrate": {
-    "error": "No module named 'fsot_lib'",
-    "claims": "substrate_zero_free; host_weights_free_under_fsot"
+    "claims": "substrate_zero_free; host_weights_free_under_fsot",
+    "seeds": {
+      "pi": 3.141592653589793,
+      "e": 2.718281828459045,
+      "phi": 1.618033988749895,
+      "gamma": 0.5772156649015329,
+      "catalan_G": 0.915965594177219
+    },
+    "collapse_theta": 0.9174663774653723,
+    "c_eff": 0.9577022026205613,
+    "p_var": 0.9579871226722757,
+    "k": 0.4202216641606967,
+    "attention_contract": "pure_fsot_consensus_no_softmax",
+    "note": "LLM weight tensors are NOT required to be seed-parameterized; operators/gates/pin follow FSOT math on silicon."
   },
   "scores": {
-    "agree16": null,
-    "arc_min": null,
-    "arc_e": null,
-    "arc_c": null,
-    "gsm_first": null,
-    "gsm_exact": null,
-    "gsm_space_digit": null,
-    "gen_score": null,
-    "overfit_gap": null,
-    "balanced": null
+    "agree16": 1.0,
+    "arc_min": 0.18333333333333332,
+    "arc_e": 0.18333333333333332,
+    "arc_c": 0.425,
+    "gsm_first": 0.3,
+    "gsm_exact": 0.0,
+    "gsm_space_digit": 0.325,
+    "gen_score": 0.2722222222222222,
+    "overfit_gap": 0.03055555555555557,
+    "balanced": 2.0312499999999996
   },
   "extra": {
-    "config_name": "fsot_llm_v1_smollm2_135m",
-    "host": "industry_lm/models/SmolLM2-135M-Instruct",
-    "notes": "Entrypoint stub \u2014 promote paths write full scores."
+    "gate0_arc_min": 0.18333333333333332,
+    "digit_argmax_top": "1",
+    "digit_argmax_frac": 0.7
   }
 }
