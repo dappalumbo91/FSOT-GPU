@@ -61,8 +61,8 @@ ARC_FLOOR = 0.30  # production host never drops below this for standard promote
 
 def pick_high_arc_host(device) -> tuple[Path, dict]:
     """
-    Prefer candidates known for ARC capability; skip polluted low-ARC standards
-    when a stronger lock exists.
+    Prefer candidates with highest *stored* arc_min; skip known polluted
+    digit-phase standards (< ARC_FLOOR). Live re-measure happens after load.
     """
     candidates = [
         CKPT / "pure_fsot_arc_locked_best.pt",
@@ -72,7 +72,9 @@ def pick_high_arc_host(device) -> tuple[Path, dict]:
         CKPT / "pure_fsot_sota_standard_best.pt",
         CKPT / "pure_fsot_digit_lab_best.pt",
         CKPT / "pure_fsot_12x3_best.pt",
+        CKPT / "pure_fsot_agree100_best.pt",
     ]
+    ranked: list[tuple[float, Path, dict]] = []
     for c in candidates:
         if not c.is_file():
             continue
@@ -81,24 +83,26 @@ def pick_high_arc_host(device) -> tuple[Path, dict]:
             arc = ck.get("arc_min")
             if arc is None and isinstance(ck.get("gate"), dict):
                 arc = ck["gate"].get("arc_min")
+            # digit-phase pollution: stored 18% — deprioritize hard
+            phase = str(ck.get("phase") or "")
+            score = float(arc) if arc is not None else 0.25  # unknown → mid prior
+            if "digit" in phase.lower():
+                score -= 0.5
             meta = {
                 "path": c,
                 "arc_min": float(arc) if arc is not None else None,
                 "phase": ck.get("phase"),
+                "score": score,
             }
-            # Prefer any with stored arc_min >= floor; else first existing
-            if meta["arc_min"] is not None and meta["arc_min"] + 1e-9 >= ARC_FLOOR:
-                return c, meta
-            # fall through — keep first file as last resort
-            first = getattr(pick_high_arc_host, "_first", None)
-            if first is None:
-                pick_high_arc_host._first = (c, meta)  # type: ignore[attr-defined]
+            ranked.append((score, c, meta))
         except Exception as e:
             print(f"  skip {c.name}: {e}")
-    first = getattr(pick_high_arc_host, "_first", None)
-    if first:
-        return first
-    raise FileNotFoundError("no pure_fsot_*.pt candidates")
+    if not ranked:
+        raise FileNotFoundError("no pure_fsot_*.pt candidates")
+    ranked.sort(key=lambda x: -x[0])
+    _, c, meta = ranked[0]
+    print("  host rank:", ", ".join(f"{m['path'].name}:{m['score']:.2f}" for _, _, m in ranked[:5]))
+    return c, meta
 
 
 def build_digit_balance(rng: random.Random) -> list[dict]:
@@ -212,22 +216,20 @@ def main() -> int:
     best_cap, best_ov, best_d = dict(cap0), ov0, d0
     best_state = {k: v.detach().cpu().clone() for k, v in student.state_dict().items()}
     promoted = False
-    floor = max(float(cap0["arc_min"]) - 0.02, ARC_FLOOR - 0.02)
+    # Relative train floor: never trash *this* host's ARC; standard promote still needs 30%.
+    train_floor = max(0.0, float(cap0["arc_min"]) - 0.025)
+    print(f"train_floor={train_floor:.0%} (start_arc={cap0['arc_min']:.0%}; standard promote still needs {ARC_FLOOR:.0%})")
 
     for p in student.parameters():
         p.requires_grad_(False)
+    # Phase-safe: digit embed rows only first — last-layer FT burned ARC in pilot.
     for name, p in student.named_parameters():
-        # embed digits + last block light — keep VRAM small, update only high-leverage rows
         if "embed_tokens.weight" in name:
-            p.requires_grad_(True)
-        if "layers.29" in name or "layers.28" in name:  # last layers if present
-            p.requires_grad_(True)
-        if "lm_head" in name:
             p.requires_grad_(True)
 
     opt = torch.optim.AdamW(
         [p for p in student.parameters() if p.requires_grad],
-        lr=min(plan.lr0 * 1.2, 3.5e-5),
+        lr=min(plan.lr0 * 1.4, 3.0e-5),
         weight_decay=0.0,
     )
 
@@ -259,12 +261,12 @@ def main() -> int:
             loss = loss + 0.30 * multi_digit_tf_ce(
                 student, tok, device, row["prompt"], row["gold"], pure, max_digits=3
             )
-        # ARC letter retention — protect capability density (hardware rule)
+        # ARC letter + teacher retention — protect capability density
         ar = arc_pool[step % len(arc_pool)]
-        loss = loss + 0.45 * next_ce(
+        loss = loss + 0.55 * next_ce(
             student, tok, device, ar["prompt"], ar["gold"], kind="letter"
         )
-        loss = loss + 0.35 * retention_ce(
+        loss = loss + 0.45 * retention_ce(
             student, teacher, tok, device, EVAL16[step % len(EVAL16)]
         )
         if not torch.isfinite(loss):
@@ -298,12 +300,12 @@ def main() -> int:
         dig_up = dstat["first_digit_after_space"] > best_d["first_digit_after_space"] + 0.02
         score_up = dig_score(dstat) > dig_score(best_d) + 0.015
         uncollapse = dstat["top_frac"] < best_d["top_frac"] - 0.06
-        arc_ok = float(cap["arc_min"]) + 1e-9 >= floor
+        arc_ok = float(cap["arc_min"]) + 1e-9 >= train_floor
         ov_ok, ov_r = accept_update(
             before=best_ov,
             after=ov,
-            min_hold_delta=-0.02,
-            max_gap_widen=0.05,
+            min_hold_delta=-0.025,
+            max_gap_widen=0.06,
             require_gen_improve=False,
         )
         history.append(
@@ -355,7 +357,7 @@ def main() -> int:
             student.load_state_dict(best_state, strict=False)
             reject += 1
             stale += 1
-            print("    * REJECT restore", "arc_floor" if not arc_ok else ov_r)
+            print("    * REJECT restore", "train_arc_floor" if not arc_ok else ov_r)
             if reject >= 8:
                 break
         else:
