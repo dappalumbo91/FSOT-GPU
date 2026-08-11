@@ -34,6 +34,8 @@ OUT = ROOT / "results" / "industry_lm"
 OUT.mkdir(parents=True, exist_ok=True)
 
 MODES = {
+    # Push recovered 32.5% package toward 40% under FSOT residual law
+    "push_arc40": [sys.executable, "-u", str(HERE / "run_push_arc40_fsot.py")],
     # Primary: restore documented pure-FSOT capability (ARC≥32.5%, agree, gen)
     "recover_capability": [sys.executable, "-u", str(HERE / "run_recover_capability.py")],
     "joint_package": [sys.executable, "-u", str(HERE / "run_joint_package_climb.py")],
