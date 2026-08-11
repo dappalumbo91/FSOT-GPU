@@ -176,6 +176,7 @@ def gap_scores(snap: dict) -> dict[str, float]:
 
 # Named barriers only — never burn tokens on anonymous / unmapped levers.
 NAMED_BARRIER_LEVERS = {
+    "hardware_sota": "low_param_capability_under_vram",
     "digit_decollapse": "digit_argmax_collapse_after_space",
     "arc_letter_balance": "arc_free_gen_letter_collapse",
     "standard_climb": "arc_min_or_gsm_capability",
@@ -187,6 +188,14 @@ def select_lever(snap: dict, tried: list[str]) -> str:
     g = gap_scores(snap)
     # priority menu — each lever maps to a named barrier (see NAMED_BARRIER_LEVERS)
     order = [
+        # Prefer joint digit+ARC path under VRAM constraint (never lab-only overwrite).
+        (
+            "hardware_sota",
+            g["digit_collapse"]
+            + g["space_digit_low"]
+            + 0.5 * g["gsm_exact_zero"]
+            + 0.4 * g["arc_min_low"],
+        ),
         ("digit_decollapse", g["digit_collapse"] + g["space_digit_low"] + 0.5 * g["gsm_exact_zero"]),
         ("arc_letter_balance", g["arc_letter_collapse"] + 0.5 * g["arc_min_low"]),
         ("standard_climb", g["arc_min_low"] + 0.3 * g["free_first_low"]),
@@ -227,6 +236,10 @@ def run_lever(
             "allowed": list(NAMED_BARRIER_LEVERS),
         }
     barrier = NAMED_BARRIER_LEVERS[name]
+    if name == "hardware_sota":
+        out = _run_script("run_hardware_sota_climb.py", timeout_s=7200)
+        out["barrier"] = barrier
+        return out
     if name == "digit_decollapse":
         out = _run_script("run_sota_digit_decollapse.py", timeout_s=3600)
         out["barrier"] = barrier

@@ -162,13 +162,16 @@ def main():
 
     tok, student = load_model(device)
     swap_all_layers(student)
-    # Prefer pre-digit-mode-hop hosts if present (standard was overwritten with 2@~68%).
+    # Hardware SOTA path: prefer HIGH-ARC production hosts first.
+    # Lab 12x3 is only a fallback — never again the default (overwrote 32% ARC).
     src = None
     for cand in (
-        CKPT / "pure_fsot_12x3_best.pt",
+        CKPT / "pure_fsot_arc_locked_best.pt",
+        CKPT / "pure_fsot_sota_climb_best.pt",
         CKPT / "pure_fsot_answer_locked_best.pt",
+        CKPT / "pure_fsot_curriculum_best.pt",
         CKPT / "pure_fsot_sota_standard_best.pt",
-        CKPT / "pure_fsot_data_driven_best.pt",
+        CKPT / "pure_fsot_12x3_best.pt",
     ):
         if cand.is_file():
             src = cand
@@ -345,15 +348,19 @@ def main():
             promoted = True
             reject = 0
             stale = 0
+            # Never trash production host with low-ARC labs (hardware SOTA rule).
             save_promoted(
                 student,
                 cap,
                 ov,
                 step,
-                "sota_digit_decollapse",
+                "digit_lab",
                 cap0,
                 digit_stats=dstat,
                 pin_verify_pass=bool(v_pre.get("ok")),
+                promote_standard=float(cap["arc_min"]) >= 0.30,
+                lab_name="pure_fsot_digit_lab_best.pt",
+                arc_floor_for_standard=0.30,
             )
             print(
                 f"    * PROMOTED space_dig={dstat['first_digit_after_space']:.0%} "

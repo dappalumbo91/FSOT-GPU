@@ -88,8 +88,11 @@ python -u industry_lm\run_sota_standard_climb.py
 # Single train entrypoint (Phase 1 construction)
 python -u industry_lm\run_train.py --dry-config
 python -u industry_lm\run_train.py --verify-only
+# Hardware-constrained low-param SOTA (digit + ARC retention on high-ARC host)
+python -u industry_lm\run_train.py --mode hardware_sota
 python -u industry_lm\run_train.py --mode standard_climb
 ```
+
 
 **Hardware tested:** NVIDIA GeForce RTX 5070 (CC 12.0), CUDA 13.3.
 

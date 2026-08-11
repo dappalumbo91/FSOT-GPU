@@ -13,7 +13,9 @@ This document is the **public position**: where we are, what is measured, what i
 
 ## One-line position
 
-**Pure FSOT all-layer attention is production-ready for fidelity and long-context speed on a tiny open host.** Capability climb is **standards-gated** (verify + overfit + holds). ARC held-out **min ≈ 32.5%** (≫ HF ~8%); GSM free-gen is still **digit-collapsed** after `####` — root cause identified and partially broken.
+**Low-parameter SOTA under hardware constraint:** pure FSOT all-layer substrate on SmolLM2-135M (RTX 5070) — more capability **per parameter**, not bigger models first. Fidelity + long-S speed hold; capability climb is standards-gated. Strategy: [`HARDWARE_CONSTRAINT_STRATEGY.md`](HARDWARE_CONSTRAINT_STRATEGY.md).
+
+**Pure FSOT attention** is production-ready for fidelity and long-context speed on a tiny open host. ARC held-out **min ≈ 32.5%** (≫ HF ~8%) on high-ARC locks; GSM free-gen digit collapse is the active barrier (anti-mode loss + hardware_sota climb — never overwrite production host with low-ARC digit labs).
 
 ---
 

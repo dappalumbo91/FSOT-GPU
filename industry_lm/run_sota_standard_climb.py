@@ -277,12 +277,33 @@ def measure_all(tok, teacher, student, device, packs):
     return cap, ov
 
 
-def save_promoted(student, cap, ov, step, phase, gate0, *, digit_stats=None, pin_verify_pass=None):
+def save_promoted(
+    student,
+    cap,
+    ov,
+    step,
+    phase,
+    gate0,
+    *,
+    digit_stats=None,
+    pin_verify_pass=None,
+    promote_standard: bool = True,
+    lab_name: str | None = None,
+    arc_floor_for_standard: float = 0.30,
+):
+    """
+    Persist host weights.
+
+    Hardware-constraint rule:
+      - Lab / low-ARC digit runs MUST pass promote_standard=False (or fail arc floor)
+        so they only write pure_fsot_digit_lab_*.pt and never trash the production host.
+      - Production pure_fsot_sota_standard_best.pt only when arc_min >= floor.
+    """
     payload = {
         "state_dict": {k: v.detach().cpu() for k, v in student.state_dict().items()},
         "step": step,
         "phase": phase,
-        "sota_standard": True,
+        "sota_standard": bool(promote_standard),
         "gate": cap,
         "gate0": gate0,
         "overfit": ov.as_dict(),
@@ -301,12 +322,30 @@ def save_promoted(student, cap, ov, step, phase, gate0, *, digit_stats=None, pin
         # Host weights free; substrate is FSOT math (see checkpoint_contract).
         "claims_split": "substrate_zero_free; host_weights_free_under_fsot",
     }
-    torch.save(payload, CKPT / "pure_fsot_sota_standard_best.pt")
-    torch.save(payload, CKPT / "pure_fsot_data_driven_best.pt")
-    torch.save(
-        {**payload, "granular_push": True},
-        CKPT / "pure_fsot_granular_best.pt",
-    )
+    # Always keep a phase-named lab snapshot
+    lab = lab_name or f"pure_fsot_{phase}_best.pt"
+    if not lab.endswith(".pt"):
+        lab = lab + ".pt"
+    torch.save(payload, CKPT / lab)
+
+    arc_ok_std = float(cap.get("arc_min") or 0) + 1e-9 >= float(arc_floor_for_standard)
+    wrote_standard = False
+    if promote_standard and arc_ok_std:
+        torch.save(payload, CKPT / "pure_fsot_sota_standard_best.pt")
+        torch.save(payload, CKPT / "pure_fsot_data_driven_best.pt")
+        torch.save(
+            {**payload, "granular_push": True},
+            CKPT / "pure_fsot_granular_best.pt",
+        )
+        wrote_standard = True
+    elif promote_standard and not arc_ok_std:
+        print(
+            f"  [save] SKIP standard overwrite — arc_min={cap.get('arc_min'):.1%} "
+            f"< floor {arc_floor_for_standard:.0%} (lab only → {lab})"
+        )
+    else:
+        print(f"  [save] lab only → {lab} (promote_standard=False)")
+
     try:
         from checkpoint_contract import record_promote
 
@@ -317,12 +356,19 @@ def save_promoted(student, cap, ov, step, phase, gate0, *, digit_stats=None, pin
             gen_score=ov.gen_score,
             mean_overfit_gap=ov.mean_overfit_gap,
             pin_verify_pass=pin_verify_pass,
-            ckpt_name="pure_fsot_sota_standard_best.pt",
+            ckpt_name=(
+                "pure_fsot_sota_standard_best.pt" if wrote_standard else lab
+            ),
             digit_stats=digit_stats,
-            extra={"gate0_arc_min": (gate0 or {}).get("arc_min")},
+            extra={
+                "gate0_arc_min": (gate0 or {}).get("arc_min"),
+                "wrote_standard": wrote_standard,
+                "lab": lab,
+            },
         )
     except Exception as e:
         print(f"  [checkpoint_contract] warn: {e}")
+
 
 
 def main():

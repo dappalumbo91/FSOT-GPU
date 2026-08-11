@@ -34,6 +34,7 @@ OUT = ROOT / "results" / "industry_lm"
 OUT.mkdir(parents=True, exist_ok=True)
 
 MODES = {
+    "hardware_sota": [sys.executable, "-u", str(HERE / "run_hardware_sota_climb.py")],
     "standard_climb": [sys.executable, "-u", str(HERE / "run_sota_standard_climb.py")],
     "digit_decollapse": [sys.executable, "-u", str(HERE / "run_sota_digit_decollapse.py")],
     "barrier_diagnosis": [sys.executable, "-u", str(HERE / "run_barrier_diagnosis.py")],

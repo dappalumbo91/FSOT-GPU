@@ -6,7 +6,9 @@ Open host + pure FSOT operators (or documented hybrid) + pin verify green + curr
 **Claims:** [`CLAIMS_SPLIT.md`](CLAIMS_SPLIT.md)  
 **Climb constitution:** [`SOTA_STANDARDS.md`](SOTA_STANDARDS.md)  
 **Live position:** [`CURRENT_STATUS.md`](CURRENT_STATUS.md)  
-**Last board refresh:** 2026-08-11
+**Last board refresh:** 2026-08-11  
+
+**North star (hardware):** low-parameter same-class SOTA on RTX 5070 via FSOT substrate — see [`HARDWARE_CONSTRAINT_STRATEGY.md`](HARDWARE_CONSTRAINT_STRATEGY.md). Entry: `run_train.py --mode hardware_sota`.
 
 ---
 
