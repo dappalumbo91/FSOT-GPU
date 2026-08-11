@@ -91,18 +91,23 @@ def fsot_domain_weight(kind: str) -> float:
 
 
 def pick_recovery_host() -> Path:
-    """Prefer pure fidelity bases; skip known polluted digit-phase standards."""
+    """
+    Closest host to TARGET on disk (by stored or priority ARC capability).
+    Do NOT default to agree100 — that is fidelity-only and starts ARC ~13%.
+    Prefer hosts nearest 32.5% package from live audit order.
+    """
+    # Highest measured ARC from package audit / recent climbs first
     order = [
-        CKPT / "pure_fsot_agree100_best.pt",
-        CKPT / "pure_fsot_fulldof_best.pt",
-        CKPT / "pure_fsot_agree_best.pt",
+        CKPT / "pure_fsot_joint_package_best.pt",  # ~25% arc live
+        CKPT / "pure_fsot_barrier_lab_best.pt",  # ~25% arc (mode dirty — still closer)
+        CKPT / "pure_fsot_answer_locked_best.pt",  # ~25%
+        CKPT / "pure_fsot_capability_recovery_best.pt",
+        CKPT / "pure_fsot_hardware_sota_best.pt",  # ~22%
+        CKPT / "pure_fsot_arc_locked_best.pt",
         CKPT / "pure_fsot_12x3_best.pt",
-        CKPT / "pure_fsot_realdata_best.pt",
-        CKPT / "pure_fsot_answer_locked_best.pt",
-        CKPT / "pure_fsot_joint_package_best.pt",
-        CKPT / "pure_fsot_hardware_sota_best.pt",
-        # polluted last — only if nothing else
-        CKPT / "pure_fsot_sota_standard_best.pt",
+        CKPT / "pure_fsot_fulldof_best.pt",
+        CKPT / "pure_fsot_agree100_best.pt",  # last: fidelity, weak ARC
+        CKPT / "pure_fsot_sota_standard_best.pt",  # polluted ~18%
     ]
     for p in order:
         if p.is_file():
@@ -188,13 +193,22 @@ def main() -> int:
     floor_agree = max(0.90, float(cap0["agree"]) - 0.02)
     floor_gen = float(ov0.gen_score) - 0.03
 
+    # Far from TARGET → more DoF (head+norms+last blocks). Near → head only.
+    far = float(cap0["arc_min"]) < 0.28
     for p in student.parameters():
         p.requires_grad_(False)
     for name, p in student.named_parameters():
-        if "embed_tokens.weight" in name or "lm_head" in name:
+        n = name.lower()
+        if "embed_tokens.weight" in n or "lm_head" in n:
             p.requires_grad_(True)
+        if far and any(k in n for k in ("norm", "ln_", "input_layernorm", "post_attention")):
+            p.requires_grad_(True)
+        if far and any(f"layers.{i}." in n for i in range(24, 32)):
+            p.requires_grad_(True)
+    n_tr = sum(p.numel() for p in trainable(student))
+    print(f"trainable {n_tr/1e6:.2f}M (far_from_target={far})")
 
-    opt = torch.optim.AdamW(trainable(student), lr=plan.lr0, weight_decay=0.0)
+    opt = torch.optim.AdamW(trainable(student), lr=plan.lr0 * (1.2 if far else 1.0), weight_decay=0.0)
     digit_ids = _digit_token_ids(tok)
     letter_ids = []
     for L in ("A", "B", "C", "D", " A", " B", " C", " D"):
@@ -204,6 +218,7 @@ def main() -> int:
     letter_ids = sorted(set(letter_ids))
 
     def mask_rows():
+        # Only mask embed/lm_head rows; leave last-block / norm grads full when enabled
         allow = set(digit_ids + letter_ids)
         for name, p in student.named_parameters():
             if p.grad is None:
@@ -216,11 +231,18 @@ def main() -> int:
                 p.grad.mul_(mask)
 
     rng = random.Random(7)
-    # ARC-heavy mix for recovery (this is the skill we lost)
-    arc_pool = [r for r in (list(easy_tr[:1500]) + list(ch_tr[:900])) if str(r.get("gold", "")).strip().upper()[:1] in "ABCD"]
-    gsm_real = [r for r in load_gsm8k_train(1500) if len(str(r["gold"]).strip()) <= 3]
+    # ARC Easy is usually the min bottleneck — weight Easy heavily
+    easy_pool = [
+        r
+        for r in easy_tr[:2000]
+        if str(r.get("gold", "")).strip().upper()[:1] in "ABCD"
+    ]
+    ch_pool = [
+        r for r in ch_tr[:1200] if str(r.get("gold", "")).strip().upper()[:1] in "ABCD"
+    ]
+    gsm_real = [r for r in load_gsm8k_train(1200) if len(str(r["gold"]).strip()) <= 3]
     arith = []
-    while len(arith) < 800:
+    while len(arith) < 600:
         a, b = rng.randint(0, 9), rng.randint(0, 9)
         if rng.random() < 0.6:
             gold, q = str(a + b), f"What is {a} + {b}?"
@@ -232,8 +254,9 @@ def main() -> int:
     w_arc = fsot_domain_weight("arc")
     w_gsm = fsot_domain_weight("gsm")
     print(f"FSOT domain weights arc={w_arc:.3f} gsm={w_gsm:.3f} (from compute_scalar D_eff folds)")
+    print(f"arc pools easy={len(easy_pool)} ch={len(ch_pool)}")
 
-    STEPS = 900
+    STEPS = 1000
     EVAL_EVERY = 40
     history = []
     t0 = time.time()
@@ -243,16 +266,18 @@ def main() -> int:
 
     for step in range(1, STEPS + 1):
         r = step % 10
-        # 60% ARC recovery · 25% GSM/digit · 15% retention pressure via task
-        if r < 6 and arc_pool:
-            row = arc_pool[step % len(arc_pool)]
-            loss_task = next_ce(
-                student, tok, device, row["prompt"], row["gold"], kind="letter"
-            )
+        # 70% ARC (Easy-heavy) · 20% GSM · 10% retention-only step
+        if r < 7 and (easy_pool or ch_pool):
+            # 5/7 Easy, 2/7 Challenge when Easy is the min gap
+            use_easy = (r < 5) or not ch_pool
+            pool = easy_pool if use_easy and easy_pool else ch_pool
+            row = pool[step % len(pool)]
+            g = str(row["gold"]).strip().upper()[:1]
+            loss_task = next_ce(student, tok, device, row["prompt"], g, kind="letter")
             loss = w_arc * loss_task
             kind = "arc"
         elif r < 9:
-            if r < 8 and gsm_real:
+            if gsm_real and r == 7:
                 gr = gsm_real[step % len(gsm_real)]
                 q = gr["text"].split("\n")[0]
                 if not q.startswith("Question:"):
@@ -272,7 +297,8 @@ def main() -> int:
             )
             kind = "ret"
 
-        loss = loss + 0.40 * retention_ce(
+        # Teacher retention always — protect agree / structure
+        loss = loss + 0.55 * retention_ce(
             student, teacher, tok, device, EVAL16[(step + 3) % len(EVAL16)]
         )
         if not torch.isfinite(loss):
