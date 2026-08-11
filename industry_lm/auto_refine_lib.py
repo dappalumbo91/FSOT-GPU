@@ -174,9 +174,18 @@ def gap_scores(snap: dict) -> dict[str, float]:
     }
 
 
+# Named barriers only — never burn tokens on anonymous / unmapped levers.
+NAMED_BARRIER_LEVERS = {
+    "digit_decollapse": "digit_argmax_collapse_after_space",
+    "arc_letter_balance": "arc_free_gen_letter_collapse",
+    "standard_climb": "arc_min_or_gsm_capability",
+    "diagnose_only": "measurement_only_no_train",
+}
+
+
 def select_lever(snap: dict, tried: list[str]) -> str:
     g = gap_scores(snap)
-    # priority menu
+    # priority menu — each lever maps to a named barrier (see NAMED_BARRIER_LEVERS)
     order = [
         ("digit_decollapse", g["digit_collapse"] + g["space_digit_low"] + 0.5 * g["gsm_exact_zero"]),
         ("arc_letter_balance", g["arc_letter_collapse"] + 0.5 * g["arc_min_low"]),
@@ -185,6 +194,8 @@ def select_lever(snap: dict, tried: list[str]) -> str:
     order.sort(key=lambda x: -x[1])
     for name, score in order:
         if score < 0.05:
+            continue
+        if name not in NAMED_BARRIER_LEVERS:
             continue
         # allow retry with suffix
         if name not in tried or tried.count(name) < 2:
@@ -205,15 +216,33 @@ def run_lever(
     """
     Invoke existing train scripts as subprocesses with env hints,
     or run inline short train for speed.
+
+    Hard rule: only NAMED_BARRIER_LEVERS — refuse unknown names so we never
+    burn tokens on levers that do not map to a documented barrier.
     """
+    if name not in NAMED_BARRIER_LEVERS:
+        return {
+            "ok": False,
+            "error": f"refused_unnamed_lever:{name}",
+            "allowed": list(NAMED_BARRIER_LEVERS),
+        }
+    barrier = NAMED_BARRIER_LEVERS[name]
     if name == "digit_decollapse":
-        return _run_script("run_sota_digit_decollapse.py", timeout_s=3600)
+        out = _run_script("run_sota_digit_decollapse.py", timeout_s=3600)
+        out["barrier"] = barrier
+        return out
     if name == "arc_letter_balance":
-        return _run_script("run_sota_break_barriers.py", timeout_s=3600)
+        out = _run_script("run_sota_break_barriers.py", timeout_s=3600)
+        out["barrier"] = barrier
+        return out
     if name == "standard_climb":
-        return _run_script("run_sota_standard_climb.py", timeout_s=3600)
+        out = _run_script("run_sota_standard_climb.py", timeout_s=3600)
+        out["barrier"] = barrier
+        return out
     if name == "diagnose_only":
-        return _run_script("run_barrier_diagnosis.py", timeout_s=900)
+        out = _run_script("run_barrier_diagnosis.py", timeout_s=900)
+        out["barrier"] = barrier
+        return out
     return {"ok": False, "error": f"unknown lever {name}"}
 
 

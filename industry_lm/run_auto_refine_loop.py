@@ -315,20 +315,48 @@ def main():
         print(f"  verify_post ok={v_post['ok']}")
 
         improved, reasons = cycle_improved(best_snap, snap1)
+        # Hard: never promote without G-VERIFY post (pin bind / substrate).
         if not v_post["ok"]:
             improved = False
-            reasons = ["verify_post_failed"] + reasons
-
+            reasons = ["verify_post_failed"] + list(reasons)
+        if not v_pre["ok"]:
+            improved = False
+            reasons = ["verify_pre_failed"] + list(reasons)
+        # Host weights may move; substrate pin must stay green.
+        cycle["claims_split"] = "substrate_zero_free; host_weights_free_under_fsot"
         cycle["improved"] = improved
         cycle["improve_reasons"] = reasons
         cycle["elapsed_s"] = time.time() - t0
 
         if improved:
-            print(f"  ✓ CYCLE IMPROVED: {reasons}")
+            print(f"  ✓ CYCLE IMPROVED (verify green): {reasons}")
             best_snap = snap1
-            meta["promotions"].append(
-                {"cycle": cyc, "lever": lever, "reasons": reasons, "snap": slim_snap(snap1)}
-            )
+            promo = {
+                "cycle": cyc,
+                "lever": lever,
+                "reasons": reasons,
+                "snap": slim_snap(snap1),
+                "verify_pre_ok": v_pre["ok"],
+                "verify_post_ok": v_post["ok"],
+            }
+            meta["promotions"].append(promo)
+            try:
+                from checkpoint_contract import record_promote
+
+                record_promote(
+                    phase=f"auto_refine_{lever}",
+                    step=cyc,
+                    cap=snap1["cap"],
+                    gen_score=snap1.get("gen_score"),
+                    mean_overfit_gap=snap1.get("mean_overfit_gap"),
+                    pin_verify_pass=True,
+                    extra={
+                        "space_digit": snap1.get("space_digit"),
+                        "digit_argmax": f"{snap1.get('digit_argmax_top')}@{snap1.get('digit_argmax_frac')}",
+                    },
+                )
+            except Exception as e:
+                print(f"  [checkpoint_contract] warn: {e}")
             cycle["diagnose"] = {"tags": ["success"], "recommended_next_lever": select_lever(snap1, tried)}
         else:
             print(f"  ✗ CYCLE NO IMPROVE — diagnose")

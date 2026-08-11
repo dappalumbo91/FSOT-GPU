@@ -55,7 +55,11 @@ def pure_digit_ids(tok):
     return [tok.encode(d, add_special_tokens=False)[0] for d in "0123456789"]
 
 
-def digit_ce(student, tok, device, prompt, gold, pure):
+def digit_ce(student, tok, device, prompt, gold, pure, *, anti_one: float = 0.35):
+    """
+    First-digit CE after forced space + anti-collapse margin:
+    when gold first digit != 1, push logit[gold] above logit[1].
+    """
     g = str(gold).strip().replace(",", "")
     m = re.search(r"\d", g)
     if not m:
@@ -63,8 +67,13 @@ def digit_ce(student, tok, device, prompt, gold, pure):
     d = int(m.group(0))
     pe = tok(prompt + " ", return_tensors="pt", truncation=True, max_length=400).to(device)
     logits = student(**pe).logits[0, -1].float()
-    sub = torch.stack([logits[i] for i in pure], dim=0).unsqueeze(0)
-    return F.cross_entropy(sub, torch.tensor([d], device=device))
+    sub = torch.stack([logits[i] for i in pure], dim=0)  # [10]
+    ce = F.cross_entropy(sub.unsqueeze(0), torch.tensor([d], device=device))
+    if d != 1 and anti_one > 0:
+        # hinge: want sub[d] >= sub[1] + 0.5
+        margin = torch.relu(sub[1] - sub[d] + 0.5)
+        ce = ce + anti_one * margin
+    return ce
 
 
 def multi_digit_tf_ce(student, tok, device, prompt, gold, pure, max_digits=4):
@@ -214,28 +223,44 @@ def main():
             bal.append(pool[rng.randrange(len(pool))])
 
     reject = 0
+    stale = 0  # evals since last promote
     history = []
     t0 = time.time()
     student.train()
     floor = cap0["arc_min"] - 0.02
+    # Phase A: first-digit only (anti-1). Phase B: add multi-digit after uncollapse.
+    STEPS = 1000
+    EVAL_EVERY = 40
 
-    for step in range(1, 801):
+    for step in range(1, STEPS + 1):
         row = bal[step % len(bal)]
-        loss = digit_ce(student, tok, device, row["prompt"], row["gold"], pure)
-        loss = loss + 0.75 * multi_digit_tf_ce(
-            student, tok, device, row["prompt"], row["gold"], pure
+        # heavier first-digit + anti-1; multi-digit only after some uncollapse signal
+        phase_b = best_d["top_frac"] < 0.85
+        loss = digit_ce(
+            student,
+            tok,
+            device,
+            row["prompt"],
+            row["gold"],
+            pure,
+            anti_one=0.55 if not phase_b else 0.25,
         )
-        # light retention only
-        loss = loss + 0.35 * retention_ce(
+        if phase_b:
+            loss = loss + 0.4 * multi_digit_tf_ce(
+                student, tok, device, row["prompt"], row["gold"], pure, max_digits=3
+            )
+        loss = loss + 0.30 * retention_ce(
             student, teacher, tok, device, EVAL16[step % len(EVAL16)]
         )
         if not torch.isfinite(loss):
             continue
+        # cosine decay LR
+        lr = plan.lr0 * (1.6 if step < 400 else 1.0)
+        lr = min(lr, 5e-5)
         for g in opt.param_groups:
-            g["lr"] = min(plan.lr0 * 1.8, 5e-5)
+            g["lr"] = lr
         opt.zero_grad(set_to_none=True)
         loss.backward()
-        # mask to digit rows only
         for name, p in student.named_parameters():
             if p.grad is None:
                 continue
@@ -249,16 +274,26 @@ def main():
         )
         opt.step()
 
-        if step % 50 != 0 and step != 1:
+        if step % EVAL_EVERY != 0 and step != 1:
             continue
 
         cap, ov = measure_all(tok, teacher, student, device, packs)
         dstat = digit_argmax_stats(tok, student, device, gsm_hold, pure)
         student.train()
-        # custom promote: first_digit or space_digit up, arc_min hold
-        dig_up = dstat["first_digit_after_space"] > best_d["first_digit_after_space"] + 0.04
-        free_up = cap["gsm_first"] > best_cap["gsm_first"] + 0.04
-        uncollapse = dstat["top_frac"] < best_d["top_frac"] - 0.15
+        dig_up = (
+            dstat["first_digit_after_space"]
+            > best_d["first_digit_after_space"] + 0.025
+        )
+        free_up = cap["gsm_first"] > best_cap["gsm_first"] + 0.025
+        uncollapse = dstat["top_frac"] < best_d["top_frac"] - 0.08
+        # composite digit score: space_digit - 0.3 * max(0, top_frac-0.4) if top is 1
+        def dig_score(ds):
+            pen = 0.0
+            if ds["top_argmax"].strip() == "1":
+                pen = 0.35 * max(0.0, ds["top_frac"] - 0.35)
+            return ds["first_digit_after_space"] - pen
+
+        score_up = dig_score(dstat) > dig_score(best_d) + 0.02
         arc_ok = cap["arc_min"] + 1e-9 >= floor
         ov_ok, ov_r = accept_update(
             before=best_ov,
@@ -274,33 +309,63 @@ def main():
                 "space_digit": dstat["first_digit_after_space"],
                 "top_argmax": dstat["top_argmax"],
                 "top_frac": dstat["top_frac"],
+                "dig_score": dig_score(dstat),
                 "gen_score": ov.gen_score,
+                "phase_b": phase_b,
             }
         )
         print(
-            f"  {step:04d} loss={float(loss):.3f} min={cap['arc_min']:.0%} "
+            f"  {step:04d} loss={float(loss.detach()):.3f} lr={lr:.2e} min={cap['arc_min']:.0%} "
             f"free_first={cap['gsm_first']:.0%} space_dig={dstat['first_digit_after_space']:.0%} "
-            f"argmax={dstat['top_argmax']}@{dstat['top_frac']:.0%} gen={ov.gen_score:.3f}"
+            f"argmax={dstat['top_argmax']}@{dstat['top_frac']:.0%} "
+            f"dscore={dig_score(dstat):.3f} gen={ov.gen_score:.3f}"
         )
 
-        if arc_ok and ov_ok and (dig_up or free_up or (uncollapse and dig_up)):
+        if arc_ok and ov_ok and (dig_up or free_up or score_up or (uncollapse and dig_up)):
             best_cap, best_ov, best_d = dict(cap), ov, dstat
             best_state = {k: v.detach().cpu().clone() for k, v in student.state_dict().items()}
             promoted = True
             reject = 0
-            save_promoted(student, cap, ov, step, "sota_digit_decollapse", cap0)
+            stale = 0
+            save_promoted(
+                student,
+                cap,
+                ov,
+                step,
+                "sota_digit_decollapse",
+                cap0,
+                digit_stats=dstat,
+                pin_verify_pass=bool(v_pre.get("ok")),
+            )
             print(
                 f"    * PROMOTED space_dig={dstat['first_digit_after_space']:.0%} "
-                f"free_first={cap['gsm_first']:.0%} argmax={dstat['top_argmax']}@{dstat['top_frac']:.0%}"
+                f"free_first={cap['gsm_first']:.0%} argmax={dstat['top_argmax']}@"
+                f"{dstat['top_frac']:.0%} dscore={dig_score(dstat):.3f}"
             )
         elif not arc_ok or not ov_ok:
             student.load_state_dict(best_state, strict=False)
             reject += 1
+            stale += 1
             print("    * REJECT restore", "arc" if not arc_ok else ov_r)
             if reject >= 6:
                 break
         else:
+            # if space_digit fell hard below best, restore (overtrain)
+            if (
+                dstat["first_digit_after_space"]
+                + 1e-9
+                < best_d["first_digit_after_space"] - 0.08
+            ):
+                student.load_state_dict(best_state, strict=False)
+                print("    * REJECT overtrain space_dig drop — restored best")
+                stale += 1
+            else:
+                stale += 1
             reject = 0
+            # early stop: no promote for many evals
+            if stale >= 8 and promoted:
+                print("early stop — no further promote (keep peak)")
+                break
 
     student.load_state_dict(best_state, strict=False)
     cap_f, ov_f = measure_all(tok, teacher, student, device, packs)

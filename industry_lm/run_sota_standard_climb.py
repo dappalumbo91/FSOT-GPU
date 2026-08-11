@@ -277,7 +277,7 @@ def measure_all(tok, teacher, student, device, packs):
     return cap, ov
 
 
-def save_promoted(student, cap, ov, step, phase, gate0):
+def save_promoted(student, cap, ov, step, phase, gate0, *, digit_stats=None, pin_verify_pass=None):
     payload = {
         "state_dict": {k: v.detach().cpu() for k, v in student.state_dict().items()},
         "step": step,
@@ -298,6 +298,8 @@ def save_promoted(student, cap, ov, step, phase, gate0):
         "mean_overfit_gap": ov.mean_overfit_gap,
         "full_dof": True,
         "D_eff": D_EFF,
+        # Host weights free; substrate is FSOT math (see checkpoint_contract).
+        "claims_split": "substrate_zero_free; host_weights_free_under_fsot",
     }
     torch.save(payload, CKPT / "pure_fsot_sota_standard_best.pt")
     torch.save(payload, CKPT / "pure_fsot_data_driven_best.pt")
@@ -305,6 +307,22 @@ def save_promoted(student, cap, ov, step, phase, gate0):
         {**payload, "granular_push": True},
         CKPT / "pure_fsot_granular_best.pt",
     )
+    try:
+        from checkpoint_contract import record_promote
+
+        record_promote(
+            phase=phase,
+            step=step,
+            cap=cap,
+            gen_score=ov.gen_score,
+            mean_overfit_gap=ov.mean_overfit_gap,
+            pin_verify_pass=pin_verify_pass,
+            ckpt_name="pure_fsot_sota_standard_best.pt",
+            digit_stats=digit_stats,
+            extra={"gate0_arc_min": (gate0 or {}).get("arc_min")},
+        )
+    except Exception as e:
+        print(f"  [checkpoint_contract] warn: {e}")
 
 
 def main():

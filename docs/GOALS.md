@@ -9,6 +9,8 @@ Authority lives in:
 - **[FSOT-2.1-Lean](https://github.com/dappalumbo91/FSOT-2.1-Lean)** — formal Lean spine, cross-proof (Coq / Isabelle / F\* / Rust / …), domain verification  
 - Physical archive / full verification stack (local)  
 - Seed-derived engine (π, e, φ, γ, Catalan) with **zero free parameters** in the theory spine  
+- **Host weights are free parameters** under FSOT-guided training — see [`CLAIMS_SPLIT.md`](CLAIMS_SPLIT.md)  
+
 
 This repo does **not** re-litigate cosmology vs ΛCDM. That work is already in the theory repositories and ledgers. **FSOT-GPU applies the theory to GPU compute and language-model hosts** so the same math runs where intelligence systems need silicon.
 

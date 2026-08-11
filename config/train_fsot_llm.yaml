@@ -1,0 +1,109 @@
+# Single train / verify config for FSOT LLM construction (v1)
+# Used by industry_lm/run_train.py — one language for comparable experiments.
+#
+# Claims: residual law = zero free params; host weights = free under FSOT guide.
+# See docs/CLAIMS_SPLIT.md
+
+schema_version: 1
+name: fsot_llm_v1_smollm2_135m
+
+# --- Pin / verify (non-negotiable) ---
+verify:
+  mandatory: true
+  pre: true
+  post_on_promote: true
+  script: industry_lm/fsot21_verify.py
+  theory_authority: FSOT-2.1-Lean
+  pin_note: "V3 seed / collapse θ must match archive fsot_compute"
+
+# --- Host (architecture §4, §9) ---
+host:
+  family: SmolLM2
+  size_tier: 135M
+  path: industry_lm/models/SmolLM2-135M-Instruct
+  tokenizer: industry_unchanged  # v1: do not invent vocab
+  next_size_tier_explicit: SmolLM2-360M-or-Qwen2.5-0.5B-class
+
+# --- Operators (architecture §5–8) ---
+operators:
+  attention_mode: pure_fsot_consensus  # pure | gated_hybrid | sdpa_baseline
+  # pure: no softmax exp; required for pure-FSOT fidelity claims
+  # gated_hybrid: FSOT active-key + SDPA among keys — mid-S only; not "pure"
+  # sdpa_baseline: industry control; never label pure
+  layer_policy: all_layers           # all_layers | hybrid_swap
+  collapse_theta: seed_C_eff_P_var
+  coherence_gate: true
+  trinary_pack_in_forward: true      # forward contract, not optional microbench
+
+# --- Checkpoints ---
+checkpoint:
+  dir: results/industry_lm/checkpoints
+  preferred_load:
+    - pure_fsot_sota_standard_best.pt
+    - pure_fsot_data_driven_best.pt
+    - pure_fsot_12x3_best.pt
+  # weights gitignored; metadata JSON tracked next to promote ledger
+  metadata_required:
+    - pin_verify_pass
+    - attention_mode
+    - layer_policy
+    - curriculum_hash
+    - agree16
+    - arc_min
+    - gsm_space_digit
+    - gen_score
+    - overfit_gap
+    - git_rev
+    - timestamp_utc
+
+# --- Curriculum / data (§10, 15–17) ---
+curriculum:
+  version: v2
+  roots_config: config/curriculum_roots.json
+  training_data: "D:/training data"
+  # Phase 1 default: capability climb data; FSOT literacy packs optional
+  primary_packs:
+    - arc_easy
+    - arc_challenge
+    - gsm8k
+  leak_policy: hold_never_in_train
+  domain_pack_map: null  # fill in Phase 2
+
+# --- Learning levers (§11–13) ---
+learning:
+  lr_schedule: suction_poof
+  plasticity: fsot_scalar_modulated
+  anti_collapse:
+    digit_argmax_one: true
+    arc_letter_d: true
+    format_hash_space: true
+  accept_api: overfit_metrics.accept_update
+
+# --- Gates (promote) ---
+gates:
+  g_verify: hard
+  g_overfit: hard
+  g_capability: hard
+  floors:
+    agree16: 0.90
+    arc_min: 0.32
+  climb_targets:
+    gsm_space_digit: 0.45
+    argmax_one_frac_max: 0.50
+
+# --- Eval boards (§22–26) ---
+eval:
+  fidelity: eval16
+  capability:
+    - arc_min_hold
+    - gsm_space_digit
+    - gsm_free_exact
+  overfit: gen_score
+  fsot_native_probes: null  # Phase 1 open
+  speed_ledger: results/sota/SCOREBOARD.md
+
+# --- Auto-refine ---
+auto_refine:
+  require_verify: true
+  require_named_barrier_lever: true
+  never_promote_without_g_verify: true

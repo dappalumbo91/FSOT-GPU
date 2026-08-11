@@ -13,7 +13,9 @@ Theory authority: **[FSOT-2.1-Lean](https://github.com/dappalumbo91/FSOT-2.1-Lea
 
 **Live position, barriers, and next steps:**  
 → **[`docs/CURRENT_STATUS.md`](docs/CURRENT_STATUS.md)**  
-→ Climb rules: [`docs/SOTA_STANDARDS.md`](docs/SOTA_STANDARDS.md)
+→ Climb rules: [`docs/SOTA_STANDARDS.md`](docs/SOTA_STANDARDS.md)  
+→ **LLM construction board:** [`docs/FSOT_LLM_CONSTRUCTION.md`](docs/FSOT_LLM_CONSTRUCTION.md)  
+→ **Claims split (residual vs weights):** [`docs/CLAIMS_SPLIT.md`](docs/CLAIMS_SPLIT.md)
 
 | Layer | Where we are |
 |-------|----------------|
@@ -82,6 +84,11 @@ python industry_lm\run_push_agree.py
 python -u industry_lm\fsot21_verify.py
 python -u industry_lm\run_barrier_diagnosis.py
 python -u industry_lm\run_sota_standard_climb.py
+
+# Single train entrypoint (Phase 1 construction)
+python -u industry_lm\run_train.py --dry-config
+python -u industry_lm\run_train.py --verify-only
+python -u industry_lm\run_train.py --mode standard_climb
 ```
 
 **Hardware tested:** NVIDIA GeForce RTX 5070 (CC 12.0), CUDA 13.3.

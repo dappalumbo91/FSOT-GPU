@@ -1,11 +1,13 @@
 # FSOT-GPU — current status & roadmap
 
-**Last updated:** 2026-07-18  
+**Last updated:** 2026-08-11  
 **Repo:** [dappalumbo91/FSOT-GPU](https://github.com/dappalumbo91/FSOT-GPU)  
 **Theory authority:** [FSOT-2.1-Lean](https://github.com/dappalumbo91/FSOT-2.1-Lean)  
 **Hardware (this lab):** NVIDIA GeForce RTX 5070  
 
 This document is the **public position**: where we are, what is measured, what is blocked, and what we do next. Numbers are honest (held-out, multi-axis, no leaky GSM scoring).
+
+**Construction board (LLM via FSOT):** [`FSOT_LLM_CONSTRUCTION.md`](FSOT_LLM_CONSTRUCTION.md) · **Claims split:** [`CLAIMS_SPLIT.md`](CLAIMS_SPLIT.md)
 
 ---
 
@@ -137,11 +139,21 @@ Archive bind: light connective spine + stamp every cycle; full suite optional.
 
 ## Where we are going next
 
+**Phase order locked** in [`FSOT_LLM_CONSTRUCTION.md`](FSOT_LLM_CONSTRUCTION.md):
+
+| Phase | Focus |
+|-------|--------|
+| **1** | Pin + claims + single entrypoint + gates (no unpromotable runs) |
+| **2** | Curriculum / plasticity / anti-collapse / domain holds |
+| **3** | Operators + LLM-forward parity + mid-S kernel |
+| **4** | Larger host + multi-domain packs + product surface |
+
 ### Near-term (same 135M pure FSOT host) — auto-loop priorities
 
 1. **Finish digit de-collapse** (`digit_decollapse` lever)  
    - Target: digit-after-space **≥45–50%**, argmax-`1` fraction **&lt;50%**  
    - Hold ARC min ≥ 32% and agree ≥ 90%  
+   - Local WIP: anti-`1` hinge (last ledger promote **False** — space-digit not yet improved)  
 
 2. **ARC letter D collapse** (`arc_letter_balance` lever)  
    - Letter-only / LoRA; ARC min **&gt;35%** stable  
@@ -152,9 +164,10 @@ Archive bind: light connective spine + stamp every cycle; full suite optional.
 
 ### Mid-term (same architecture, scale stack)
 
-5. **FSOT 2.1 curriculum path** — parallel  
-6. **Larger open pure-FSOT host** — same stack  
-7. **Mid-S attention** kernel path (G6)  
+5. **FSOT 2.1 curriculum path** — Phase 2 construction  
+6. **Larger open pure-FSOT host** — Phase 4 (360M / 0.5B class, same operators)  
+7. **Mid-S attention** kernel path (G6) — Phase 3  
+
 
 ### North star
 

@@ -3,3 +3,7 @@
 # Install extras only:
 numpy>=1.26
 mpmath>=1.3
+pyyaml>=6.0
+# Host path: transformers 4.x needs hub < 1.0 (hub 1.x breaks import)
+transformers>=4.40,<5
+huggingface-hub>=0.34.0,<1.0

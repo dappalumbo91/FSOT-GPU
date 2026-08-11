@@ -17,7 +17,10 @@
   "cuda_cicc": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\nvvm\\bin\\cicc.exe",
   "cuda_arch": "sm_120",
   "github": {
+    "FSOT_GPU": "https://github.com/dappalumbo91/FSOT-GPU",
     "FSOT_2_1_Lean": "https://github.com/dappalumbo91/FSOT-2.1-Lean",
+    "fsot_2_1_llm": "https://github.com/dappalumbo91/fsot-2.1-llm",
+    "FSOT_Genetics": "https://github.com/dappalumbo91/FSOT-Genetics",
     "FSOT_2_0_code": "https://github.com/dappalumbo91/FSOT-2.0-code",
     "FSOT_Living": "https://github.com/dappalumbo91/FSOT-Living",
     "FSOT_Triforce": "https://github.com/dappalumbo91/FSOT-Triforce"
