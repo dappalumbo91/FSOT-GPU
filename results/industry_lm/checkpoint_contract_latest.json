@@ -1,10 +1,10 @@
 {
   "schema": "fsot_llm_checkpoint_contract_v1",
-  "timestamp_utc": "2026-08-11T19:46:40.356608+00:00",
-  "git_rev": "8d22cef",
-  "phase": "hardware_sota",
-  "step": 520,
-  "ckpt_name": "pure_fsot_hardware_sota_best.pt",
+  "timestamp_utc": "2026-08-11T22:06:42.175161+00:00",
+  "git_rev": "0ebece3",
+  "phase": "joint_package",
+  "step": 375,
+  "ckpt_name": "pure_fsot_joint_package_best.pt",
   "pin_verify_pass": true,
   "attention_mode": "pure_fsot_consensus",
   "layer_policy": "all_layers",
@@ -27,21 +27,21 @@
   },
   "scores": {
     "agree16": 1.0,
-    "arc_min": 0.21666666666666667,
-    "arc_e": 0.21666666666666667,
-    "arc_c": 0.35,
+    "arc_min": 0.25,
+    "arc_e": 0.25,
+    "arc_c": 0.375,
     "gsm_first": 0.275,
     "gsm_exact": 0.0,
-    "gsm_space_digit": 0.275,
-    "gen_score": 0.2611111111111111,
-    "overfit_gap": 0.019444444444444448,
-    "balanced": 2.0250000000000004
+    "gsm_space_digit": 0.225,
+    "gen_score": 0.3,
+    "overfit_gap": -0.00833333333333334,
+    "balanced": 2.1220833333333333
   },
   "extra": {
     "gate0_arc_min": 0.21666666666666667,
     "wrote_standard": false,
-    "lab": "pure_fsot_hardware_sota_best.pt",
+    "lab": "pure_fsot_joint_package_best.pt",
     "digit_argmax_top": "1",
-    "digit_argmax_frac": 0.225
+    "digit_argmax_frac": 0.25
   }
 }

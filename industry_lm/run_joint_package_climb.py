@@ -108,7 +108,8 @@ def floors_ok(base: dict, cur: dict) -> tuple[bool, list[str]]:
         reasons.append(f"arc_min_regressed {base['arc_min']:.0%}→{cur['arc_min']:.0%}")
     if cur["gen"] + EPS < base["gen"] - 0.02:
         reasons.append(f"gen_regressed {base['gen']:.3f}→{cur['gen']:.3f}")
-    if cur["space_dig"] + EPS < base["space_dig"] - 0.05:
+    # Hard: space-digit may not fall more than noise (was -5% and still "passed" — too soft).
+    if cur["space_dig"] + EPS < base["space_dig"] - 0.02:
         reasons.append(
             f"space_dig_regressed {base['space_dig']:.0%}→{cur['space_dig']:.0%}"
         )
