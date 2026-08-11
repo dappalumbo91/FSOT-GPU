@@ -1,17 +1,17 @@
 # Overfit metrics — overfit_break_barriers
 
-**gen_score:** 0.319  
-**mean hold acc:** 31.9%  
-**mean train acc:** 21.7%  
-**mean overfit gap (train−hold):** -10.3%  
-**max gap:** -5.0%  
+**gen_score:** 0.308  
+**mean hold acc:** 30.8%  
+**mean train acc:** 25.8%  
+**mean overfit gap (train−hold):** -5.0%  
+**max gap:** +2.5%  
 **overfit_flag:** False (threshold 8%)  
 **note:** gap_within_threshold
 
 | Split | Train acc | Hold acc | Gap (train−hold) |
 |-------|-----------|----------|------------------|
-| arc_easy | 25.0% | 33.3% | -8.3% |
-| arc_challenge | 15.0% | 32.5% | -17.5% |
+| arc_easy | 27.5% | 25.0% | +2.5% |
+| arc_challenge | 25.0% | 37.5% | -12.5% |
 | gsm_first_digit | 25.0% | 30.0% | -5.0% |
 
 ## How to read this

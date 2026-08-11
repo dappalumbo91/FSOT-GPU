@@ -1,6 +1,6 @@
 # Break barriers climb
 
-**Status: NO_PUSH**
+**Status: IMPROVED — eligible to push**
 
 ## Diagnosed barriers (from barrier_diagnosis)
 1. GSM free-gen collapse (mode 1200000)
@@ -10,9 +10,9 @@
 
 | Axis | Start | Final |
 |------|-------|-------|
-| ARC min | 32% | 32% |
-| GSM first | 30% | 30% |
-| gen_score | 0.319 | 0.319 |
-| Easy top-letter frac | ~80% D | 80% `{'D': 48, 'B': 12}` |
+| ARC min | 22% | 25% |
+| GSM first | 28% | 30% |
+| gen_score | 0.261 | 0.308 |
+| Easy top-letter frac | ~80% D | 63% `{'A': 38, 'C': 17, 'B': 5}` |
 
 Verify pre/post: True/True

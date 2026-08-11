@@ -20,6 +20,9 @@ This document is the **public position**: where we are, what is measured, what i
 **Hardware climb (2026-08-11 run2, lab only — NO_PUSH to production standard):**  
 digit mode **1@100% → 1@22%** with diversified argmax dist; dig_score **0.020 → 0.275**; ARC min **held 22%**; agree **100%**. Checkpoint: `pure_fsot_hardware_sota_best.pt`. Production promote still needs ARC ≥30% + digit skill together.
 
+
+**Barrier ARC lift (on uncollapsed hardware lab host):** ARC min **22%→25%**, gsm_first **28%→30%**, gen_score **0.261→0.308**, agree 100%. Lab ckpt pure_fsot_barrier_lab_best.pt. Still below 30% production floor; letter-D free-gen mass still high (~63%).
+
 ---
 
 ## Architecture (fixed)
