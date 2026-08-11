@@ -168,7 +168,18 @@ def main():
     for p in teacher.parameters():
         p.requires_grad_(False)
 
-    src = CKPT / "pure_fsot_sota_standard_best.pt"
+    # Prefer uncollapsed hardware lab host (digit mode fixed) then production locks.
+    src = None
+    for cand in (
+        CKPT / "pure_fsot_hardware_sota_best.pt",
+        CKPT / "pure_fsot_arc_locked_best.pt",
+        CKPT / "pure_fsot_sota_standard_best.pt",
+    ):
+        if cand.is_file():
+            src = cand
+            break
+    if src is None:
+        raise FileNotFoundError("no pure_fsot host checkpoint")
     tok, student = load_model(device)
     swap_all_layers(student)
     ck = torch.load(src, map_location=device, weights_only=False)
@@ -336,7 +347,18 @@ def main():
             best_state = {k: v.detach().cpu().clone() for k, v in student.state_dict().items()}
             promoted = True
             reject = 0
-            save_promoted(student, cap, ov, step, "sota_break_barriers", cap0)
+            save_promoted(
+                student,
+                cap,
+                ov,
+                step,
+                "sota_break_barriers",
+                cap0,
+                pin_verify_pass=bool(v_pre.get("ok")),
+                promote_standard=float(cap["arc_min"]) >= 0.30,
+                lab_name="pure_fsot_barrier_lab_best.pt",
+                arc_floor_for_standard=0.30,
+            )
             print("    * PROMOTED", cap_r, ov_r, f"Dfrac={top_frac:.0%}")
         elif not ov_ok or dlab in ("OVERFIT_STEP", "MEMORIZE_COLLAPSE"):
             student.load_state_dict(best_state, strict=False)
