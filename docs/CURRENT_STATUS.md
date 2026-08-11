@@ -21,7 +21,9 @@ This document is the **public position**: where we are, what is measured, what i
 digit mode **1@100% → 1@22%** with diversified argmax dist; dig_score **0.020 → 0.275**; ARC min **held 22%**; agree **100%**. Checkpoint: `pure_fsot_hardware_sota_best.pt`. Production promote still needs ARC ≥30% + digit skill together.
 
 
-**Barrier ARC lift (on uncollapsed hardware lab host):** ARC min **22%→25%**, gsm_first **28%→30%**, gen_score **0.261→0.308**, agree 100%. Lab ckpt pure_fsot_barrier_lab_best.pt. Still below 30% production floor; letter-D free-gen mass still high (~63%).
+**Corrected (package audit):** barrier ARC lift was a **false win** — ARC 25% but digit mode **re-collapsed to 1@85%** (package 1.594 &lt; spine 1.729). Single-axis thrash is not FSOT application. See [`FSOT_CORRECT_APPLICATION.md`](FSOT_CORRECT_APPLICATION.md).
+
+**Spine (joint package #1):** `pure_fsot_hardware_sota_best.pt` — ARC 22%, dig 28%, mode 1@22%, agree 100%, pkg **1.729**. Legal path only: `run_train.py --mode joint_package`.
 
 ---
 

@@ -187,7 +187,10 @@ def build_mix(rng: random.Random):
     ch_tr, _ = split_disjoint(ch, train_n=1500, hold_n=40, seed=19)
     arcs = []
     for r in list(easy_tr[:1200]) + list(ch_tr[:600]):
-        arcs.append({"kind": "arc", "prompt": r["prompt"], "gold": r["gold"]})
+        g = str(r.get("gold", "")).strip().upper()[:1]
+        if g not in "ABCD":
+            continue
+        arcs.append({"kind": "arc", "prompt": r["prompt"], "gold": g})
     rng.shuffle(arcs)
     return digits, arcs
 
@@ -286,9 +289,12 @@ def main() -> int:
         loss_d = digit_ce(
             student, tok, device, drow["prompt"], drow["gold"], pure, anti_mode=0.55
         )
-        loss_a = letter_only_ce(
-            student, tok, device, arow["prompt"], arow["gold"], lids, smooth=0.10
-        )
+        try:
+            loss_a = letter_only_ce(
+                student, tok, device, arow["prompt"], arow["gold"], lids, smooth=0.10
+            )
+        except ValueError:
+            loss_a = torch.tensor(0.0, device=device)
         loss_r = retention_ce(
             student, teacher, tok, device, EVAL16[step % len(EVAL16)]
         )
