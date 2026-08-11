@@ -176,6 +176,7 @@ def gap_scores(snap: dict) -> dict[str, float]:
 
 # Named barriers only — never burn tokens on anonymous / unmapped levers.
 NAMED_BARRIER_LEVERS = {
+    "joint_package": "joint_capability_package_no_regression",
     "hardware_sota": "low_param_capability_under_vram",
     "digit_decollapse": "digit_argmax_collapse_after_space",
     "arc_letter_balance": "arc_free_gen_letter_collapse",
@@ -188,7 +189,16 @@ def select_lever(snap: dict, tried: list[str]) -> str:
     g = gap_scores(snap)
     # priority menu — each lever maps to a named barrier (see NAMED_BARRIER_LEVERS)
     order = [
-        # Prefer joint digit+ARC path under VRAM constraint (never lab-only overwrite).
+        # Default: joint package (correct FSOT application — no single-axis thrash).
+        (
+            "joint_package",
+            g["digit_collapse"]
+            + g["space_digit_low"]
+            + g["arc_min_low"]
+            + g["arc_letter_collapse"]
+            + 0.5 * g["gsm_exact_zero"]
+            + 0.3 * g["free_first_low"],
+        ),
         (
             "hardware_sota",
             g["digit_collapse"]
@@ -236,6 +246,10 @@ def run_lever(
             "allowed": list(NAMED_BARRIER_LEVERS),
         }
     barrier = NAMED_BARRIER_LEVERS[name]
+    if name == "joint_package":
+        out = _run_script("run_joint_package_climb.py", timeout_s=7200)
+        out["barrier"] = barrier
+        return out
     if name == "hardware_sota":
         out = _run_script("run_hardware_sota_climb.py", timeout_s=7200)
         out["barrier"] = barrier

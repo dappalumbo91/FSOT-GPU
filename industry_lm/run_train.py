@@ -34,6 +34,9 @@ OUT = ROOT / "results" / "industry_lm"
 OUT.mkdir(parents=True, exist_ok=True)
 
 MODES = {
+    # Correct FSOT application: joint package only (no single-axis regression theater)
+    "joint_package": [sys.executable, "-u", str(HERE / "run_joint_package_climb.py")],
+    "audit_package": [sys.executable, "-u", str(HERE / "audit_host_package.py")],
     "hardware_sota": [sys.executable, "-u", str(HERE / "run_hardware_sota_climb.py")],
     "standard_climb": [sys.executable, "-u", str(HERE / "run_sota_standard_climb.py")],
     "digit_decollapse": [sys.executable, "-u", str(HERE / "run_sota_digit_decollapse.py")],
