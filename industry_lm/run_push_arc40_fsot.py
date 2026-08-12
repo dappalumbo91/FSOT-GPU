@@ -222,20 +222,28 @@ def main() -> int:
         p_easy = 0.20 + 0.60 * p_easy
 
         r = rng.random()
-        if r < 0.80:
-            use_easy = rng.random() < p_easy
-            by = easy_by if use_easy else ch_by
+        if r < 0.82:
+            # Dual residual step: train Easy AND Challenge every ARC step so min can rise
+            # (wave2: each side hit 40% alone; never together)
             L = "ABCD"[letter_i % 4]
             letter_i += 1
-            pool_L = by[L] or (easy_pool if use_easy else ch_pool)
-            row = pool_L[step % len(pool_L)]
-            g = str(row["gold"]).strip().upper()[:1]
-            if g not in "ABCD":
-                g = L
-            loss_task = next_ce(student, tok, device, row["prompt"], g, kind="letter")
+            row_e = (easy_by[L] or easy_pool)[step % max(len(easy_by[L] or easy_pool), 1)]
+            row_c = (ch_by[L] or ch_pool)[(step * 7) % max(len(ch_by[L] or ch_pool), 1)]
+            ge = str(row_e["gold"]).strip().upper()[:1]
+            gc = str(row_c["gold"]).strip().upper()[:1]
+            if ge not in "ABCD":
+                ge = L
+            if gc not in "ABCD":
+                gc = L
+            loss_e = next_ce(student, tok, device, row_e["prompt"], ge, kind="letter")
+            loss_c = next_ce(student, tok, device, row_c["prompt"], gc, kind="letter")
+            # weight by residual pressure (FSOT residual honesty)
+            we = pe / max(pe + pc, 1e-9)
+            wc = 1.0 - we
+            loss_task = we * loss_e + wc * loss_c
             S = S_arc
-            press = pe if use_easy else pc
-            kind = "arc_e" if use_easy else "arc_c"
+            press = pmin
+            kind = "arc_dual"
         elif r < 0.92 and gsm_real:
             gr = gsm_real[step % len(gsm_real)]
             q = gr["text"].split("\n")[0]
@@ -298,23 +306,42 @@ def main() -> int:
         if step % EVAL_EVERY != 0 and step != 1:
             continue
 
-        cap, ov = measure_all(tok, teacher, student, device, packs)
+        # Multi-rep hold (3×): reduce n≈40–60 noise that blocked wave2 promotes
+        caps = []
+        ovs = []
+        for _rep in range(3):
+            c_i, o_i = measure_all(tok, teacher, student, device, packs)
+            caps.append(c_i)
+            ovs.append(o_i)
+        # median-of-3 on key axes
+        def med(xs):
+            xs = sorted(xs)
+            return xs[len(xs) // 2]
+
+        cap = dict(caps[0])
+        for k in ("arc_e", "arc_c", "arc_min", "gsm_first", "gsm_tf", "gsm_exact", "agree", "balanced"):
+            cap[k] = med([float(c[k]) for c in caps])
+        cap["arc_min"] = min(cap["arc_e"], cap["arc_c"])
+        gen_med = med([float(o.gen_score) for o in ovs])
+        # pick overfit report closest to median gen
+        ov = min(ovs, key=lambda o: abs(float(o.gen_score) - gen_med))
         student.train()
         history.append(
             {
                 "step": step,
                 **cap,
-                "gen": ov.gen_score,
+                "gen": float(ov.gen_score),
                 "lr": lr,
                 "p_easy": p_easy,
                 "pmin": pmin,
                 "plat": plat,
+                "multi_rep": 3,
             }
         )
         print(
             f"  {step:04d} min={cap['arc_min']:.1%} E={cap['arc_e']:.1%} C={cap['arc_c']:.1%} "
             f"ag={cap['agree']:.0%} gen={ov.gen_score:.3f} first={cap['gsm_first']:.0%} "
-            f"Δ40={TARGET_ARC-cap['arc_min']:+.1%} pE={p_easy:.2f} plat={plat:.2f} lr={lr:.2e}",
+            f"Δ40={TARGET_ARC-cap['arc_min']:+.1%} pE={p_easy:.2f} plat={plat:.2f} lr={lr:.2e} (med3)",
             flush=True,
         )
 
