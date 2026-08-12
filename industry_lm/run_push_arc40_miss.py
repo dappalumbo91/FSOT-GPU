@@ -174,18 +174,16 @@ def main() -> int:
     floor_arc = max(FLOOR_ARC, float(cap0["arc_min"]) - 0.01)
     floor_gen = max(FLOOR_GEN, float(ov0.gen_score) - 0.02)
 
-    # Tiny DoF: last 2 layers + head
+    # Head letter-rows only — full last-layer FT destroyed joint min every cycle
     for p in student.parameters():
         p.requires_grad_(False)
     for name, p in student.named_parameters():
         n = name.lower()
         if "lm_head" in n or "embed_tokens" in n:
             p.requires_grad_(True)
-        if any(f"layers.{i}." in n for i in (28, 29)):
-            p.requires_grad_(True)
-    print(f"trainable {sum(p.numel() for p in trainable(student))/1e6:.2f}M")
+    print(f"trainable {sum(p.numel() for p in trainable(student))/1e6:.2f}M (head only)")
 
-    opt = torch.optim.AdamW(trainable(student), lr=plan.lr0 * 0.4, weight_decay=0.0)
+    opt = torch.optim.AdamW(trainable(student), lr=plan.lr0 * 0.25, weight_decay=0.0)
     letter_ids = []
     for L in ("A", "B", "C", "D", " A", " B", " C", " D"):
         e = tok.encode(L, add_special_tokens=False)
@@ -195,8 +193,8 @@ def main() -> int:
     S_arc = S_dom(16.0)
     print(f"FSOT S_arc={S_arc:.6f} θ={COLLAPSE_THRESHOLD:.4f}")
 
-    CYCLES = 12
-    STEPS_PER = 80
+    CYCLES = 20
+    STEPS_PER = 16  # short residual bursts — 80-step cycles always collapsed min
     history = []
     t0 = time.time()
     recent_hits = 0.0
@@ -244,7 +242,7 @@ def main() -> int:
                 loss = loss + wc * next_ce(
                     student, tok, device, rc["prompt"], rc["gold"], kind="letter"
                 )
-            loss = plat * loss + 0.85 * retention_ce(
+            loss = plat * loss + 1.05 * retention_ce(
                 student, teacher, tok, device, EVAL16[step % len(EVAL16)]
             )
             if not torch.isfinite(loss):
@@ -256,7 +254,7 @@ def main() -> int:
                 loss=float(loss.detach()),
                 recent_hits=recent_hits,
             )
-            lr = min(lr * 0.45 * (1.0 + 0.15 * pmin), plan.lr_ceil * 0.5)
+            lr = min(lr * 0.28 * (1.0 + 0.10 * pmin), plan.lr_ceil * 0.35)
             for g in opt.param_groups:
                 g["lr"] = lr
             opt.zero_grad(set_to_none=True)
