@@ -30,8 +30,10 @@ ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(ROOT))
 
+from fsot_atlas_bind import FOLDS  # noqa: E402
 from fsot_layer_swap import swap_all_layers  # noqa: E402
 from fsot_lib import COLLAPSE_THRESHOLD, SEEDS, compute_scalar  # noqa: E402
+from fsot_lib.coherence import coherence_norm  # noqa: E402
 from fsot_lib.learn import derive_fsot_lr_plan, fsot_epoch_lr  # noqa: E402
 from fsot21_verify import run_verification  # noqa: E402
 from granular_metrics import eval_arc_granular  # noqa: E402
@@ -58,6 +60,7 @@ FLOOR_GEN = 0.30
 
 
 def S_dom(d_eff: float, recent_hits: float = 0.0) -> float:
+    """Archive scalar at a *pinned atlas* D_eff (not an invented fold)."""
     return float(
         compute_scalar(
             N=1.0,
@@ -69,6 +72,33 @@ def S_dom(d_eff: float, recent_hits: float = 0.0) -> float:
             delta_theta=float(SEEDS.theta_s),
         )
     )
+
+
+def letter_ce_fsot(student, tok, device, prompt, gold, letter_ids):
+    """
+    Letter CE on FSOT-normalized A–D logits.
+
+    1. Gather A/B/C/D token logits
+    2. coherence_norm (collapse θ owns the norm — no learned affine)
+    3. If top-2 margin < poof (seed): treat as superposed — damp CE (don't force collapse)
+    """
+    import torch.nn.functional as F
+
+    g = str(gold).strip().upper()[:1]
+    if g not in "ABCD" or len(letter_ids) < 4:
+        return torch.tensor(0.0, device=device)
+    pe = tok(prompt, return_tensors="pt", truncation=True, max_length=400).to(device)
+    logits = student(**pe).logits[0, -1].float()
+    sub = torch.stack([logits[i] for i in letter_ids[:4]], dim=0)
+    sub_n = coherence_norm(sub)
+    gi = "ABCD".index(g)
+    ce = F.cross_entropy(sub_n.unsqueeze(0), torch.tensor([gi], device=device))
+    # superposed gate: small top-2 gap → poof-damp (seed), don't slam a trit
+    top2 = torch.topk(sub_n, k=min(2, sub_n.numel())).values
+    margin = float((top2[0] - top2[1]).detach()) if top2.numel() == 2 else 1.0
+    if margin < float(SEEDS.poof):
+        ce = ce * float(SEEDS.poof)
+    return ce
 
 
 def residual_pressure(live: float, target: float = TARGET) -> float:
@@ -118,9 +148,14 @@ def med3_measure(tok, teacher, student, device, packs):
 
 def main() -> int:
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    plan = derive_fsot_lr_plan(d_eff=D_EFF, epochs=12, ref_loss=3.0)
+    # LR plan at *host agent* atlas fold (Certified_Agent_Qwen D_eff=12)
+    plan = derive_fsot_lr_plan(d_eff=FOLDS.host, epochs=12, ref_loss=3.0)
     print("=== FSOT ARC40 MISS-DRIVEN PUSH ===")
     print(f"TARGET {TARGET:.0%}  floors arc≥{FLOOR_ARC:.1%} agree≥{FLOOR_AGREE:.0%} gen≥{FLOOR_GEN}")
+    print(
+        f"atlas D_eff host={FOLDS.host} reasoning={FOLDS.reasoning} "
+        f"psych={FOLDS.psychometrics} boot={FOLDS.boot} ({FOLDS.source})"
+    )
 
     v_pre = run_verification(include_host=True, write=True)
     if not v_pre["ok"]:
@@ -190,8 +225,13 @@ def main() -> int:
         if len(e) == 1:
             letter_ids.append(e[0])
 
-    S_arc = S_dom(16.0)
-    print(f"FSOT S_arc={S_arc:.6f} θ={COLLAPSE_THRESHOLD:.4f}")
+    # Reasoning-fold scalar (Arxiv_Brain_Knowledge D_eff=16), live recent_hits later
+    S_arc = S_dom(FOLDS.reasoning, recent_hits=0.0)
+    S_host = S_dom(FOLDS.host, recent_hits=0.0)
+    print(
+        f"FSOT S_reason={S_arc:.6f} (D_eff={FOLDS.reasoning}) "
+        f"S_host={S_host:.6f} (D_eff={FOLDS.host}) θ={COLLAPSE_THRESHOLD:.4f}"
+    )
 
     CYCLES = 20
     STEPS_PER = 16  # short residual bursts — 80-step cycles always collapsed min
@@ -225,8 +265,13 @@ def main() -> int:
         pmin = residual_pressure(best_cap["arc_min"])
         we = pe / max(pe + pc, 1e-9)
         wc = 1.0 - we
-        plat = plasticity(S_arc, pmin)
-        print(f"  residual we={we:.2f} wc={wc:.2f} plat={plat:.2f} pmin={pmin:.3f}")
+        # Recompute S each cycle with reject-hits (suction–poof vitality)
+        S_live = S_dom(FOLDS.reasoning, recent_hits=recent_hits)
+        plat = plasticity(S_live, pmin)
+        print(
+            f"  residual we={we:.2f} wc={wc:.2f} plat={plat:.2f} "
+            f"pmin={pmin:.3f} S_live={S_live:.4f} hits={recent_hits:.1f}"
+        )
 
         student.train()
         for step in range(1, STEPS_PER + 1):
@@ -235,12 +280,12 @@ def main() -> int:
             rc = miss_c[step % len(miss_c)] if miss_c else None
             loss = torch.tensor(0.0, device=device)
             if re is not None:
-                loss = loss + we * next_ce(
-                    student, tok, device, re["prompt"], re["gold"], kind="letter"
+                loss = loss + we * letter_ce_fsot(
+                    student, tok, device, re["prompt"], re["gold"], letter_ids
                 )
             if rc is not None:
-                loss = loss + wc * next_ce(
-                    student, tok, device, rc["prompt"], rc["gold"], kind="letter"
+                loss = loss + wc * letter_ce_fsot(
+                    student, tok, device, rc["prompt"], rc["gold"], letter_ids
                 )
             loss = plat * loss + 1.05 * retention_ce(
                 student, teacher, tok, device, EVAL16[step % len(EVAL16)]
