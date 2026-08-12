@@ -158,24 +158,20 @@ def main() -> int:
     floor_arc = max(FLOOR_ARC, float(cap0["arc_min"]) - 0.01)
     floor_gen = max(FLOOR_GEN, float(ov0.gen_score) - 0.025)
 
-    # Train last third of layers + head (structure-preserving, more capacity than embed-only)
+    # Wave4: smaller DoF — last 4 layers + head only (waves 1–3 thrashed with 10-layer FT)
     for p in student.parameters():
         p.requires_grad_(False)
     n_layers = 30
-    start_l = 20
+    start_l = 26
     for name, p in student.named_parameters():
         n = name.lower()
         if "lm_head" in n or "embed_tokens" in n:
             p.requires_grad_(True)
         if any(f"layers.{i}." in n for i in range(start_l, n_layers)):
             p.requires_grad_(True)
-        if any(k in n for k in ("norm", "layernorm")) and any(
-            f"layers.{i}." in n for i in range(start_l, n_layers)
-        ):
-            p.requires_grad_(True)
     print(f"trainable {sum(p.numel() for p in trainable(student))/1e6:.2f}M layers {start_l}-{n_layers-1}+head")
 
-    opt = torch.optim.AdamW(trainable(student), lr=plan.lr0, weight_decay=0.0)
+    opt = torch.optim.AdamW(trainable(student), lr=plan.lr0 * 0.55, weight_decay=0.0)
     digit_ids = _digit_token_ids(tok)
     letter_ids = []
     for L in ("A", "B", "C", "D", " A", " B", " C", " D"):
@@ -267,7 +263,7 @@ def main() -> int:
 
         plat = plasticity(S, press)
         # Heavier retention after promotes — last run thrashed post-promote
-        ret_w = 0.55 + 0.20 * float(SEEDS.poof) + 0.08 * min(n_promotes, 4)
+        ret_w = 0.70 + 0.25 * float(SEEDS.poof) + 0.10 * min(n_promotes, 4)
         loss = plat * loss_task + ret_w * retention_ce(
             student, teacher, tok, device, EVAL16[(step * 3) % len(EVAL16)]
         )
@@ -281,9 +277,9 @@ def main() -> int:
             loss=float(loss.detach()),
             recent_hits=recent_hits,
         )
-        # residual pressure raises LR when far from 40%; cool after each promote
-        lr = min(lr * (1.0 + 0.20 * pmin), plan.lr_ceil * 1.10)
-        lr *= max(0.45, 1.0 - 0.12 * n_promotes)
+        # Conservative near plateau: small residual boost, hard cap, cool after promote
+        lr = min(lr * (1.0 + 0.10 * pmin) * 0.55, plan.lr_ceil * 0.65)
+        lr *= max(0.40, 1.0 - 0.15 * n_promotes)
         for g in opt.param_groups:
             g["lr"] = lr
 
