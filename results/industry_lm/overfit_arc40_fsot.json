@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-08-12T00:33:20.678409+00:00",
+  "meta": {},
+  "mean_train_acc": 0.2416666666666667,
+  "mean_hold_acc": 0.3416666666666666,
+  "mean_overfit_gap": -0.09999999999999998,
+  "max_overfit_gap": -0.04999999999999999,
+  "gen_score": 0.3416666666666666,
+  "overfit_flag": false,
+  "threshold_gap": 0.08,
+  "notes": "gap_within_threshold",
+  "splits": [
+    {
+      "name": "arc_easy",
+      "acc_train": 0.2,
+      "acc_hold": 0.35,
+      "err_train": 0.8,
+      "err_hold": 0.65,
+      "overfit_gap": -0.14999999999999997,
+      "n_train": 40,
+      "n_hold": 60
+    },
+    {
+      "name": "arc_challenge",
+      "acc_train": 0.275,
+      "acc_hold": 0.375,
+      "err_train": 0.725,
+      "err_hold": 0.625,
+      "overfit_gap": -0.09999999999999998,
+      "n_train": 40,
+      "n_hold": 40
+    },
+    {
+      "name": "gsm_first_digit",
+      "acc_train": 0.25,
+      "acc_hold": 0.3,
+      "err_train": 0.75,
+      "err_hold": 0.7,
+      "overfit_gap": -0.04999999999999999,
+      "n_train": 40,
+      "n_hold": 40
+    }
+  ]
+}

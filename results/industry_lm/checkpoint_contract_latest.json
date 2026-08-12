@@ -1,9 +1,9 @@
 {
   "schema": "fsot_llm_checkpoint_contract_v1",
-  "timestamp_utc": "2026-08-11T23:19:25.824872+00:00",
-  "git_rev": "a9cf4be",
-  "phase": "capability_recovery",
-  "step": 200,
+  "timestamp_utc": "2026-08-11T23:34:34.471316+00:00",
+  "git_rev": "7798c18",
+  "phase": "fsot_arc40_push",
+  "step": 1,
   "ckpt_name": "pure_fsot_sota_standard_best.pt",
   "pin_verify_pass": true,
   "attention_mode": "pure_fsot_consensus",
@@ -27,19 +27,19 @@
   },
   "scores": {
     "agree16": 1.0,
-    "arc_min": 0.325,
+    "arc_min": 0.35,
     "arc_e": 0.35,
-    "arc_c": 0.325,
+    "arc_c": 0.375,
     "gsm_first": 0.3,
     "gsm_exact": 0.0,
     "gsm_space_digit": null,
-    "gen_score": 0.325,
-    "overfit_gap": -0.08333333333333331,
-    "balanced": 2.3479166666666664
+    "gen_score": 0.3416666666666666,
+    "overfit_gap": -0.09999999999999998,
+    "balanced": 2.42875
   },
   "extra": {
-    "gate0_arc_min": 0.25,
+    "gate0_arc_min": 0.325,
     "wrote_standard": true,
-    "lab": "pure_fsot_capability_recovery_best.pt"
+    "lab": "pure_fsot_arc40_best.pt"
   }
 }
