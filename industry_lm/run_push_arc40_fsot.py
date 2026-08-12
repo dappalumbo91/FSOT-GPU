@@ -191,34 +191,52 @@ def main() -> int:
     gsm_real = [r for r in load_gsm8k_train(800) if len(str(r["gold"]).strip()) <= 3]
     rng = random.Random(40)
 
-    STEPS = 800
+    STEPS = 1000
     EVAL_EVERY = 40
     history = []
     t0 = time.time()
     recent_hits = 0.0
+    n_promotes = 0
     student.train()
 
+    # Balanced letter queues (anti letter-collapse under residual climb)
+    def by_letter(pool):
+        d = {L: [] for L in "ABCD"}
+        for r in pool:
+            g = str(r.get("gold", "")).strip().upper()[:1]
+            if g in d:
+                d[g].append(r)
+        return d
+
+    easy_by = by_letter(easy_pool)
+    ch_by = by_letter(ch_pool)
+    letter_i = 0
+
     for step in range(1, STEPS + 1):
-        # Residual routing: pressure on Easy vs Challenge vs overall min
+        # Residual routing: pressure on Easy vs Challenge toward 40%
         pe = residual_pressure(best_cap["arc_e"])
         pc = residual_pressure(best_cap["arc_c"])
         pmin = residual_pressure(best_cap["arc_min"])
-        # probability of Easy sample ∝ residual pressure (FSOT residual honesty)
+        # Stronger residual honesty near the goal: feed the lower of E/C harder
         p_easy = pe / max(pe + pc, 1e-9)
-        p_easy = 0.25 + 0.50 * p_easy  # keep both in mix
+        p_easy = 0.20 + 0.60 * p_easy
 
         r = rng.random()
-        if r < 0.75:
-            # ARC under residual routing
+        if r < 0.80:
             use_easy = rng.random() < p_easy
-            pool = easy_pool if use_easy else ch_pool
-            row = pool[step % len(pool)]
+            by = easy_by if use_easy else ch_by
+            L = "ABCD"[letter_i % 4]
+            letter_i += 1
+            pool_L = by[L] or (easy_pool if use_easy else ch_pool)
+            row = pool_L[step % len(pool_L)]
             g = str(row["gold"]).strip().upper()[:1]
+            if g not in "ABCD":
+                g = L
             loss_task = next_ce(student, tok, device, row["prompt"], g, kind="letter")
             S = S_arc
             press = pe if use_easy else pc
             kind = "arc_e" if use_easy else "arc_c"
-        elif r < 0.90 and gsm_real:
+        elif r < 0.92 and gsm_real:
             gr = gsm_real[step % len(gsm_real)]
             q = gr["text"].split("\n")[0]
             if not q.startswith("Question:"):
@@ -240,8 +258,9 @@ def main() -> int:
             kind = "ret"
 
         plat = plasticity(S, press)
-        # retention always — protect agree (fidelity floor)
-        loss = plat * loss_task + (0.50 + 0.15 * float(SEEDS.poof)) * retention_ce(
+        # Heavier retention after promotes — last run thrashed post-promote
+        ret_w = 0.55 + 0.20 * float(SEEDS.poof) + 0.08 * min(n_promotes, 4)
+        loss = plat * loss_task + ret_w * retention_ce(
             student, teacher, tok, device, EVAL16[(step * 3) % len(EVAL16)]
         )
         if not torch.isfinite(loss):
@@ -254,8 +273,9 @@ def main() -> int:
             loss=float(loss.detach()),
             recent_hits=recent_hits,
         )
-        # residual pressure slightly raises LR when far from 40% (bounded by plan)
-        lr = min(lr * (1.0 + 0.25 * pmin), plan.lr_ceil * 1.15)
+        # residual pressure raises LR when far from 40%; cool after each promote
+        lr = min(lr * (1.0 + 0.20 * pmin), plan.lr_ceil * 1.10)
+        lr *= max(0.45, 1.0 - 0.12 * n_promotes)
         for g in opt.param_groups:
             g["lr"] = lr
 
@@ -310,11 +330,18 @@ def main() -> int:
             max_gap_widen=0.04,
             require_gen_improve=False,
         )
+        # Finer steps near 40%: accept +0.5pp min or gen lift at same min
         better = (
-            cap["arc_min"] > best_cap["arc_min"] + 0.01
+            cap["arc_min"] > best_cap["arc_min"] + 0.005
             or (
                 abs(cap["arc_min"] - best_cap["arc_min"]) < 0.005
-                and ov.gen_score > best_ov.gen_score + 0.01
+                and ov.gen_score > best_ov.gen_score + 0.008
+            )
+            or (
+                # both E and C move up (min may lag one tick)
+                cap["arc_e"] > best_cap["arc_e"] + 0.01
+                and cap["arc_c"] + 1e-9 >= best_cap["arc_c"] - 0.005
+                and cap["arc_min"] + 1e-9 >= best_cap["arc_min"] - 1e-9
             )
         )
 
@@ -326,6 +353,7 @@ def main() -> int:
             floor_arc = max(floor_arc, float(cap["arc_min"]) - 0.005)
             floor_gen = max(floor_gen, float(ov.gen_score) - 0.02)
             recent_hits = max(0.0, recent_hits - 0.5)
+            n_promotes += 1
             save_promoted(
                 student,
                 cap,
@@ -341,7 +369,8 @@ def main() -> int:
             )
             tag = "HIT_40" if cap["arc_min"] + 1e-9 >= TARGET_ARC else "PROMOTE"
             print(
-                f"    * {tag} min={cap['arc_min']:.1%} gen={ov.gen_score:.3f}",
+                f"    * {tag} min={cap['arc_min']:.1%} E={cap['arc_e']:.1%} "
+                f"C={cap['arc_c']:.1%} gen={ov.gen_score:.3f} n_prom={n_promotes}",
                 flush=True,
             )
             if cap["arc_min"] + 1e-9 >= TARGET_ARC:
