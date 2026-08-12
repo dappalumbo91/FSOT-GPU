@@ -209,19 +209,17 @@ def main() -> int:
     floor_arc = max(FLOOR_ARC, float(cap0["arc_min"]) - 0.01)
     floor_gen = max(FLOOR_GEN, float(ov0.gen_score) - 0.02)
 
-    # Head + last 2 layers: 16-step head-only plateaued (20 cycles, no delta).
-    # Full last-10 FT crashed min. This is the middle.
+    # Head only again: L28-29 32-step bursts crashed min every cycle.
+    # Easy is the min (36.7% vs C 37.5%) — lift Easy train-miss residual only.
     for p in student.parameters():
         p.requires_grad_(False)
     for name, p in student.named_parameters():
         n = name.lower()
         if "lm_head" in n or "embed_tokens" in n:
             p.requires_grad_(True)
-        if any(f"layers.{i}." in n for i in (28, 29)):
-            p.requires_grad_(True)
-    print(f"trainable {sum(p.numel() for p in trainable(student))/1e6:.2f}M (head+L28-29)")
+    print(f"trainable {sum(p.numel() for p in trainable(student))/1e6:.2f}M (head only, Easy residual)")
 
-    opt = torch.optim.AdamW(trainable(student), lr=plan.lr0 * 0.32, weight_decay=0.0)
+    opt = torch.optim.AdamW(trainable(student), lr=plan.lr0 * 0.28, weight_decay=0.0)
     letter_ids = []
     for L in ("A", "B", "C", "D", " A", " B", " C", " D"):
         e = tok.encode(L, add_special_tokens=False)
@@ -237,7 +235,7 @@ def main() -> int:
     )
 
     CYCLES = 16
-    STEPS_PER = 32  # atlas wave plateaued at 16 head-only steps; 80 crashed min
+    STEPS_PER = 20
     history = []
     t0 = time.time()
     recent_hits = 0.0
@@ -245,15 +243,13 @@ def main() -> int:
 
     for cyc in range(1, CYCLES + 1):
         student.eval()
-        miss_e = collect_arc_misses(tok, student, device, easy_h)
-        miss_c = collect_arc_misses(tok, student, device, ch_h)
-        # also sample train misses for more residual mass
-        train_e_sample = rng.sample(easy_tr, min(80, len(easy_tr)))
-        train_c_sample = rng.sample(ch_tr, min(60, len(ch_tr)))
-        miss_e += collect_arc_misses(tok, student, device, train_e_sample)
-        miss_c += collect_arc_misses(tok, student, device, train_c_sample)
+        # Honest residual: Easy *train* misses only (Easy is min). Do not train hold.
+        # Do not train Challenge — L28 wave hit C=40% while min dropped.
+        train_e_sample = rng.sample(easy_tr, min(200, len(easy_tr)))
+        miss_e = collect_arc_misses(tok, student, device, train_e_sample)
+        miss_c: list = []
         print(
-            f"\n[cycle {cyc}] miss_hold+train E={len(miss_e)} C={len(miss_c)} "
+            f"\n[cycle {cyc}] easy_train_misses={len(miss_e)} "
             f"best_min={best_cap['arc_min']:.1%}",
             flush=True,
         )
@@ -266,29 +262,21 @@ def main() -> int:
         pe = residual_pressure(best_cap["arc_e"])
         pc = residual_pressure(best_cap["arc_c"])
         pmin = residual_pressure(best_cap["arc_min"])
-        we = pe / max(pe + pc, 1e-9)
-        wc = 1.0 - we
-        # Recompute S each cycle with reject-hits (suction–poof vitality)
+        we, wc = 1.0, 0.0  # Easy-only residual (min bottleneck)
         S_live = S_dom(FOLDS.reasoning, recent_hits=recent_hits)
         plat = plasticity(S_live, pmin)
         print(
             f"  residual we={we:.2f} wc={wc:.2f} plat={plat:.2f} "
-            f"pmin={pmin:.3f} S_live={S_live:.4f} hits={recent_hits:.1f}"
+            f"pmin={pmin:.3f} S_live={S_live:.4f} hits={recent_hits:.1f} pe={pe:.3f} pc={pc:.3f}"
         )
 
         student.train()
         for step in range(1, STEPS_PER + 1):
-            # one Easy miss + one Challenge miss (dual residual)
             re = miss_e[step % len(miss_e)] if miss_e else None
-            rc = miss_c[step % len(miss_c)] if miss_c else None
             loss = torch.tensor(0.0, device=device)
             if re is not None:
-                loss = loss + we * letter_ce_fsot(
+                loss = loss + letter_ce_fsot(
                     student, tok, device, re["prompt"], re["gold"], letter_ids
-                )
-            if rc is not None:
-                loss = loss + wc * letter_ce_fsot(
-                    student, tok, device, rc["prompt"], rc["gold"], letter_ids
                 )
             loss = plat * loss + 1.05 * retention_ce(
                 student, teacher, tok, device, EVAL16[step % len(EVAL16)]
