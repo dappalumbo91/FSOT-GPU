@@ -209,16 +209,19 @@ def main() -> int:
     floor_arc = max(FLOOR_ARC, float(cap0["arc_min"]) - 0.01)
     floor_gen = max(FLOOR_GEN, float(ov0.gen_score) - 0.02)
 
-    # Head letter-rows only — full last-layer FT destroyed joint min every cycle
+    # Head + last 2 layers: 16-step head-only plateaued (20 cycles, no delta).
+    # Full last-10 FT crashed min. This is the middle.
     for p in student.parameters():
         p.requires_grad_(False)
     for name, p in student.named_parameters():
         n = name.lower()
         if "lm_head" in n or "embed_tokens" in n:
             p.requires_grad_(True)
-    print(f"trainable {sum(p.numel() for p in trainable(student))/1e6:.2f}M (head only)")
+        if any(f"layers.{i}." in n for i in (28, 29)):
+            p.requires_grad_(True)
+    print(f"trainable {sum(p.numel() for p in trainable(student))/1e6:.2f}M (head+L28-29)")
 
-    opt = torch.optim.AdamW(trainable(student), lr=plan.lr0 * 0.25, weight_decay=0.0)
+    opt = torch.optim.AdamW(trainable(student), lr=plan.lr0 * 0.32, weight_decay=0.0)
     letter_ids = []
     for L in ("A", "B", "C", "D", " A", " B", " C", " D"):
         e = tok.encode(L, add_special_tokens=False)
@@ -233,8 +236,8 @@ def main() -> int:
         f"S_host={S_host:.6f} (D_eff={FOLDS.host}) θ={COLLAPSE_THRESHOLD:.4f}"
     )
 
-    CYCLES = 20
-    STEPS_PER = 16  # short residual bursts — 80-step cycles always collapsed min
+    CYCLES = 16
+    STEPS_PER = 32  # atlas wave plateaued at 16 head-only steps; 80 crashed min
     history = []
     t0 = time.time()
     recent_hits = 0.0
@@ -299,7 +302,7 @@ def main() -> int:
                 loss=float(loss.detach()),
                 recent_hits=recent_hits,
             )
-            lr = min(lr * 0.28 * (1.0 + 0.10 * pmin), plan.lr_ceil * 0.35)
+            lr = min(lr * 0.38 * (1.0 + 0.12 * pmin), plan.lr_ceil * 0.45)
             for g in opt.param_groups:
                 g["lr"] = lr
             opt.zero_grad(set_to_none=True)
@@ -339,9 +342,18 @@ def main() -> int:
             max_gap_widen=0.04,
             require_gen_improve=False,
         )
-        better = cap["arc_min"] > best_cap["arc_min"] + 0.005 or (
-            abs(cap["arc_min"] - best_cap["arc_min"]) < 0.005
-            and ov.gen_score > best_ov.gen_score + 0.008
+        better = (
+            cap["arc_min"] > best_cap["arc_min"] + 0.005
+            or (
+                abs(cap["arc_min"] - best_cap["arc_min"]) < 0.005
+                and ov.gen_score > best_ov.gen_score + 0.008
+            )
+            or (
+                # Easy is the min bottleneck — lift E without dropping C/min
+                cap["arc_e"] > best_cap["arc_e"] + 0.01
+                and cap["arc_c"] + 1e-9 >= best_cap["arc_c"] - 0.005
+                and cap["arc_min"] + 1e-9 >= best_cap["arc_min"] - 1e-9
+            )
         )
         if floors and ov_ok and better:
             best_cap, best_ov = dict(cap), ov
