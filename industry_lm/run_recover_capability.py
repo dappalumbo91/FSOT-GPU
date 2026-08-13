@@ -59,12 +59,12 @@ OUT = ROOT / "results" / "industry_lm"
 
 # Documented capability package — the ONLY success definition for recovery
 TARGET = {
-    "arc_min": 0.325,
+    "arc_min": 0.40,
     "agree": 1.0,
     "gen_score": 0.319,
     "gsm_first": 0.30,
 }
-PROD_WRITE_ARC = 0.30  # minimum to rewrite production standard
+PROD_WRITE_ARC = 0.325  # never write production below recovered floor
 
 
 def fsot_domain_weight(kind: str) -> float:
@@ -96,18 +96,13 @@ def pick_recovery_host() -> Path:
     Do NOT default to agree100 — that is fidelity-only and starts ARC ~13%.
     Prefer hosts nearest 32.5% package from live audit order.
     """
-    # Highest measured ARC from package audit / recent climbs first
+    # Current production first (36.7% ARC miss-promoted). Do not fall back to 25% labs.
     order = [
-        CKPT / "pure_fsot_joint_package_best.pt",  # ~25% arc live
-        CKPT / "pure_fsot_barrier_lab_best.pt",  # ~25% arc (mode dirty — still closer)
-        CKPT / "pure_fsot_answer_locked_best.pt",  # ~25%
+        CKPT / "pure_fsot_sota_standard_best.pt",
+        CKPT / "pure_fsot_arc40_miss_best.pt",
         CKPT / "pure_fsot_capability_recovery_best.pt",
-        CKPT / "pure_fsot_hardware_sota_best.pt",  # ~22%
-        CKPT / "pure_fsot_arc_locked_best.pt",
-        CKPT / "pure_fsot_12x3_best.pt",
-        CKPT / "pure_fsot_fulldof_best.pt",
-        CKPT / "pure_fsot_agree100_best.pt",  # last: fidelity, weak ARC
-        CKPT / "pure_fsot_sota_standard_best.pt",  # polluted ~18%
+        CKPT / "pure_fsot_joint_package_best.pt",
+        CKPT / "pure_fsot_agree100_best.pt",
     ]
     for p in order:
         if p.is_file():
