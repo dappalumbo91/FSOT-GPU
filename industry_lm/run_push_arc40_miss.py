@@ -76,24 +76,46 @@ def S_dom(d_eff: float, recent_hits: float = 0.0) -> float:
 
 def letter_ce_fsot(student, tok, device, prompt, gold, letter_ids):
     """
-    Letter CE on FSOT-normalized A–D logits.
+    Letter CE on FSOT-normalized A–D logits at the *eval* first-token position.
 
-    1. Gather A/B/C/D token logits
-    2. coherence_norm (collapse θ owns the norm — no learned affine)
-    3. If top-2 margin < poof (seed): treat as superposed — damp CE (don't force collapse)
+    Hold metric is free-gen exact (letter in generated text). Training the
+    first-token letter is the same surface, not a different proxy.
+
+    1. Gather A/B/C/D token logits (prefer ' A'..' D' if those ids exist)
+    2. coherence_norm (collapse θ owns the norm)
+    3. If top-2 margin < poof: superposed — damp CE
     """
     import torch.nn.functional as F
 
     g = str(gold).strip().upper()[:1]
-    if g not in "ABCD" or len(letter_ids) < 4:
+    if g not in "ABCD":
+        return torch.tensor(0.0, device=device)
+    # Prefer spaced letter tokens (how the model actually emits after the prompt)
+    ids = []
+    for form in (f" {g}", g):
+        e = tok.encode(form, add_special_tokens=False)
+        if len(e) == 1:
+            ids.append(e[0])
+    if not ids:
         return torch.tensor(0.0, device=device)
     pe = tok(prompt, return_tensors="pt", truncation=True, max_length=400).to(device)
     logits = student(**pe).logits[0, -1].float()
-    sub = torch.stack([logits[i] for i in letter_ids[:4]], dim=0)
+    # 4-way among spaced letters when available
+    four = []
+    for L in "ABCD":
+        e = tok.encode(f" {L}", add_special_tokens=False)
+        if len(e) != 1:
+            e = tok.encode(L, add_special_tokens=False)
+        if len(e) == 1:
+            four.append(e[0])
+    if len(four) != 4:
+        four = letter_ids[:4]
+    if len(four) < 4:
+        return torch.tensor(0.0, device=device)
+    sub = torch.stack([logits[i] for i in four], dim=0)
     sub_n = coherence_norm(sub)
     gi = "ABCD".index(g)
     ce = F.cross_entropy(sub_n.unsqueeze(0), torch.tensor([gi], device=device))
-    # superposed gate: small top-2 gap → poof-damp (seed), don't slam a trit
     top2 = torch.topk(sub_n, k=min(2, sub_n.numel())).values
     margin = float((top2[0] - top2[1]).detach()) if top2.numel() == 2 else 1.0
     if margin < float(SEEDS.poof):
