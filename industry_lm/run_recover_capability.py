@@ -33,8 +33,10 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(ROOT))
 
 from fsot_layer_swap import swap_all_layers  # noqa: E402
+from fsot_atlas_bind import FOLDS  # noqa: E402
 from fsot_lib import SEEDS, compute_scalar  # noqa: E402
 from fsot_lib.learn import derive_fsot_lr_plan, fsot_epoch_lr  # noqa: E402
+from run_push_arc40_miss import letter_ce_fsot  # noqa: E402
 from fsot21_verify import run_verification  # noqa: E402
 from overfit_metrics import accept_update, split_disjoint, write_overfit_ledger  # noqa: E402
 from real_data_packs import load_arc_train, load_gsm8k_test, load_gsm8k_train  # noqa: E402
@@ -69,10 +71,10 @@ PROD_WRITE_ARC = 0.325  # never write production below recovered floor
 
 def fsot_domain_weight(kind: str) -> float:
     """
-    Loss scale from seed scalar at domain D_eff folds (not free knobs).
-    ARC-ish cognition: higher D_eff; short arithmetic: mid D_eff.
+    Loss scale from seed scalar at *atlas* D_eff folds (not invented).
+    reasoning=16 (Arxiv_Brain_Knowledge), host/agent=12 (Certified_Agent_Qwen).
     """
-    d_eff = 16.0 if kind == "arc" else 12.0 if kind in ("digit", "gsm") else 14.0
+    d_eff = FOLDS.reasoning if kind == "arc" else FOLDS.host if kind in ("digit", "gsm") else FOLDS.boot
     S = abs(
         float(
             compute_scalar(
@@ -126,7 +128,7 @@ def dist_to_target(cap, gen) -> dict:
 
 def main() -> int:
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    plan = derive_fsot_lr_plan(d_eff=D_EFF, epochs=12, ref_loss=4.0)
+    plan = derive_fsot_lr_plan(d_eff=FOLDS.host, epochs=12, ref_loss=4.0)
     print("=== CAPABILITY RECOVERY (FSOT pure 135M) ===")
     print("TARGET:", TARGET)
     print("docs/CAPABILITY_RECOVERY.md")
@@ -251,24 +253,29 @@ def main() -> int:
     print(f"FSOT domain weights arc={w_arc:.3f} gsm={w_gsm:.3f} (from compute_scalar D_eff folds)")
     print(f"arc pools easy={len(easy_pool)} ch={len(ch_pool)}")
 
-    STEPS = 1000
+    near = float(cap0["arc_min"]) >= 0.35
+    STEPS = 800 if near else 1000
     EVAL_EVERY = 40
     history = []
     t0 = time.time()
     recent_hits = 0.0
     promoted = False
     student.train()
+    print(f"near_target_mix={near} (40% ARC / 50% retain / 10% gsm when near)")
 
     for step in range(1, STEPS + 1):
         r = step % 10
-        # 70% ARC (Easy-heavy) · 20% GSM · 10% retention-only step
-        if r < 7 and (easy_pool or ch_pool):
-            # 5/7 Easy, 2/7 Challenge when Easy is the min gap
-            use_easy = (r < 5) or not ch_pool
+        # Near 40%: don't flood ARC CE (that crashed min from 36.7%).
+        # Far: Easy-heavy recover mix that built 25→32.5.
+        arc_cut = 4 if near else 7
+        if r < arc_cut and (easy_pool or ch_pool):
+            use_easy = (r < (3 if near else 5)) or not ch_pool
             pool = easy_pool if use_easy and easy_pool else ch_pool
             row = pool[step % len(pool)]
             g = str(row["gold"]).strip().upper()[:1]
-            loss_task = next_ce(student, tok, device, row["prompt"], g, kind="letter")
+            loss_task = letter_ce_fsot(
+                student, tok, device, row["prompt"], g, letter_ids
+            )
             loss = w_arc * loss_task
             kind = "arc"
         elif r < 9:
@@ -292,8 +299,9 @@ def main() -> int:
             )
             kind = "ret"
 
-        # Teacher retention always — protect agree / structure
-        loss = loss + 0.55 * retention_ce(
+        # Teacher retention always — heavier near target so min doesn't collapse
+        ret_w = 0.85 if near else 0.55
+        loss = loss + ret_w * retention_ce(
             student, teacher, tok, device, EVAL16[(step + 3) % len(EVAL16)]
         )
         if not torch.isfinite(loss):
