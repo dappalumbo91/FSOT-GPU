@@ -3,7 +3,7 @@
 **Project working title:** FSOT Formal-GPU / `fsot_lib`  
 **Theory:** Fluid Spacetime Omni-Theory (FSOT) — Damian Arthur Palumbo  
 **Lab:** Desktop `gpu exparment for lean coq isabell andf star`  
-**Archive authority:** `I:\FSOT-Physical-Archive` + public [FSOT-2.1-Lean](https://github.com/dappalumbo91/FSOT-2.1-Lean)  
+**Archive authority:** `<local folder, not included in repo: FSOT-Physical-Archive>` + public [FSOT-2.1-Lean](https://github.com/dappalumbo91/FSOT-2.1-Lean)  
 **Status:** Active R&D — solidify → measure → exceed → then open-source  
 
 **Out of scope for this repo:** FSOT-2.1-Instruct (separate LLM lab — do not merge claims or code paths without explicit decision).

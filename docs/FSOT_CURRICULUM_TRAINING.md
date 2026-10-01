@@ -30,13 +30,13 @@ Do **not** flood the host with 40+ GB until pure-FSOT host gates hold:
 
 | Role | Path | Notes |
 |------|------|--------|
-| **Local training corpus (NeuroLab)** | `D:\training data` | ~44 GB, 11k+ files; eval packs + FSOT-specific + genome/math |
-| **Canonical Lean / 2.1 hub** | `I:\FSOT-Physical-Archive\02_FSOT-2.1-Lean-Full` | Proofs, docs, verification, domain caches |
-| **Public / API cross-verified data** | `I:\FSOT-Physical-Archive\03_FSOT-PublicData` | NASA, NIST, PubChem, OpenAlex, CERN, space weather, … |
-| **Archive env** | `I:\FSOT-Physical-Archive\set_fsot_archive_env.ps1` | Sets `FSOT_EXTERNAL_DATA_ROOT`, etc. |
+| **Local training corpus (NeuroLab)** | `<local folder, not included in repo: training data>` | ~44 GB, 11k+ files; eval packs + FSOT-specific + genome/math |
+| **Canonical Lean / 2.1 hub** | `FSOT-2.1-Lean` | Proofs, docs, verification, domain caches |
+| **Public / API cross-verified data** | `<local folder, not included in repo: FSOT-Physical-Archive/03_FSOT-PublicData>` | NASA, NIST, PubChem, OpenAlex, CERN, space weather, … |
+| **Archive env** | `<local file, not included in repo: set_fsot_archive_env.ps1>` | Sets `FSOT_EXTERNAL_DATA_ROOT`, etc. |
 | **GitHub theory** | https://github.com/dappalumbo91/FSOT-2.1-Lean | Synced **from** I: hub |
 
-Catalog on disk: `D:\training data\DATA_CATALOG.md` (paths may still say `B:\` historically; live root is **D:**).
+Catalog on disk: `<local file, not included in repo: DATA_CATALOG.md>` (paths may still say `<local drive>` historically; live root is **D:**).
 
 ## Curriculum phases (FSOT-ordered)
 
@@ -69,7 +69,7 @@ Cross-verified external corpora already used to solidify FSOT 2.1:
 From **`03_FSOT-PublicData`** (examples):  
 `nist_codata`, `nasa_exoplanet`, `space_weather`, `pubchem`, `rcsb_pdb`, `openalex`, `cern_opendata`, `gbif`, `noaa_tides`, `anomaly_observables`, consciousness/genetics tiers, …
 
-From **`D:\training data`**:  
+From **`<local folder, not included in repo: training data>`**:  
 MMLU / GSM8K / MATH / ARC / TruthfulQA / HumanEval (capability holdouts),  
 `arxiv_fsot_core.txt` / arXiv packs, genome (GRCh38), FSOT Machine_And_Molecule, quantum gravity pack, olympiad, …
 
@@ -88,10 +88,10 @@ Machine paths for loaders:
 ```json
 // config/curriculum_roots.json
 {
-  "training_data": "D:/training data",
-  "lean_hub": "I:/FSOT-Physical-Archive/02_FSOT-2.1-Lean-Full",
-  "public_data": "I:/FSOT-Physical-Archive/03_FSOT-PublicData",
-  "archive_root": "I:/FSOT-Physical-Archive"
+  "training_data": "<local folder, not included in repo: training data>",
+  "lean_hub": "FSOT-2.1-Lean",
+  "public_data": "<local folder, not included in repo: FSOT-Physical-Archive/03_FSOT-PublicData>",
+  "archive_root": "<local folder, not included in repo: FSOT-Physical-Archive>"
 }
 ```
 
@@ -108,4 +108,4 @@ Inventory script: `python industry_lm/inventory_curriculum.py`
 
 ## Bottom line
 
-Yes: **after** we keep pushing the pure-FSOT host past current boundaries, we train it on **FSOT architecture, math, and understanding**, using **`D:\training data`** plus the **same cross-verified solidification sources** that underwrite 2.1 Lean. That is the foundation path — not a toy finetune, and not ad hoc industry curriculum.
+Yes: **after** we keep pushing the pure-FSOT host past current boundaries, we train it on **FSOT architecture, math, and understanding**, using **`<local folder, not included in repo: training data>`** plus the **same cross-verified solidification sources** that underwrite 2.1 Lean. That is the foundation path — not a toy finetune, and not ad hoc industry curriculum.
