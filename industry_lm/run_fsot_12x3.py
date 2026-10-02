@@ -9,6 +9,18 @@ Saves: pure_fsot_12x3_best.pt
 """
 from __future__ import annotations
 
+import os as _os
+from pathlib import Path as _Path
+
+_REPO_ROOT = _Path(__file__).resolve().parents[1]
+
+
+def _fsot_local_path(env, default):
+    """Local path outside the repo: $env if set, else a path relative to the repo root."""
+    _v = _os.environ.get(env, "").strip()
+    return _Path(_v) if _v else _REPO_ROOT / default
+
+
 import json
 import math
 import random
@@ -40,7 +52,7 @@ from train_corpus import PROBES  # noqa: E402
 MODEL = HERE / "models" / "SmolLM2-135M-Instruct"
 OUT = ROOT / "results" / "industry_lm"
 CKPT = OUT / "checkpoints"
-DATA = Path(r"D:\training data")
+DATA = _fsot_local_path('FSOT_TRAINING_DATA', 'data_external/training_data')
 CKPT.mkdir(parents=True, exist_ok=True)
 
 # --- 12 epochs × 3 packs ---

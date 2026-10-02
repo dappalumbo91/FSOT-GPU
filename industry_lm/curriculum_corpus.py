@@ -3,8 +3,8 @@
 Build Phase-1 FSOT curriculum text chunks from verified roots.
 
 Sources (FSOT law / solidification — not random web scrape):
-  - I:/FSOT-Physical-Archive/02_FSOT-2.1-Lean-Full/docs  (theory docs)
-  - D:/training data/arxiv_fsot_core.txt                  (FSOT-tagged arXiv core)
+  - FSOT-2.1-Lean/docs  (theory docs)
+  - $FSOT_TRAINING_DATA/arxiv_fsot_core.txt                  (FSOT-tagged arXiv core)
   - optional short solidification notes from public_data manifests
 
 Writes: results/industry_lm/curriculum_phase1_chunks.jsonl

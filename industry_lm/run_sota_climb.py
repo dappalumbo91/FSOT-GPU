@@ -6,12 +6,24 @@ FSOT law only: pure consensus attention, suction_poof + D_eff LR, full DoF.
 - Multi-token factual CE (not first-token-only space trap)
 - Expanded FSOT Q&A full-sequence CE (cleaner generation)
 - Deeper curriculum v2 chunks
-- Light GSM8K/ARC-style CE samples from D:\\training data
+- Light GSM8K/ARC-style CE samples from $FSOT_TRAINING_DATA
 - EVAL16 retention
 
 Saves: pure_fsot_sota_climb_best.pt
 """
 from __future__ import annotations
+
+import os as _os
+from pathlib import Path as _Path
+
+_REPO_ROOT = _Path(__file__).resolve().parents[1]
+
+
+def _fsot_local_path(env, default):
+    """Local path outside the repo: $env if set, else a path relative to the repo root."""
+    _v = _os.environ.get(env, "").strip()
+    return _Path(_v) if _v else _REPO_ROOT / default
+
 
 import csv
 import json
@@ -40,7 +52,7 @@ from train_corpus import PROBES  # noqa: E402
 MODEL = HERE / "models" / "SmolLM2-135M-Instruct"
 OUT = ROOT / "results" / "industry_lm"
 CKPT = OUT / "checkpoints"
-DATA = Path(r"D:\training data")
+DATA = _fsot_local_path('FSOT_TRAINING_DATA', 'data_external/training_data')
 CHUNKS_V2 = OUT / "curriculum_v2_chunks.jsonl"
 CHUNKS_V1 = OUT / "curriculum_phase1_chunks.jsonl"
 CKPT.mkdir(parents=True, exist_ok=True)

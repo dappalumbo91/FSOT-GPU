@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Refine pure FSOT host on REAL packs (GSM8K / ARC / MATH from D:\\training data).
+Refine pure FSOT host on REAL packs (GSM8K / ARC / MATH from $FSOT_TRAINING_DATA).
 
 Why accuracy "vanished": earlier refinement optimized probe/synthetic fidelity;
 capability smoke uses real held-out-style items. This script trains on the real
@@ -15,6 +15,18 @@ Saves: results/industry_lm/checkpoints/pure_fsot_realdata_best.pt
 Ledger: results/industry_lm/real_data_train.json
 """
 from __future__ import annotations
+
+import os as _os
+from pathlib import Path as _Path
+
+_REPO_ROOT = _Path(__file__).resolve().parents[1]
+
+
+def _fsot_local_path(env, default):
+    """Local path outside the repo: $env if set, else a path relative to the repo root."""
+    _v = _os.environ.get(env, "").strip()
+    return _Path(_v) if _v else _REPO_ROOT / default
+
 
 import json
 import math
@@ -48,7 +60,7 @@ from train_corpus import PROBES  # noqa: E402
 MODEL = HERE / "models" / "SmolLM2-135M-Instruct"
 OUT = ROOT / "results" / "industry_lm"
 CKPT = OUT / "checkpoints"
-DATA = Path(r"D:\training data")
+DATA = _fsot_local_path('FSOT_TRAINING_DATA', 'data_external/training_data')
 CKPT.mkdir(parents=True, exist_ok=True)
 
 D_EFF = 14.0
@@ -441,7 +453,7 @@ def main():
 
     report = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "authority": "pure FSOT consensus + suction_poof + D_eff; real D:/training data packs",
+        "authority": "pure FSOT consensus + suction_poof + D_eff; real $FSOT_TRAINING_DATA packs",
         "train_n": len(train),
         "base": {"gsm": b_gsm, "arc": b_arc, "math": b_math, "macro": macro(b_gsm, b_arc, b_math)},
         "start": {
@@ -462,7 +474,7 @@ def main():
     (OUT / "REAL_DATA_TRAIN.md").write_text(
         f"""# Real-data FSOT refine
 
-Trained pure FSOT host on **real** GSM8K / ARC / MATH from `D:\\training data`.
+Trained pure FSOT host on **real** GSM8K / ARC / MATH from `$FSOT_TRAINING_DATA`.
 
 | | Baseline host | Start FSOT | Best FSOT |
 |--|---------------|------------|-----------|
