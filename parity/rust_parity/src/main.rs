@@ -3,11 +3,11 @@
 
 const PHI: f64 = 1.618_033_988_749_895;
 const GAMMA: f64 = 0.577_215_664_901_532_9;
-const C_EFF: f64 = 0.957_702_202_620_561_3;
+const C_EFF: f64 = 0.9577480213378242;
 const P_VAR: f64 = 0.957_987_122_672_275_7;
-const K: f64 = 0.420_221_664_160_696_65;
+const K: f64 = 0.4201087636498879;
 const PSI_CON: f64 = 0.632_120_558_828_557_7;
-const COLLAPSE_THRESHOLD: f64 = C_EFF * P_VAR; // ~0.9174663774653723
+const COLLAPSE_THRESHOLD: f64 = C_EFF * P_VAR; // AEB2AD, see config/fsot_authority_AEB2AD.json
 
 fn pack_u64(codes: &[u8; 32]) -> u64 {
     let mut w: u64 = 0;

@@ -1,0 +1,20 @@
+{
+  "description": "Seed-twin constants generated from the FSOT authority; do not edit by hand.",
+  "authority": "FSOT-2.1-Lean vendor/fsot_compute.py",
+  "authority_sha256": "AEB2ADAD6E80F487772C5DF90A2E3DDA71624AB831A6A83B94AB471AC9AAC170",
+  "pin_prefix": "AEB2AD",
+  "hub_commit": "d127c07e518ae349f500d68d9e32b6236349c8f9",
+  "raw_url": "https://raw.githubusercontent.com/dappalumbo91/FSOT-2.1-Lean/d127c07e518ae349f500d68d9e32b6236349c8f9/vendor/fsot_compute.py",
+  "generator": "tools/gen_seeds_from_authority.py",
+  "theta_note": "THETA_F64 = float(C_EFF)*float(P_VAR), the value every f64 twin computes; THETA_MP is the mpmath product rounded once.",
+  "constants": {
+    "C_EFF": "0.9577480213378242",
+    "P_VAR": "0.9579871226722757",
+    "K": "0.4201087636498879",
+    "B_IN": "0.7879784892100858",
+    "C_FACTOR": "0.28761391128429215",
+    "CHAOS": "-0.33102418261048183",
+    "THETA_F64": "0.9175102712064875",
+    "THETA_MP": "0.9175102712064876"
+  }
+}

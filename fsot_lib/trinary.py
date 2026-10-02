@@ -3,6 +3,13 @@ Trinary algebra + 2-bit pack — owned replacement for binary-only packing.
 
 Codes: 0=SpinDown, 1=Superposed, 2=SpinUp  (Lean/F*/Coq/Isabelle + kernel)
 Signed: -1, 0, +1
+
+LAYOUT LABEL: `pack_u64` is the CANONICAL storage/wire layout (FSOT-2.1-Cpp docs/TRIT_SPEC.md 2a):
+code = t + 1, 2 bits per trit, lane 0 = least significant bits; code 3 (bits 11) is invalid.
+The Zig T1 layout in FSOT-Genetics / fsot-neuron-zig `trit.zig` is a different, sign/magnitude
+in-memory layout (00=0, 01=+1, 11=-1, 10 invalid): the same bits mean different trits
+(01 is 0 here, +1 in T1). Use `t1_word_to_canonical` / `canonical_word_to_t1` at any boundary
+with T1 data, and tag stored canonical blobs with CANONICAL_V1_TAG.
 """
 
 from __future__ import annotations
@@ -63,6 +70,40 @@ def unpack_u64(word: int) -> list[int]:
 
 def pack_roundtrip_ok(codes: Sequence[int]) -> bool:
     return unpack_u64(pack_u64(list(codes))) == list(codes)
+
+
+# --- canonical (TRIT_SPEC 2a) <-> legacy Zig T1 (TRIT_SPEC 2c) ---
+
+CANONICAL_V1_TAG = 0xF1  # 1-byte header for a stored canonical-v1 trit blob
+_T1_TO_SIGNED = {0b00: 0, 0b01: 1, 0b11: -1}  # 0b10 invalid
+_SIGNED_TO_T1 = {0: 0b00, 1: 0b01, -1: 0b11}
+
+
+def unpack_u64_checked(word: int, n: int = 32) -> list[int]:
+    """Canonical decode that rejects the invalid code 3 (bits 11)."""
+    codes = [(word >> (2 * i)) & 0x3 for i in range(n)]
+    if 3 in codes:
+        raise ValueError("invalid canonical trit code 3 (bits 11)")
+    return codes
+
+
+def t1_word_to_canonical(t1_word: int, n: int = 32) -> int:
+    """Re-encode n T1 lanes (Zig trit.zig packT1) as canonical code = t + 1 lanes."""
+    out = 0
+    for i in range(n):
+        bits = (t1_word >> (2 * i)) & 0x3
+        if bits not in _T1_TO_SIGNED:
+            raise ValueError(f"invalid T1 lane {i}: bits 10")
+        out |= signed_to_code(_T1_TO_SIGNED[bits]) << (2 * i)
+    return out
+
+
+def canonical_word_to_t1(word: int, n: int = 32) -> int:
+    """Re-encode n canonical lanes as Zig T1 lanes (for legacy T1 readers)."""
+    out = 0
+    for i, c in enumerate(unpack_u64_checked(word, n)):
+        out |= _SIGNED_TO_T1[code_to_signed(c)] << (2 * i)
+    return out
 
 
 # --- torch-accelerated surface (optional) ---

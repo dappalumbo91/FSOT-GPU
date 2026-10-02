@@ -29,6 +29,22 @@ Theory authority: **[FSOT-2.1-Lean](https://github.com/dappalumbo91/FSOT-2.1-Lea
 
 ---
 
+## Seed constants and trit layout (2026-10-01)
+
+- `C_EFF`, `K`, `B_IN`, `C_FACTOR`, `CHAOS` and the collapse threshold Θ = `C_EFF·P_VAR` now come from the
+  FSOT-2.1-Lean authority **AEB2AD** (`vendor/fsot_compute.py`, SHA-256 `AEB2ADAD…C170`, hub commit `d127c07`).
+  `tools/gen_seeds_from_authority.py --authority <path>` writes `config/fsot_authority_AEB2AD.json` and every
+  literal site (`fsot_lib/seeds.py`, `phase2_native_gpu/python/fsot_gpu_engine.py`, the three CUDA
+  `COLLAPSE_THRESHOLD` defines, the Rust/Zig parity twins, `parity/golden.json`). `--check` verifies them
+  without the authority file (`tests/test_trit_layout_and_seeds.py`).
+- The old values (C_EFF 0.9577022026205613, K 0.42022166416069665, Θ 0.9174663774653723) are what `0.01` in place
+  of π⁻⁴ gives (FSOT-2.1-Cpp `docs/TRIT_SPEC.md` T-3). Θ moves by +4.39e−5, so inputs within that distance of ±Θ
+  can change code. Files under `results/`, the F*/archive boot literals in `config/fsot_seeds.json` /
+  `phase1_formal_gpu/fstar/`, and the LM training texts under `industry_lm/` still carry the old numbers as
+  recorded history; they were not regenerated.
+- `fsot_lib/trinary.py` `pack_u64` is the canonical wire layout (code = t+1, TRIT_SPEC 2a). The Zig T1 layout is
+  different; convert with `t1_word_to_canonical` / `canonical_word_to_t1`.
+
 ## What this is
 
 FSOT-GPU is the silicon path for Fluid Spacetime Omni-Theory:

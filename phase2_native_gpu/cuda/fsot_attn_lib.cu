@@ -14,7 +14,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#define COLLAPSE_THRESHOLD 0.9174663774653723f
+// C_EFF*P_VAR at authority AEB2AD; written by tools/gen_seeds_from_authority.py
+#define COLLAPSE_THRESHOLD 0.9175102712064875f
 #define COH_GATE 0.5f
 #define FSOT_MAX_A_SHARED 160
 

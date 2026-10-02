@@ -8,7 +8,8 @@
 #include <stdlib.h>
 
 // Archive Scalar.lean / fsot_compute: C_eff * P_var
-#define COLLAPSE_THRESHOLD 0.9174663774653723f
+// C_EFF*P_VAR at authority AEB2AD; written by tools/gen_seeds_from_authority.py
+#define COLLAPSE_THRESHOLD 0.9175102712064875f
 
 #define CUDA_CHECK(call)                                                       \
   do {                                                                         \
