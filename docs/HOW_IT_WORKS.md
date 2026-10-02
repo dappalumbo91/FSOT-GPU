@@ -143,7 +143,7 @@ GPU is not a bag of floats. It is a **layout with FSOT meaning**.
 ## 7. How to run (operator)
 
 ```powershell
-cd "C:\Users\damia\Desktop\gpu exparment for lean coq isabell andf star"
+cd "FSOT-GPU"
 . .\scripts\set_env.ps1
 
 # Owned library (pure + torch + native)

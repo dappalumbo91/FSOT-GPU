@@ -50,6 +50,6 @@ Vectorized path is **~7–15× faster** than the naive per-head Python loop, but
 ## How to reproduce
 
 ```powershell
-cd "C:\Users\damia\Desktop\gpu exparment for lean coq isabell andf star"
+cd "FSOT-GPU"
 python competitive\fsot_consensus_vs_softmax_micro.py
 ```

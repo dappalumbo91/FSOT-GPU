@@ -19,8 +19,8 @@ Open host + pure FSOT operators (or documented hybrid) + pin verify green + curr
 | `Desktop\gpu exparment for lean coq isabell andf star` | [FSOT-GPU](https://github.com/dappalumbo91/FSOT-GPU) | **Construction home** — CUDA ops, pure FSOT host, verify, climb |
 | `Desktop\FSOT-2.1-Lean` | [FSOT-2.1-Lean](https://github.com/dappalumbo91/FSOT-2.1-Lean) | Theory authority / pin / atlas |
 | `Desktop\fsot 2.1 llm` | [fsot-2.1-llm](https://github.com/dappalumbo91/fsot-2.1-llm) | Parallel LLM research product (Qwen path, folds) — **do not merge ontologies**; transfer operators only |
-| `I:\FSOT-Physical-Archive\…` | (archive master) | Cross-proof stamp, solidification data |
-| `D:\training data` | local | Capability packs + corpus |
+| `<local folder, not included in repo: FSOT-Physical-Archive>` | (archive master) | Cross-proof stamp, solidification data |
+| `<local folder, not included in repo: training data>` | local | Capability packs + corpus |
 
 **Sibling embodiments (curriculum feed later, not v1 blockers):** FSOT-Genetics, fsot quantum, neuron-zig (Track A).
 
@@ -134,7 +134,7 @@ Open host + pure FSOT operators (or documented hybrid) + pin verify green + curr
 | **FSOT-GPU** | **Even** (0 ahead / 0 behind) | Dirty: digit de-collapse experiment + result ledgers (promote **False** on last run — do not claim as win) |
 | **FSOT-2.1-Lean** | **Fast-forwarded** to `aeb0679` | Local `data/benchmark_margin_audit.json` still dirty |
 | **FSOT-2.1-Lean-clean-repro** | Behind tip (snapshot clone) | Keep as clean-repro artifact unless you want full re-clone |
-| **fsot-2.1-llm** | Dirty worktree, many untracked modules | Parallel track; transfer ops only ([`FSOT_GPU_TRANSFER.md`](file:///C:/Users/damia/Desktop/fsot%202.1%20llm/docs/FSOT_GPU_TRANSFER.md)) |
+| **fsot-2.1-llm** | Dirty worktree, many untracked modules | Parallel track; transfer ops only (`FSOT_GPU_TRANSFER.md` in the local fsot-2.1-llm working copy, not included in repo) |
 
 ---
 

@@ -3,9 +3,11 @@ $ErrorActionPreference = "Continue"
 $Root = Split-Path -Parent $PSScriptRoot
 . "$PSScriptRoot\set_env.ps1"
 
-$env:FSOT_ARCHIVE_ROOT = "I:\FSOT-Physical-Archive"
-$env:FSOT_COMPUTE_PATH = "I:\FSOT-Physical-Archive\02_FSOT-2.1-Lean-Full\vendor\fsot_compute.py"
-$env:FSOT_LLM_ROOT = "C:\Users\damia\Desktop\fsot 2.1 llm"
+# Local locations: env vars win; defaults are relative to this repo (siblings = repos cloned next to it)
+$Parent = Split-Path -Parent $Root
+if (-not $env:FSOT_ARCHIVE_ROOT) { $env:FSOT_ARCHIVE_ROOT = Join-Path $Root "data_external\physical_archive" }
+if (-not $env:FSOT_COMPUTE_PATH) { $env:FSOT_COMPUTE_PATH = Join-Path $Parent "FSOT-2.1-Lean\vendor\fsot_compute.py" }
+if (-not $env:FSOT_LLM_ROOT) { $env:FSOT_LLM_ROOT = Join-Path $Parent "fsot-2.1-llm" }
 
 Write-Host "======== 1) CUDA trinary pack (native) ========"
 $cuDir = Join-Path $Root "phase2_native_gpu\cuda"
@@ -28,7 +30,7 @@ lake build 2>&1
 Pop-Location
 
 Write-Host "======== 4) F* boot ========"
-$fstar = "I:\FSOT-Physical-Archive\07_Portable-Toolchain\fstar\bin\fstar.exe"
+$fstar = if ($env:FSTAR_EXE) { $env:FSTAR_EXE } else { Join-Path $env:FSOT_ARCHIVE_ROOT "07_Portable-Toolchain\fstar\bin\fstar.exe" }
 & $fstar (Join-Path $Root "phase1_formal_gpu\fstar\FSOTGpuBoot.fst") 2>&1
 
 Write-Host "======== DONE ========"

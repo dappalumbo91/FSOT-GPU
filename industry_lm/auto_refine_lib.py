@@ -7,6 +7,18 @@ Phases: data → archive/FSOT verify → measure → train lever → re-measure
 """
 from __future__ import annotations
 
+import os as _os
+from pathlib import Path as _Path
+
+_REPO_ROOT = _Path(__file__).resolve().parents[1]
+
+
+def _fsot_local_path(env, default):
+    """Local path outside the repo: $env if set, else a path relative to the repo root."""
+    _v = _os.environ.get(env, "").strip()
+    return _Path(_v) if _v else _REPO_ROOT / default
+
+
 import json
 import re
 import subprocess
@@ -23,8 +35,8 @@ ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(ROOT))
 
-ARCHIVE_21 = Path(r"I:\FSOT-Physical-Archive\02_FSOT-2.1-Lean-Full")
-ARCHIVE_ROOT = Path(r"I:\FSOT-Physical-Archive")
+ARCHIVE_21 = _fsot_local_path('FSOT_2_1_LEAN_ROOT', '../FSOT-2.1-Lean')
+ARCHIVE_ROOT = _fsot_local_path('FSOT_ARCHIVE_ROOT', 'data_external/physical_archive')
 OUT = ROOT / "results" / "auto_refine"
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -54,7 +66,7 @@ def archive_light_verify() -> dict[str, Any]:
         "mode": "archive_light",
         "ok": ok,
         "layers": layers,
-        "note": "Light bind to I:\\FSOT-Physical-Archive; full suite via archive_full_cross_proof",
+        "note": "Light bind to $FSOT_ARCHIVE_ROOT; full suite via archive_full_cross_proof",
     }
 
 

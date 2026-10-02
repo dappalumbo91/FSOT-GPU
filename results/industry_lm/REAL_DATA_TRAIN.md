@@ -1,6 +1,6 @@
 # Real-data FSOT refine
 
-Trained pure FSOT host on **real** GSM8K / ARC / MATH from `D:\training data`.
+Trained pure FSOT host on **real** GSM8K / ARC / MATH from `<local folder, not included in repo: training data>`.
 
 | | Baseline host | Start FSOT | Best FSOT |
 |--|---------------|------------|-----------|

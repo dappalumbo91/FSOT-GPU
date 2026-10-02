@@ -1,13 +1,25 @@
 #!/usr/bin/env python3
-"""Load real training packs from D:\\training data (not synthetic probes)."""
+"""Load real training packs from $FSOT_TRAINING_DATA (not synthetic probes)."""
 from __future__ import annotations
+
+import os as _os
+from pathlib import Path as _Path
+
+_REPO_ROOT = _Path(__file__).resolve().parents[1]
+
+
+def _fsot_local_path(env, default):
+    """Local path outside the repo: $env if set, else a path relative to the repo root."""
+    _v = _os.environ.get(env, "").strip()
+    return _Path(_v) if _v else _REPO_ROOT / default
+
 
 import csv
 import json
 import re
 from pathlib import Path
 
-DATA = Path(r"D:\training data")
+DATA = _fsot_local_path('FSOT_TRAINING_DATA', 'data_external/training_data')
 
 
 def _parse_arc_choices(ch: str) -> tuple[list[str], list[str]]:

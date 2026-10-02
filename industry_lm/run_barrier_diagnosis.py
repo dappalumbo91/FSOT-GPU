@@ -16,6 +16,18 @@ Output: ranked barrier hypotheses + recommended next lever.
 """
 from __future__ import annotations
 
+import os as _os
+from pathlib import Path as _Path
+
+_REPO_ROOT = _Path(__file__).resolve().parents[1]
+
+
+def _fsot_local_path(env, default):
+    """Local path outside the repo: $env if set, else a path relative to the repo root."""
+    _v = _os.environ.get(env, "").strip()
+    return _Path(_v) if _v else _REPO_ROOT / default
+
+
 import json
 import random
 import re
@@ -49,7 +61,7 @@ from train_corpus import PROBES  # noqa: E402
 MODEL = HERE / "models" / "SmolLM2-135M-Instruct"
 CKPT = ROOT / "results" / "industry_lm" / "checkpoints"
 OUT = ROOT / "results" / "industry_lm"
-DATA = Path(r"D:\training data")
+DATA = _fsot_local_path('FSOT_TRAINING_DATA', 'data_external/training_data')
 
 EVAL16 = PROBES + [
     "Python is a programming language that",

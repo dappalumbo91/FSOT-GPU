@@ -45,6 +45,6 @@
 
 FSOT structural domain: **long context** (collapse sparsity O(S·A) vs dense O(S²)) and **short fused** path. Mid-S remains the industry fused-kernel sweet spot.
 
-Checkpoint: `C:\Users\damia\Desktop\gpu exparment for lean coq isabell andf star\results\industry_lm\checkpoints\pure_fsot_agree100_best.pt`
+Checkpoint: `results/industry_lm/checkpoints/pure_fsot_agree100_best.pt`
 
 Ledger: `scoreboard.json`

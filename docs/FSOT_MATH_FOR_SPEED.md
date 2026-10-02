@@ -1,6 +1,6 @@
 # FSOT mathematics used to attack wall-clock (archive authority)
 
-Source drive: `I:\FSOT-Physical-Archive\02_FSOT-2.1-Lean-Full`  
+Source drive: `FSOT-2.1-Lean`  
 Primary: `FSOT/Scalar.lean`, `vendor/fsot_compute.py`, trinary priors, kernel `lattice.rs`.
 
 ## Constants (not free knobs)

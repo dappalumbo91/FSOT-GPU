@@ -5,10 +5,22 @@ Wire THIS GPU lab to labs you already built — no from-scratch industry stall.
 Sources of truth on Desktop / Archive:
   - fsot 2.1 llm  (FSOT-2.1-Instruct-0.5B, adapters, superposed generate)
   - Fsot trinary  (QEMU kernel, consensus attention, safetensors brain)
-  - I:\\FSOT-Physical-Archive (403-domain verified compute + formal)
+  - $FSOT_ARCHIVE_ROOT (403-domain verified compute + formal)
   - this lab's fsot_gpu_engine (GPU port of kernel forward)
 """
 from __future__ import annotations
+
+import os as _os
+from pathlib import Path as _Path
+
+_REPO_ROOT = _Path(__file__).resolve().parents[1]
+
+
+def _fsot_local_path(env, default):
+    """Local path outside the repo: $env if set, else a path relative to the repo root."""
+    _v = _os.environ.get(env, "").strip()
+    return _Path(_v) if _v else _REPO_ROOT / default
+
 
 import json
 import sys
@@ -21,19 +33,13 @@ RESULTS.mkdir(parents=True, exist_ok=True)
 
 LABS = {
     "gpu_experiment": ROOT,
-    "fsot_2_1_llm": Path(r"C:\Users\damia\Desktop\fsot 2.1 llm"),
-    "fsot_trinary_os": Path(r"C:\Users\damia\Desktop\Fsot trinary\fsot_os"),
-    "cube_trinary": Path(r"C:\Users\damia\Desktop\FSOT, Cube Block Trinary Design"),
-    "archive": Path(r"I:\FSOT-Physical-Archive"),
-    "fsot_compute": Path(
-        r"I:\FSOT-Physical-Archive\02_FSOT-2.1-Lean-Full\vendor\fsot_compute.py"
-    ),
-    "release_05b": Path(
-        r"C:\Users\damia\Desktop\fsot 2.1 llm\llm\models\release\FSOT-2.1-Instruct-0.5B"
-    ),
-    "trinary_forward": Path(
-        r"C:\Users\damia\Desktop\Fsot trinary\fsot_os\kernel\src\forward.rs"
-    ),
+    "fsot_2_1_llm": _fsot_local_path('FSOT_2_1_LLM_ROOT', '../fsot-2.1-llm'),
+    "fsot_trinary_os": _fsot_local_path('FSOT_LOCAL_DATA', 'data_external/local') / 'Fsot trinary' / 'fsot_os',
+    "cube_trinary": _fsot_local_path('FSOT_LOCAL_DATA', 'data_external/local') / 'FSOT, Cube Block Trinary Design',
+    "archive": _fsot_local_path('FSOT_ARCHIVE_ROOT', 'data_external/physical_archive'),
+    "fsot_compute": _fsot_local_path('FSOT_2_1_LEAN_ROOT', '../FSOT-2.1-Lean') / 'vendor' / 'fsot_compute.py',
+    "release_05b": _fsot_local_path('FSOT_2_1_LLM_ROOT', '../fsot-2.1-llm') / 'llm' / 'models' / 'release' / 'FSOT-2.1-Instruct-0.5B',
+    "trinary_forward": _fsot_local_path('FSOT_LOCAL_DATA', 'data_external/local') / 'Fsot trinary' / 'fsot_os' / 'kernel' / 'src' / 'forward.rs',
     "qemu_golden": Path(
         r"I:\FSOT-Physical-Archive\02_FSOT-2.1-Lean-Full\verification\qemu"
     ),

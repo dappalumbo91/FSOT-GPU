@@ -6,6 +6,18 @@ Same pure-FSOT host vs SDPA baseline on this GPU. Honest ledgers for open-source
 """
 from __future__ import annotations
 
+import os as _os
+from pathlib import Path as _Path
+
+_REPO_ROOT = _Path(__file__).resolve().parents[1]
+
+
+def _fsot_local_path(env, default):
+    """Local path outside the repo: $env if set, else a path relative to the repo root."""
+    _v = _os.environ.get(env, "").strip()
+    return _Path(_v) if _v else _REPO_ROOT / default
+
+
 import ast
 import csv
 import json
@@ -25,7 +37,7 @@ sys.path.insert(0, str(ROOT))
 from fsot_layer_swap import swap_all_layers  # noqa: E402
 
 MODEL = HERE / "models" / "SmolLM2-135M-Instruct"
-DATA = Path(r"D:\training data")
+DATA = _fsot_local_path('FSOT_TRAINING_DATA', 'data_external/training_data')
 OUT = ROOT / "results" / "industry_lm"
 CKPT = OUT / "checkpoints"
 OUT.mkdir(parents=True, exist_ok=True)
