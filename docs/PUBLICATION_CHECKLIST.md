@@ -2,10 +2,10 @@
 
 ## License (choose one)
 
-- [ ] **Apache-2.0** (recommended for systems/GPU + patent grant)  
+- [x] **Apache-2.0** (recommended for systems/GPU + patent grant)  
 - [ ] **MIT** (simpler)  
 
-Draft files: `LICENSE.Apache-2.0.txt`, `LICENSE.MIT.txt` — activate one as `LICENSE` on release.
+Chosen: Apache-2.0 (full text in `LICENSE`).
 
 ## Content gates
 

@@ -66,7 +66,7 @@ github.com/dappalumbo91/fsot-formal-gpu
 ## License (when you open-source)
 
 - **Apache-2.0** recommended (patent grant, industry-friendly)  
-- Draft already in lab: `LICENSE.Apache-2.0.txt`  
+- Active: `LICENSE` (Apache-2.0, full text)  
 - MIT also fine for maximum simplicity  
 
 ---
