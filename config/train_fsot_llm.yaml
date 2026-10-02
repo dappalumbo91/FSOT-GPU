@@ -60,7 +60,7 @@ checkpoint:
 curriculum:
   version: v2
   roots_config: config/curriculum_roots.json
-  training_data: "D:/training data"
+  training_data: "data_external/training_data"  # repo-relative default; override with $FSOT_TRAINING_DATA
   # Phase 1 default: capability climb data; FSOT literacy packs optional
   primary_packs:
     - arc_easy
