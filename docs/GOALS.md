@@ -48,7 +48,7 @@ python -u industry_lm/run_sota_digit_decollapse.py
 | **FlashAttention / SDPA** | Pure FSOT CUDA consensus faster under FSOT-correct loads | **Long-context won** (S≥4096); mid-S still industry fused sweet spot |
 | **LLM host** | Pure FSOT all-layer: ≥90% next-token; e2e speed; gen quality | **100%** agree; prefill/decode **win**; gen + capability climb open |
 | **SOTA scoreboard** | Across-the-board on same GPU with tiny model | **Hit speed/agree** (`results/sota/SCOREBOARD.md`); **capability standards climb** active |
-| **Foundation path** | Scale pure-FSOT host, then curriculum on FSOT 2.1 math/architecture + solidification data (`D:\training data` + archive public data) | **Standards-gated** — verify + overfit + holds |
+| **Foundation path** | Scale pure-FSOT host, then curriculum on FSOT 2.1 math/architecture + solidification data (`<local folder, not included in repo: training data>` + archive public data) | **Standards-gated** — verify + overfit + holds |
 | **Formal** | Keep Lean/Coq/Isabelle/F\* parity on every kernel contract | Green + live bridge to industry host |
 
 ## Non-negotiables

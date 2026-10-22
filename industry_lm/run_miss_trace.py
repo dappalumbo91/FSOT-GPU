@@ -10,6 +10,18 @@ Each miss shows: question, gold, model thought/generation, diagnosis tags.
 """
 from __future__ import annotations
 
+import os as _os
+from pathlib import Path as _Path
+
+_REPO_ROOT = _Path(__file__).resolve().parents[1]
+
+
+def _fsot_local_path(env, default):
+    """Local path outside the repo: $env if set, else a path relative to the repo root."""
+    _v = _os.environ.get(env, "").strip()
+    return _Path(_v) if _v else _REPO_ROOT / default
+
+
 import re
 import sys
 from datetime import datetime, timezone
@@ -34,7 +46,7 @@ from real_data_packs import (  # noqa: E402
 MODEL = HERE / "models" / "SmolLM2-135M-Instruct"
 OUT = ROOT / "results" / "industry_lm" / "miss_traces"
 CKPT = ROOT / "results" / "industry_lm" / "checkpoints"
-DATA = Path(r"D:\training data")
+DATA = _fsot_local_path('FSOT_TRAINING_DATA', 'data_external/training_data')
 
 N_GSM = 40
 N_ARC = 40

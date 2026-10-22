@@ -301,7 +301,7 @@ def main() -> int:
             "math": {
                 "collapse_threshold": COLLAPSE_THRESHOLD,
                 "gate": 0.5,
-                "source": "I:/FSOT-Physical-Archive Scalar.lean C_eff*P_var + kernel gate",
+                "source": "$FSOT_ARCHIVE_ROOT Scalar.lean C_eff*P_var + kernel gate",
                 "sparsity_win_theory": "O(S*A*D) vs O(S^2*D) when A<<S",
             },
             "weights_softmax": weight_stats_softmax(q, k),
@@ -416,7 +416,7 @@ def main() -> int:
         ),
         "across_the_board": full_wins == n and cuda_full_wins == n,
         "allowed_public_claim": None,
-        "math_source": "I:/FSOT-Physical-Archive FSOT/Scalar.lean + trinary kernel gate",
+        "math_source": "$FSOT_LOCAL_DATA/FSOT-Physical-Archive FSOT/Scalar.lean + trinary kernel gate",
     }
 
     if report["summary"]["across_the_board"]:

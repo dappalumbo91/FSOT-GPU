@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-17  
 **Device:** NVIDIA GeForce RTX 5070 (sm_120)  
-**Math authority:** `I:\FSOT-Physical-Archive\02_FSOT-2.1-Lean-Full`  
+**Math authority:** `FSOT-2.1-Lean`  
 - `FSOT/Scalar.lean` → `C_eff`, phase variance → **collapse θ = C_eff · P_var ≈ 0.917466**  
 - Trinary kernel gate **coh > 0.5** (sparse keys)  
 - `fsot_compute.py` Metatron / ignition priors (tiling motifs)  
@@ -42,7 +42,7 @@
 ## Reproduce
 
 ```powershell
-cd "C:\Users\damia\Desktop\gpu exparment for lean coq isabell andf star"
+cd "FSOT-GPU"
 # CUDA kernel (needs CUDA 13.3 + MSVC)
 .\scripts\build_cuda_kernels.ps1   # pack
 # consensus:

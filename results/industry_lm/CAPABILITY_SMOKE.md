@@ -1,6 +1,6 @@
 # Capability smoke — pure FSOT vs industry baseline (SmolLM2-135M)
 
-Ckpt: `C:\Users\damia\Desktop\gpu exparment for lean coq isabell andf star\results\industry_lm\checkpoints\pure_fsot_sota_climb_best.pt`
+Ckpt: `results/industry_lm/checkpoints/pure_fsot_sota_climb_best.pt`
 
 | Set | n | Baseline | Pure FSOT | Δ |
 |-----|---|----------|-----------|---|

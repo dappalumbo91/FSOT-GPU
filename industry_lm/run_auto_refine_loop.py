@@ -3,7 +3,7 @@
 Autonomous verification & refinement loop for pure-FSOT industry host.
 
 Loop:
-  1. Load real data packs (D:\\training data)
+  1. Load real data packs ($FSOT_TRAINING_DATA)
   2. Verify — FSOT-GPU bridge + Physical-Archive light cross-proof
      (optional --full-archive for full cross_proof runner)
   3. Measure capability / overfit / digit collapse / letter collapse
@@ -24,6 +24,18 @@ Examples:
   python -u industry_lm/run_auto_refine_loop.py --cycles 1 --full-archive
 """
 from __future__ import annotations
+
+import os as _os
+from pathlib import Path as _Path
+
+_REPO_ROOT = _Path(__file__).resolve().parents[1]
+
+
+def _fsot_local_path(env, default):
+    """Local path outside the repo: $env if set, else a path relative to the repo root."""
+    _v = _os.environ.get(env, "").strip()
+    return _Path(_v) if _v else _REPO_ROOT / default
+
 
 import argparse
 import json
@@ -57,7 +69,7 @@ from real_data_packs import load_arc_train, load_gsm8k_test, load_gsm8k_train  #
 
 MODEL = HERE / "models" / "SmolLM2-135M-Instruct"
 CKPT = ROOT / "results" / "industry_lm" / "checkpoints"
-DATA = Path(r"D:\training data")
+DATA = _fsot_local_path('FSOT_TRAINING_DATA', 'data_external/training_data')
 
 
 def load_data_packs():

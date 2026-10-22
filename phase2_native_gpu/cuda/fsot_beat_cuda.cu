@@ -1,7 +1,7 @@
 // =============================================================================
 // FSOT Beat-CUDA kernel suite
 //
-// Authority: I:\FSOT-Physical-Archive  (Scalar.lean C_eff·P_var collapse;
+// Authority: $FSOT_ARCHIVE_ROOT  (Scalar.lean C_eff·P_var collapse;
 //            trinary kernel coh>0.5 gate; NO exp — consensus not softmax)
 //
 // Strategy to beat industry CUDA SDPA/dense attention:

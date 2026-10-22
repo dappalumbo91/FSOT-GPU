@@ -14,6 +14,24 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CFG = ROOT / "config" / "curriculum_roots.json"
+
+
+def _resolve_curriculum_roots(cfg: dict, root: Path) -> dict:
+    """Resolve config/curriculum_roots.json: env vars win, else paths relative to the repo root."""
+    import os
+    cfg = dict(cfg)
+    env = {"training_data": "FSOT_TRAINING_DATA", "lean_hub": "FSOT_2_1_LEAN_ROOT",
+           "public_data": "FSOT_EXTERNAL_DATA_ROOT", "archive_root": "FSOT_ARCHIVE_ROOT"}
+    for key, var in env.items():
+        if key in cfg:
+            cfg[key] = os.environ.get(var, "").strip() or str((root / cfg[key]).resolve())
+    derived = {"training_data_catalog": ("training_data", "DATA_CATALOG.md"),
+               "archive_manifest": ("archive_root", "ARCHIVE_MANIFEST.json"),
+               "env_setup": ("archive_root", "set_fsot_archive_env.ps1")}
+    for key, (base, name) in derived.items():
+        if key in cfg and base in cfg:
+            cfg[key] = str(Path(cfg[base]) / name)
+    return cfg
 OUT = ROOT / "results" / "industry_lm"
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -66,7 +84,7 @@ def dir_summary(p: Path, max_children: int = 40) -> dict:
 
 
 def main():
-    cfg = json.loads(CFG.read_text(encoding="utf-8"))
+    cfg = _resolve_curriculum_roots(json.loads(CFG.read_text(encoding="utf-8")), ROOT)
     roots = {
         "training_data": Path(cfg["training_data"]),
         "lean_hub": Path(cfg["lean_hub"]),

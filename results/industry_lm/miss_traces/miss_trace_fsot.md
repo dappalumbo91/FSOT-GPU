@@ -7,7 +7,7 @@
 ```json
 {
   "arm": "fsot",
-  "ckpt": "C:\\Users\\damia\\Desktop\\gpu exparment for lean coq isabell andf star\\results\\industry_lm\\checkpoints\\pure_fsot_realdata_best.pt",
+  "ckpt": "results/industry_lm/checkpoints/pure_fsot_realdata_best.pt",
   "stats": {
     "gsm8k": {
       "n": 40,

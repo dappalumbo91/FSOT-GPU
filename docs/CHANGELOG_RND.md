@@ -3,7 +3,7 @@
 ## 2026-07-18 — Real-data FSOT refine (honest packs)
 
 - Diagnosis: prior “accuracy” mixed probe fidelity + leaky GSM digit scoring.
-- Trained pure FSOT on **real** GSM8K/ARC/MATH (`D:\training data`) with suction_poof + D_eff.
+- Trained pure FSOT on **real** GSM8K/ARC/MATH (`<local folder, not included in repo: training data>`) with suction_poof + D_eff.
 - Honest #### GSM protocol: baseline also ~0% at 135M free-gen; ARC pure FSOT **28% > 12%** base; macro **12% > 8%** base; agree **100%**.
 - Tools: `real_data_packs.py`, `run_real_data_fsot.py`. Ckpt: `pure_fsot_realdata_best.pt`.
 

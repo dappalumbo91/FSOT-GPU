@@ -3,8 +3,8 @@
 Build Phase-1 FSOT curriculum text chunks from verified roots.
 
 Sources (FSOT law / solidification — not random web scrape):
-  - I:/FSOT-Physical-Archive/02_FSOT-2.1-Lean-Full/docs  (theory docs)
-  - D:/training data/arxiv_fsot_core.txt                  (FSOT-tagged arXiv core)
+  - FSOT-2.1-Lean/docs  (theory docs)
+  - $FSOT_TRAINING_DATA/arxiv_fsot_core.txt                  (FSOT-tagged arXiv core)
   - optional short solidification notes from public_data manifests
 
 Writes: results/industry_lm/curriculum_phase1_chunks.jsonl
@@ -16,7 +16,25 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CFG = json.loads((ROOT / "config" / "curriculum_roots.json").read_text(encoding="utf-8"))
+def _resolve_curriculum_roots(cfg: dict, root: Path) -> dict:
+    """Resolve config/curriculum_roots.json: env vars win, else paths relative to the repo root."""
+    import os
+    cfg = dict(cfg)
+    env = {"training_data": "FSOT_TRAINING_DATA", "lean_hub": "FSOT_2_1_LEAN_ROOT",
+           "public_data": "FSOT_EXTERNAL_DATA_ROOT", "archive_root": "FSOT_ARCHIVE_ROOT"}
+    for key, var in env.items():
+        if key in cfg:
+            cfg[key] = os.environ.get(var, "").strip() or str((root / cfg[key]).resolve())
+    derived = {"training_data_catalog": ("training_data", "DATA_CATALOG.md"),
+               "archive_manifest": ("archive_root", "ARCHIVE_MANIFEST.json"),
+               "env_setup": ("archive_root", "set_fsot_archive_env.ps1")}
+    for key, (base, name) in derived.items():
+        if key in cfg and base in cfg:
+            cfg[key] = str(Path(cfg[base]) / name)
+    return cfg
+
+
+CFG = _resolve_curriculum_roots(json.loads((ROOT / "config" / "curriculum_roots.json").read_text(encoding="utf-8")), ROOT)
 OUT = ROOT / "results" / "industry_lm"
 OUT.mkdir(parents=True, exist_ok=True)
 

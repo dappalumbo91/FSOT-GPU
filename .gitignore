@@ -30,3 +30,6 @@ phase1_formal_gpu/coq/*.aux
 Thumbs.db
 .env
 *.log
+
+# Local external data (see FSOT_* env vars); never committed
+data_external/

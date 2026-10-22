@@ -7,7 +7,7 @@ Earlier “high accuracy” was largely **probe / synthetic / leaky scoring**:
 - Next-token agree vs industry host on short probes  
 - GSM number extraction that could score **digits from regurgitated questions** as correct  
 
-When we hooked **real packs** (`D:\training data` GSM8K / ARC / MATH) with **honest scoring**, both arms look hard for SmolLM2-135M — and that is the correct bar.
+When we hooked **real packs** (`<local folder, not included in repo: training data>` GSM8K / ARC / MATH) with **honest scoring**, both arms look hard for SmolLM2-135M — and that is the correct bar.
 
 ## FSOT solution applied
 
@@ -15,7 +15,7 @@ When we hooked **real packs** (`D:\training data` GSM8K / ARC / MATH) with **hon
 |-------|--------|
 | Attention | Pure FSOT consensus all layers |
 | LR | `suction_poof_lr` + `D_eff` scalar |
-| Data | Real GSM8K train + ARC-Easy/Challenge + MATH from `D:\training data` |
+| Data | Real GSM8K train + ARC-Easy/Challenge + MATH from `<local folder, not included in repo: training data>` |
 | Format | GSM `#### <answer>` protocol (no synthetic QA fluff) |
 | Start ckpt | `pure_fsot_curriculum_best.pt` (FSOT literacy, not collapsed climb) |
 

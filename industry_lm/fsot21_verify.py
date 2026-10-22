@@ -20,6 +20,18 @@ spine obligations + live host contracts.
 """
 from __future__ import annotations
 
+import os as _os
+from pathlib import Path as _Path
+
+_REPO_ROOT = _Path(__file__).resolve().parents[1]
+
+
+def _fsot_local_path(env, default):
+    """Local path outside the repo: $env if set, else a path relative to the repo root."""
+    _v = _os.environ.get(env, "").strip()
+    return _Path(_v) if _v else _REPO_ROOT / default
+
+
 import importlib.util
 import json
 import math
@@ -34,9 +46,9 @@ ROOT = HERE.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(HERE))
 
-ARCHIVE_21 = Path(r"I:\FSOT-Physical-Archive\02_FSOT-2.1-Lean-Full")
-ARCHIVE_ROOT = Path(r"I:\FSOT-Physical-Archive")
-DESKTOP_21 = Path(r"C:\Users\damia\Desktop\FSOT-2.1-Lean")
+ARCHIVE_21 = _fsot_local_path('FSOT_2_1_LEAN_ROOT', '../FSOT-2.1-Lean')
+ARCHIVE_ROOT = _fsot_local_path('FSOT_ARCHIVE_ROOT', 'data_external/physical_archive')
+DESKTOP_21 = _fsot_local_path('FSOT_2_1_LEAN_ROOT', '../FSOT-2.1-Lean')
 
 getcontext().prec = 50
 

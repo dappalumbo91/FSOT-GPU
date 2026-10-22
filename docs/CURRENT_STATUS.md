@@ -205,4 +205,4 @@ Archive bind: light connective spine + stamp every cycle; full suite optional.
 ## Checkpoint note
 
 Best weights live under `results/industry_lm/checkpoints/` (**gitignored** — too large for git).  
-Reproduce via scripts + data roots (`D:\training data`, FSOT 2.1 archive paths). Recipe: pure FSOT swap-all + `pure_fsot_sota_standard_best.pt` / digit de-collapse promote.
+Reproduce via scripts + data roots (`<local folder, not included in repo: training data>`, FSOT 2.1 archive paths). Recipe: pure FSOT swap-all + `pure_fsot_sota_standard_best.pt` / digit de-collapse promote.

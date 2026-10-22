@@ -25,4 +25,4 @@ Open the **`.md`** file for a readable trail of every miss:
 
 **Baseline:** {'gsm8k': {'n': 40, 'acc': 0.025, 'misses': 39}, 'arc': {'n': 40, 'acc': 0.125, 'misses': 35}, 'math': {'n': 30, 'acc': 0.1, 'misses': 27}}
 
-Ckpt: `C:\Users\damia\Desktop\gpu exparment for lean coq isabell andf star\results\industry_lm\checkpoints\pure_fsot_realdata_best.pt`
+Ckpt: `results/industry_lm/checkpoints/pure_fsot_realdata_best.pt`

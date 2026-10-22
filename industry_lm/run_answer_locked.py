@@ -11,6 +11,18 @@ FSOT LR: derive_fsot_lr_plan + fsot_epoch_lr / suction_poof live loss.
 """
 from __future__ import annotations
 
+import os as _os
+from pathlib import Path as _Path
+
+_REPO_ROOT = _Path(__file__).resolve().parents[1]
+
+
+def _fsot_local_path(env, default):
+    """Local path outside the repo: $env if set, else a path relative to the repo root."""
+    _v = _os.environ.get(env, "").strip()
+    return _Path(_v) if _v else _REPO_ROOT / default
+
+
 import json
 import math
 import random
@@ -43,7 +55,7 @@ MODEL = HERE / "models" / "SmolLM2-135M-Instruct"
 OUT = ROOT / "results" / "industry_lm"
 CKPT = OUT / "checkpoints"
 TRACE = OUT / "miss_traces"
-DATA = Path(r"D:\training data")
+DATA = _fsot_local_path('FSOT_TRAINING_DATA', 'data_external/training_data')
 CKPT.mkdir(parents=True, exist_ok=True)
 TRACE.mkdir(parents=True, exist_ok=True)
 

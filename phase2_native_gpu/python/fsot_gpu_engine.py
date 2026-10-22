@@ -15,6 +15,18 @@ suction–poof learning dynamics.
 """
 from __future__ import annotations
 
+import os as _os
+from pathlib import Path as _Path
+
+_REPO_ROOT = _Path(__file__).resolve().parents[2]
+
+
+def _fsot_local_path(env, default):
+    """Local path outside the repo: $env if set, else a path relative to the repo root."""
+    _v = _os.environ.get(env, "").strip()
+    return _Path(_v) if _v else _REPO_ROOT / default
+
+
 import importlib.util
 import json
 import math
@@ -32,13 +44,13 @@ ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "results" / "phase2"
 RESULTS.mkdir(parents=True, exist_ok=True)
 
-ARCHIVE = Path(r"I:\FSOT-Physical-Archive")
+ARCHIVE = _fsot_local_path('FSOT_ARCHIVE_ROOT', 'data_external/physical_archive')
 COMPUTE = ARCHIVE / "02_FSOT-2.1-Lean-Full" / "vendor" / "fsot_compute.py"
 SRITE_PAYLOAD = (
     ARCHIVE / "01_SR-ITE-USB-Original" / "3_driver_zig" / "fsot_vram_payload.json"
 )
-TRINARY_KERNEL = Path(r"C:\Users\damia\Desktop\Fsot trinary\fsot_os\kernel\src")
-LLM_LAB = Path(r"C:\Users\damia\Desktop\fsot 2.1 llm")
+TRINARY_KERNEL = _fsot_local_path('FSOT_LOCAL_DATA', 'data_external/local') / 'Fsot trinary' / 'fsot_os' / 'kernel' / 'src'
+LLM_LAB = _fsot_local_path('FSOT_2_1_LLM_ROOT', '../fsot-2.1-llm')
 
 # ── Constants from fsot_math/consts.rs (f64, seed-derived) ────────────────
 PHI = 1.618033988749895

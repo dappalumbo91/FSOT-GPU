@@ -103,7 +103,7 @@ python -u industry_lm/run_sota_standard_climb.py
 - **Attention:** pure FSOT consensus (CUDA DLL or torch sparse) — not SDPA blend for “pure” claims  
 - **Theory:** seed-derived collapse, coherence gate, trinary pack  
 - **Host class:** open small models first (SmolLM2-135M), then scale **same stack**  
-- **Data:** real packs `D:\training data` + FSOT 2.1 curriculum / archive solidification  
+- **Data:** real packs `<local folder, not included in repo: training data>` + FSOT 2.1 curriculum / archive solidification  
 
 ---
 

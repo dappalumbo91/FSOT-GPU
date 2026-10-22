@@ -28,7 +28,7 @@ PyTorch remains the *integration bus* (data loading, autograd for float paths, p
 
 ### L0 — Theory spine (existing)
 
-From `I:\FSOT-Physical-Archive\02_FSOT-2.1-Lean-Full`:
+From `FSOT-2.1-Lean`:
 
 - Seed constants: π, e, φ, γ, Catalan
 - Scalar Φ engine (`FSOT.Scalar`, F\* `FSOTScalarKernel`)
