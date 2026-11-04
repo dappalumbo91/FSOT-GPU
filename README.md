@@ -1,5 +1,7 @@
 # FSOT-GPU
 
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
 **Fluid Spacetime Omni-Theory on the GPU**  
 Author: **Damian Arthur Palumbo**  
 License: **Apache-2.0**
