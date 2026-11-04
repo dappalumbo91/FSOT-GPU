@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "FSOT-GPU: Fluid Spacetime Omni-Theory on the GPU"
+type: software
+authors:
+  - family-names: Palumbo
+    given-names: Damian Arthur
+license: Apache-2.0
+repository-code: "https://github.com/dappalumbo91/FSOT-GPU"
+version: 0.1.0
+date-released: 2026-11-04
+keywords:
+  - fsot
+  - gpu
+  - ternary
+  - attention
+  - llm
+  - reproducible-research
+references:
+  - type: software
+    title: "FSOT-2.1-Lean (authority: vendor/fsot_compute.py, pin AEB2AD)"
+    authors:
+      - family-names: Palumbo
+        given-names: Damian Arthur
+    repository-code: "https://github.com/dappalumbo91/FSOT-2.1-Lean"
