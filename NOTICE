@@ -1,0 +1,10 @@
+FSOT-GPU
+Copyright 2026 Damian Arthur Palumbo
+
+This product is FSOT-GPU: formal specs, sparse trinary consensus attention,
+and a portable industry LLM host for the Fluid Spacetime Omni-Theory.
+
+This repository is part of the FSOT (Fluid Spacetime Omni-Theory) family.
+Theory authority is vendor/fsot_compute.py in
+https://github.com/dappalumbo91/FSOT-2.1-Lean (pin AEB2AD), also by
+Damian Arthur Palumbo and licensed under the Apache License 2.0.
